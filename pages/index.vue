@@ -1,5 +1,5 @@
 <template>
-  <Form :fields="fields" :button="button" />
+  <Form :fields="fields" :button="button" @values="save" />
 </template>
 
 <script>
@@ -45,5 +45,12 @@ export default {
       icon: "mdi-cash-check",
     },
   }),
+  methods: {
+    save(test) {
+      const { first_item, second_item, third_item, fourth_item } =
+        test.target.elements;
+      console.log(first_item.value);
+    },
+  },
 };
 </script>

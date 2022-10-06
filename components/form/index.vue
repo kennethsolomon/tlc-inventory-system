@@ -14,7 +14,6 @@
             :type="field.type"
             :rules="field.rules"
             :options="field?.options"
-            :value="field?.value"
           />
         </v-col>
       </v-row>
@@ -31,13 +30,10 @@ export default {
   props: {
     button: Object, //color, btn_name, icon
     fields: Array, //rules, title, type
-    api: String,
   },
   methods: {
     onSubmit(values) {
-      console.log(values.target.elements.fourth_item[1].value);
-      // const { first_item } =  values.target.elements
-      // console.log(first_item.', vaues)
+      this.$emit("values", values);
     },
   },
 };
