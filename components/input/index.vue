@@ -10,6 +10,16 @@
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
+
+    <v-autocomplete
+      v-if="type === 'autocomplete'"
+      v-model="model"
+      :name="name"
+      :items="options"
+      :label="title"
+      :error-messages="errors"
+      :success="valid"
+    ></v-autocomplete>
   </ValidationProvider>
 </template>
 
@@ -20,8 +30,9 @@ export default {
     name: String,
     rules: String,
     type: String,
-    value: String,
     valid: Boolean,
+    value: String,
+    options: Array,
   },
   data: () => ({
     model: null,

@@ -13,6 +13,8 @@
             :name="field.name"
             :type="field.type"
             :rules="field.rules"
+            :options="field?.options"
+            :value="field?.value"
           />
         </v-col>
       </v-row>
@@ -33,7 +35,7 @@ export default {
   },
   methods: {
     onSubmit(values) {
-      console.log(values.target.elements);
+      console.log(values.target.elements.fourth_item[1].value);
       // const { first_item } =  values.target.elements
       // console.log(first_item.', vaues)
     },

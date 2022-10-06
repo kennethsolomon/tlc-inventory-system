@@ -35,7 +35,8 @@ export default {
         name: "fourth_item",
         title: "Fourth Item",
         rules: "required",
-        type: "text",
+        type: "autocomplete",
+        options: ["foo", "bar", "fizz", "buzz"],
       },
     ],
     button: {
