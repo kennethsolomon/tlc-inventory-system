@@ -29,6 +29,7 @@ export default {
   props: {
     button: Object, //color, btn_name, icon
     fields: Array, //rules, title, type
+    api: String,
   },
   methods: {
     onSubmit(values) {
