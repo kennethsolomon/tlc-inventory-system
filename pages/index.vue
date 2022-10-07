@@ -47,9 +47,7 @@ export default {
   }),
   methods: {
     save(test) {
-      const { first_item, second_item, third_item, fourth_item } =
-        test.target.elements;
-      console.log(first_item.value);
+      console.log(test);
     },
   },
 };

@@ -37,6 +37,11 @@ export default {
   data: () => ({
     model: null,
   }),
+  watch: {
+    model: function (val) {
+      this.$emit("model", val);
+    },
+  },
   mounted() {
     if (this.value) this.model = this.value;
   },

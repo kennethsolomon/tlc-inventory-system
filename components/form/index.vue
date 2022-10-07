@@ -14,6 +14,7 @@
             :type="field.type"
             :rules="field.rules"
             :options="field?.options"
+            @model="model($event, field.name)"
           />
         </v-col>
       </v-row>
@@ -26,14 +27,19 @@
 
 <script>
 export default {
-  data: () => ({}),
+  data: () => ({
+    form: {},
+  }),
   props: {
     button: Object, //color, btn_name, icon
     fields: Array, //rules, title, type
   },
   methods: {
-    onSubmit(values) {
-      this.$emit("values", values);
+    model(event, field) {
+      this.form[field] = event;
+    },
+    onSubmit() {
+      this.$emit("values", this.form);
     },
   },
 };
