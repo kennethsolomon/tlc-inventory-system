@@ -1,27 +1,21 @@
 <template>
-  <div class="d-flex fill-height justify-center align-center">
+  <div
+    :min-height="$vuetify.breakpoint.xs ? 300 : '20vh'"
+    :rounded="$vuetify.breakpoint.xsOnly"
+    class="d-flex fill-height justify-center align-center"
+  >
     <v-row class="d-flex align-center fill-height">
-      <v-col
-        class="d-flex flex-column fill-height justify-center align-center grey pa-5 ma-0"
-        cols="8"
-      >
-        <div class="">Hello</div>
-        <v-card width="50%">
-          <v-card-title class="white--text text-h5 primary mb-3"
-            >Login Form</v-card-title
-          >
-          <v-card-text>
-            <Form :fields="fields" :button="button" @values="login" />
-          </v-card-text>
-        </v-card>
+      <v-col class="fill-height grey pa-0" cols="8">
+        <!-- <img width="1285px" height="100%" src="/LoginImg.png" alt="LoginImg" /> -->
+        <img width="100%" height="100%" src="/LoginImg.png" alt="LoginImg" />
       </v-col>
       <v-col
-        class="d-flex flex-column fill-height justify-center align-center pa-5 ma-0"
+        class="d-flex flex-column fill-height justify-center align-center pa-0"
         cols="4"
       >
-        <img class="mb-15" src="/DICT_Logo.png" width="250px" alt="DICT Logo" />
+        <img class="mb-15" src="/DICT_Logo.png" width="250vw" alt="DICT Logo" />
 
-        <v-card>
+        <v-card class="ma-2">
           <v-card-title class="white--text text-h5 primary mb-3"
             >Login Form</v-card-title
           >
@@ -57,7 +51,7 @@ export default {
     button: {
       color: "primary",
       btn_name: "LOGIN",
-      icon: "mdi-cash-check",
+      icon: "mdi-account-key",
     },
   }),
 
@@ -69,4 +63,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.img-size {
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+</style>
