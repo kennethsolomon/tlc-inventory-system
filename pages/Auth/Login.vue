@@ -72,7 +72,7 @@ export default {
         name: "password",
         title: "Password",
         rules: "required",
-        type: "text",
+        type: "password",
       },
     ],
     button: {

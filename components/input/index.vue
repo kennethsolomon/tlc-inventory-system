@@ -1,6 +1,17 @@
 <template>
   <ValidationProvider v-slot="{ errors }" :rules="rules" :name="title">
     <v-text-field
+      v-if="type === 'password'"
+      v-model="model"
+      :name="name"
+      :label="title"
+      :placeholder="title"
+      :type="type"
+      :error-messages="errors"
+      :success="valid"
+    ></v-text-field>
+
+    <v-text-field
       v-if="type === 'text'"
       v-model="model"
       :name="name"
