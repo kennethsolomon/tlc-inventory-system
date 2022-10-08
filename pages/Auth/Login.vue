@@ -82,11 +82,10 @@ export default {
       icon: "mdi-account-key",
     },
   }),
-
   methods: {
     login(event) {
       return Parse.User.logIn(event.username, event.password).then((result) => {
-        
+        console.log(result);
       });
     },
   },
