@@ -1,17 +1,9 @@
 <template>
-  <div
-    :min-height="$vuetify.breakpoint.xs ? 300 : '20vh'"
-    :rounded="$vuetify.breakpoint.xsOnly"
-    class="d-flex fill-height justify-center align-center"
-  >
-    <v-row class="d-flex align-center fill-height">
-      <v-col class="fill-height grey pa-0" cols="8">
-        <!-- <img width="1285px" height="100%" src="/LoginImg.png" alt="LoginImg" /> -->
-        <img width="100%" height="100%" src="/LoginImg.png" alt="LoginImg" />
-      </v-col>
-      <v-col
-        class="d-flex flex-column fill-height justify-center align-center pa-0"
-        cols="4"
+  <div class="fill-height">
+    <!-- Mobile View -->
+    <div class="fill-height justify-center d-flex d-md-none">
+      <div
+        class="d-flex flex-column fill-height justify-center align-center ma-2"
       >
         <img class="mb-15" src="/DICT_Logo.png" width="250vw" alt="DICT Logo" />
 
@@ -23,8 +15,43 @@
             <Form :fields="fields" :button="button" @values="login" />
           </v-card-text>
         </v-card>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
+    <!-- Desktop View -->
+    <div class="fill-height d-none d-md-block">
+      <div class="d-flex flex-column fill-height justify-center align-center">
+        <v-row class="d-flex align-center fill-height">
+          <v-col class="fill-height pa-0" cols="8">
+            <img
+              width="100%"
+              height="100%"
+              src="/LoginImg.png"
+              alt="LoginImg"
+            />
+          </v-col>
+          <v-col
+            class="d-flex flex-column justify-center align-center pa-0"
+            cols="4"
+          >
+            <img
+              class="mb-15"
+              src="/DICT_Logo.png"
+              width="250vw"
+              alt="DICT Logo"
+            />
+
+            <v-card class="ma-2">
+              <v-card-title class="white--text text-h5 primary mb-3"
+                >Login Form</v-card-title
+              >
+              <v-card-text>
+                <Form :fields="fields" :button="button" @values="login" />
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,7 +91,7 @@ export default {
 </script>
 
 <style scoped>
-.img-size {
+.img-cover {
   position: absolute;
   object-fit: cover;
   width: 100%;
