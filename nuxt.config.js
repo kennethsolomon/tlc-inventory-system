@@ -29,6 +29,11 @@ export default {
     "~/plugins/parse.js"
   ],
 
+  // Global Middleware
+  // router: {
+  //   middleware: ['LoginMiddleware'],
+  // },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
