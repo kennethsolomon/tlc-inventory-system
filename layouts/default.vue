@@ -68,7 +68,7 @@
 <script>
 import Login from "@/pages/Auth/Login.vue";
 export default {
-  name: "Home Page",
+  name: "InitializePage",
   components: {
     Login,
   },

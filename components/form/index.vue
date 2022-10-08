@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="observer" v-slot="{ valid, invalid }">
-    <form @submit.prevent="onSubmit">
+    <form class="d-flex flex-column" @submit.prevent="onSubmit">
       <v-row>
         <v-col
           v-for="field in fields"
@@ -18,7 +18,12 @@
           />
         </v-col>
       </v-row>
-      <v-btn type="submit" :color="button.color" :disabled="invalid">
+      <v-btn
+        class="mt-3 align-self-end"
+        type="submit"
+        :color="button.color"
+        :disabled="invalid"
+      >
         {{ button.btn_name }} <v-icon class="ml-2">{{ button.icon }}</v-icon>
       </v-btn>
     </form>
