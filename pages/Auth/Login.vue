@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import Parse from "parse";
 export default {
   name: "DefaultPage",
   data: () => ({
@@ -84,7 +85,9 @@ export default {
 
   methods: {
     login(event) {
-      console.log("event", event);
+      return Parse.User.logIn(event.username, event.password).then((result) => {
+        
+      });
     },
   },
 };
