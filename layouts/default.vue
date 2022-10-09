@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="isLoggedIn" dark>
+  <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -60,18 +60,11 @@
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
-  <v-app v-else>
-    <Login />
-  </v-app>
 </template>
 
 <script>
-import Login from "@/pages/Auth/Login.vue";
 export default {
   name: "InitializePage",
-  components: {
-    Login,
-  },
   data() {
     return {
       isLoggedIn: false,

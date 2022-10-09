@@ -58,6 +58,7 @@
 <script>
 import Parse from "parse";
 export default {
+  layout: "login",
   name: "DefaultPage",
   data: () => ({
     fields: [
