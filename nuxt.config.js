@@ -31,7 +31,7 @@ export default {
 
   // Global Middleware
   // router: {
-  //   middleware: ['LoginMiddleware'],
+  //   middleware: ['authUser'],
   // },
 
   // Auto import components: https://go.nuxtjs.dev/config-components

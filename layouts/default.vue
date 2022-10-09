@@ -89,5 +89,10 @@ export default {
       title: "Vuetify.js",
     };
   },
+  mounted() {
+    // if (Parse.User.current()) {
+    //   this.$router.push("/login");
+    // }
+  },
 };
 </script>

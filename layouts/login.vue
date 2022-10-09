@@ -12,5 +12,10 @@ export default {
       fixed: false,
     };
   },
+  mounted() {
+    // if (Parse.User.current()) {
+    //   this.$router.push("/");
+    // }
+  },
 };
 </script>
