@@ -7,22 +7,36 @@
       fixed
       app
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <div class="d-flex flex-column justify-space-between fill-height">
+        <v-list>
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-list>
+          <v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-close</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title
+                ><button @click="logOut()">Logout</button></v-list-item-title
+              >
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </div>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -63,6 +77,7 @@
 </template>
 
 <script>
+import Parse from "parse";
 export default {
   name: "InitializePage",
   data() {
@@ -74,13 +89,13 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Welcome",
+          title: "Dashboard",
           to: "/",
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Property",
+          to: "/property",
         },
       ],
       miniVariant: false,
@@ -89,10 +104,12 @@ export default {
       title: "Vuetify.js",
     };
   },
-  mounted() {
-    // if (Parse.User.current()) {
-    //   this.$router.push("/login");
-    // }
+  methods: {
+    logOut() {
+      Parse.User.logOut().then(() => {
+        this.$router.push("/login");
+      });
+    },
   },
 };
 </script>

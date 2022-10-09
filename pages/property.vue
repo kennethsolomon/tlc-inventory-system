@@ -11,20 +11,12 @@
         </footer>
       </blockquote>
     </v-col>
-    <button @click="logOut()">logout</button>
   </v-row>
 </template>
 
 <script>
-import Parse from "parse";
 export default {
-  name: "InspirePage",
-  methods: {
-    logOut() {
-      Parse.User.logOut().then(() => {
-        this.$router.push("/login");
-      });
-    },
-  },
+  name: "PropertyPage",
+  middleware: "authUser",
 };
 </script>
