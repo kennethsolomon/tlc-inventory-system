@@ -1,8 +1,7 @@
 import Parse from 'parse'
-
-export default function ({redirect}) {
-	if (Parse.User.current()) {
-		console.log('login')
-		redirect('/')
-	}
+export default function ({ store, redirect, route }) {
+  // If the user is not authenticated
+  if (!Parse.User.current()) {
+    return redirect(`/login`);
+  }
 }

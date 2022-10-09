@@ -60,7 +60,7 @@ import Parse from "parse";
 export default {
   layout: "login",
   name: "LoginPage",
-  middleware: "authUser",
+  middleware: "unAuthUser",
   data: () => ({
     fields: [
       {
@@ -87,7 +87,6 @@ export default {
   methods: {
     login(event) {
       return Parse.User.logIn(event.username, event.password).then((result) => {
-        console.log(result);
         this.$router.push("/");
       });
     },
