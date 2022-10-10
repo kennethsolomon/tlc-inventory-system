@@ -1,16 +1,9 @@
 <template>
-  <v-navigation-drawer permanent expand-on-hover>
-    <v-list>
-      <v-list-item link>
-        <v-list-item-content>
-          <v-list-item-title class="text-h6">Page Name</v-list-item-title>
-          <v-list-item-subtitle>Description</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-
-    <v-divider></v-divider>
-
+  <v-navigation-drawer
+    permanent
+    expand-on-hover
+    style="border-left: 2px solid grey"
+  >
     <v-list nav dense>
       <v-list-item link>
         <v-list-item-icon>
