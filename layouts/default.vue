@@ -18,9 +18,18 @@
           </v-list-item>
           <v-list-item class="pa-0">
             <v-list-item-content>
-              <v-list-item-title class="d-flex justify-center">
-                <v-divider class="primary"></v-divider>
-              </v-list-item-title>
+              <div>
+                <v-list-item-title class="d-flex align-center fill-width">
+                  <v-avatar class="ma-2 mx-5" color="indigo">
+                    <v-icon dark> mdi-account-circle </v-icon>
+                  </v-avatar>
+                  <div class="d-flex flex-column">
+                    <span>Kenneth Solomon</span>
+                    <span>CHED - PTS III</span>
+                  </div>
+                </v-list-item-title>
+              </div>
+              <v-divider class="primary"></v-divider>
             </v-list-item-content>
           </v-list-item>
 
