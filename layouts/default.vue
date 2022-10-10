@@ -9,6 +9,21 @@
     >
       <div class="d-flex flex-column justify-space-between fill-height">
         <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="d-flex justify-center">
+                <img src="/DICT_Logo.png" width="200vw" alt="DICT Logo" />
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item class="pa-0">
+            <v-list-item-content>
+              <v-list-item-title class="d-flex justify-center">
+                <v-divider class="primary"></v-divider>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
