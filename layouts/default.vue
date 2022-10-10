@@ -78,9 +78,12 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <div class="d-flex fill-height">
+        <v-container>
+          <Nuxt />
+        </v-container>
+        <Sidebar />
+      </div>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
@@ -92,6 +95,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
