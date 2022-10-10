@@ -25,14 +25,12 @@
           </v-list-item>
         </v-list>
         <v-list>
-          <v-list-item>
+          <v-list-item @click="logOut()">
             <v-list-item-action>
-              <v-icon>mdi-close</v-icon>
+              <v-icon>mdi-logout</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title
-                ><button @click="logOut()">Logout</button></v-list-item-title
-              >
+              <v-list-item-title>Logout</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -84,7 +82,7 @@ export default {
     return {
       isLoggedIn: false,
       clipped: false,
-      drawer: false,
+      drawer: true,
       fixed: false,
       items: [
         {
@@ -93,7 +91,7 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-application-cog",
           title: "Property",
           to: "/property",
         },
@@ -101,7 +99,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Vuetify.js",
+      title: "Inventory System",
     };
   },
   methods: {
