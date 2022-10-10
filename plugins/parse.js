@@ -81,7 +81,7 @@ const gnDRaFL479FmmLzh =
   })(10, 166, 124) +
   (711).toString(36).toLowerCase();
 Parse.serverURL = "http://localhost:1337/api";
-Parse.initialize(xtDjR1mw4jvvLZhW, gnDRaFL479FmmLzh);
+Parse.initialize(xtDjR1mw4jvvLZhW, gnDRaFL479FmmLzh); // APP ID , Javascript Key
 const I9KGmqPDcBSmqIdi =
   (26)
     .toString(36)
@@ -237,5 +237,5 @@ const I9KGmqPDcBSmqIdi =
     .join("") +
   (12).toString(36).toLowerCase();
 Parse.enableEncryptedUser();
-Parse.secret = I9KGmqPDcBSmqIdi;
+Parse.secret = I9KGmqPDcBSmqIdi; // Encryption Key for User Data
 Parse.enableLocalDatastore();
