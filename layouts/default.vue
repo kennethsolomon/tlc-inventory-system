@@ -20,7 +20,7 @@
             <v-list-item-content>
               <div>
                 <v-list-item-title class="d-flex align-center fill-width">
-                  <v-avatar class="ma-2 mx-5" color="indigo">
+                  <v-avatar class="mb-2 mx-3 mr-5" color="indigo">
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar>
                   <div class="d-flex flex-column">
