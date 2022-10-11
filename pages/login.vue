@@ -7,6 +7,9 @@
       >
         <img class="mb-15" src="/DICT_Logo.png" width="250vw" alt="DICT Logo" />
 
+        <v-alert v-if="error" dense outlined type="error">
+          {{ error }}
+        </v-alert>
         <v-card class="ma-2">
           <v-card-title class="white--text text-h5 primary mb-3"
             >Login Form</v-card-title
@@ -40,6 +43,9 @@
               alt="DICT Logo"
             />
 
+            <v-alert v-if="error" dense outlined type="error">
+              {{ error }}
+            </v-alert>
             <v-card class="ma-2">
               <v-card-title class="white--text text-h5 primary mb-3"
                 >Login Form</v-card-title
@@ -62,6 +68,7 @@ export default {
   name: "LoginPage",
   middleware: "unAuthUser",
   data: () => ({
+    error: null,
     fields: [
       {
         cols: 1,
@@ -86,9 +93,16 @@ export default {
   }),
   methods: {
     login(event) {
-      return Parse.User.logIn(event.username, event.password).then((result) => {
-        this.$router.push("/");
-      });
+      Parse.User.logIn(event.username, event.password).then(
+        (result) => {
+          // this.error = null;
+          this.$router.push("/");
+        },
+        (error) => {
+          console.log(error);
+          this.error = error;
+        }
+      );
     },
   },
 };

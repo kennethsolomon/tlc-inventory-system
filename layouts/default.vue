@@ -82,7 +82,7 @@
         <v-container>
           <Nuxt />
         </v-container>
-        <Sidebar />
+        <!-- <Sidebar /> -->
       </div>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -128,6 +128,24 @@ export default {
       right: true,
       rightDrawer: false,
       title: "Inventory System",
+
+      totalDesserts: 0,
+      desserts: [],
+      loading: true,
+      options: {},
+      headers: [
+        {
+          text: "Dessert (100g serving)",
+          align: "start",
+          sortable: false,
+          value: "name",
+        },
+        { text: "Calories", value: "calories" },
+        { text: "Fat (g)", value: "fat" },
+        { text: "Carbs (g)", value: "carbs" },
+        { text: "Protein (g)", value: "protein" },
+        { text: "Iron (%)", value: "iron" },
+      ],
     };
   },
   methods: {
