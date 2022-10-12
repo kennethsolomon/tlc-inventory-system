@@ -18,7 +18,8 @@
       :label="title"
       :placeholder="title"
       :type="type"
-      :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : false"
+      :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
+      @click:append-outer="showModal"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -53,6 +54,11 @@ export default {
   watch: {
     model: function (val) {
       this.$emit("model", val);
+    },
+  },
+  methods: {
+    showModal() {
+      console.log("show modal");
     },
   },
   mounted() {
