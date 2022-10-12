@@ -16,6 +16,7 @@
             :hasIcon="field?.hasIcon"
             :options="field?.options"
             @model="model($event, field.name)"
+            @modalInput="modalInput"
           />
         </v-col>
       </v-row>
@@ -46,6 +47,9 @@ export default {
     },
     onSubmit() {
       this.$emit("values", this.form);
+    },
+    modalInput(data) {
+      this.$emit("modalInput", data);
     },
   },
 };

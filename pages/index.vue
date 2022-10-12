@@ -1,5 +1,5 @@
 <template>
-  <Form :fields="fields" :button="button" @values="save" />
+  <Form :fields="fields" :button="button" @values="save" @input="saveModal" />
 </template>
 
 <script>
@@ -37,7 +37,27 @@ export default {
         title: "test_icon",
         rules: "required",
         type: "autocomplete",
-        hasIcon: { status: true, icon: "mdi-map-marker-plus-outline" },
+        hasIcon: {
+          status: true,
+          icon: "mdi-map-marker-plus-outline",
+          modal: {
+            title: "Nested Data",
+            fields: [
+              {
+                cols: 1,
+                name: "nested",
+                title: "Nested Item",
+                rules: "required",
+                type: "text",
+              },
+            ],
+            button: {
+              color: "success",
+              btn_name: "Save",
+              icon: "mdi-cash-check",
+            },
+          },
+        },
         options: ["foo", "bar", "fizz", "buzz"],
       },
 
@@ -59,6 +79,9 @@ export default {
   methods: {
     save(test) {
       console.log(test);
+    },
+    saveModal(modal_data) {
+      console.log(modal_data);
     },
   },
 };

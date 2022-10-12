@@ -95,11 +95,9 @@ export default {
     login(event) {
       Parse.User.logIn(event.username, event.password).then(
         (result) => {
-          // this.error = null;
           this.$router.push("/");
         },
         (error) => {
-          console.log(error);
           this.error = error;
         }
       );

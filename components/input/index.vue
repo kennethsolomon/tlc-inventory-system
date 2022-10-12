@@ -29,14 +29,23 @@
       :items="options"
       :label="title"
       :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
-      @click:append-outer="showModal"
+      @click:append-outer="modal(true)"
       :error-messages="errors"
       :success="valid"
     ></v-autocomplete>
+
+    <DialogAdd
+      v-if="hasIcon?.status === true"
+      :hasIcon="hasIcon"
+      :dialog="dialog"
+      @modal="modal"
+      @values="modalInput"
+    />
   </ValidationProvider>
 </template>
 
 <script>
+import DialogAdd from "../dialog/dialog.add.vue";
 export default {
   props: {
     title: String,
@@ -46,10 +55,14 @@ export default {
     valid: Boolean,
     value: String,
     options: Array,
-    hasIcon: Object,
+    hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
+  },
+  components: {
+    DialogAdd,
   },
   data: () => ({
     model: null,
+    dialog: false,
   }),
   watch: {
     model: function (val) {
@@ -57,8 +70,11 @@ export default {
     },
   },
   methods: {
-    showModal() {
-      console.log("show modal");
+    modal(status) {
+      this.dialog = status;
+    },
+    modalInput(data) {
+      this.$emit("modalInput", data);
     },
   },
   mounted() {
