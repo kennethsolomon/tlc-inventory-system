@@ -18,8 +18,6 @@
       :label="title"
       :placeholder="title"
       :type="type"
-      :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
-      @click:append-outer="showModal"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -30,6 +28,8 @@
       :name="name"
       :items="options"
       :label="title"
+      :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
+      @click:append-outer="showModal"
       :error-messages="errors"
       :success="valid"
     ></v-autocomplete>

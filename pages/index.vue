@@ -36,8 +36,9 @@ export default {
         name: "test_icon",
         title: "test_icon",
         rules: "required",
-        type: "text",
+        type: "autocomplete",
         hasIcon: { status: true, icon: "mdi-map-marker-plus-outline" },
+        options: ["foo", "bar", "fizz", "buzz"],
       },
 
       {
