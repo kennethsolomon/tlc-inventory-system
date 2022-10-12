@@ -10,9 +10,7 @@
           class="d-flex justify-space-between text-h5 primary white--text"
         >
           {{ hasIcon.modal.title }}
-          <v-icon @click="$emit('modal', false)" color="white"
-            >mdi-close</v-icon
-          >
+          <v-icon @click="closeModal" color="white">mdi-close</v-icon>
         </v-card-title>
 
         <v-card-text class="pa-5">
@@ -70,6 +68,9 @@ export default {
     },
     onSubmit() {
       this.$emit("values", this.form);
+    },
+    closeModal() {
+      this.$emit("modal", false);
     },
   },
 };

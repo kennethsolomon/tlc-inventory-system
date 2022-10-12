@@ -1,5 +1,10 @@
 <template>
-  <Form :fields="fields" :button="button" @values="save" @input="saveModal" />
+  <Form
+    :fields="fields"
+    :button="button"
+    @values="save"
+    @modalInput="saveModal"
+  />
 </template>
 
 <script>

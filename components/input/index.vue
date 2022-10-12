@@ -35,7 +35,7 @@
     ></v-autocomplete>
 
     <DialogAdd
-      v-if="hasIcon?.status === true"
+      v-if="hasIcon?.status === true && dialog === true"
       :hasIcon="hasIcon"
       :dialog="dialog"
       @modal="modal"
