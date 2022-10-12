@@ -18,6 +18,7 @@
       :label="title"
       :placeholder="title"
       :type="type"
+      :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : false"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -44,6 +45,7 @@ export default {
     valid: Boolean,
     value: String,
     options: Array,
+    hasIcon: Object,
   },
   data: () => ({
     model: null,

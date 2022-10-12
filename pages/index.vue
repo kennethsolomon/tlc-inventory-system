@@ -33,6 +33,15 @@ export default {
       },
       {
         cols: 2,
+        name: "test_icon",
+        title: "test_icon",
+        rules: "required",
+        type: "text",
+        hasIcon: { status: true, icon: "mdi-map-marker-plus-outline" },
+      },
+
+      {
+        cols: 2,
         name: "fourth_item",
         title: "Fourth Item",
         rules: "required",

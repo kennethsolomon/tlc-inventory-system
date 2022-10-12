@@ -13,6 +13,7 @@
             :name="field.name"
             :type="field.type"
             :rules="field.rules"
+            :hasIcon="field?.hasIcon"
             :options="field?.options"
             @model="model($event, field.name)"
           />
