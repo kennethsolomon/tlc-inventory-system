@@ -10,6 +10,7 @@
       :class="{ 'justify-center': $vuetify.breakpoint.xs }"
     >
       <v-btn
+        @click="test()"
         class="ma-2"
         tile
         color="primary"
@@ -137,6 +138,9 @@ export default {
     },
   },
   methods: {
+    test() {
+      console.log("testing");
+    },
     getDataFromApi() {
       this.loading = true;
       this.fakeApiCall().then((data) => {

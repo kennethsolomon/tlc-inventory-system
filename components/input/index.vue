@@ -34,7 +34,7 @@
       :success="valid"
     ></v-autocomplete>
 
-    <DialogAdd
+    <DialogAddIcon
       v-if="hasIcon?.status === true && dialog === true"
       :hasIcon="hasIcon"
       :dialog="dialog"
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import DialogAdd from "../dialog/dialog.add.vue";
+import DialogAddIcon from "../dialog/dialog.add.icon.vue";
 export default {
   props: {
     title: String,
@@ -58,7 +58,7 @@ export default {
     hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
   },
   components: {
-    DialogAdd,
+    DialogAddIcon,
   },
   data: () => ({
     model: null,
