@@ -21,21 +21,21 @@
       </v-btn>
     </div>
     <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
-      <v-tab v-for="(item, index) in items" :key="index">
+      <v-tab v-for="(item, index) in table_data" :key="index">
         <div v-for="(title, index) in item" :key="index">
           {{ title.tab_name }}
         </div>
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="(item, index) in items" :key="index">
+      <v-tab-item v-for="(item, index) in table_data" :key="index">
         <v-card class="mt-5" flat>
           <v-card-text class="pa-0 ma-0">
             <div v-for="(data, index) in item" :key="index">
               {{ data.data }}
             </div>
             <!-- <v-data-table
-              :headers="headers"
+              :headers="table"
               :items="desserts"
               :options.sync="options"
               :server-items-length="totalDesserts"
@@ -57,77 +57,16 @@ export default {
     class_name: String, // for api call
     tab_name: Array,
     table_data: Array,
-    table_header: Array,
+    table_headers: Array,
     button: Object, //color, btn_name, icon
   },
 
   data: () => ({
     tab: null,
-    items: [
-      [
-        {
-          tab_name: "All Property",
-          data: [
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-          ],
-        },
-      ],
-      [
-        {
-          tab_name: "Consumable",
-          data: [
-            {
-              fname: "Testing Data",
-              mname: "Testing Data2",
-              lname: "Testing Data3",
-            },
-          ],
-        },
-      ],
-      [
-        {
-          tab_name: "Non-Consumable",
-          data: [
-            {
-              fname: "Testing Dat4",
-              mname: "Testing Data5",
-              lname: "Testing Data 6",
-            },
-          ],
-        },
-      ],
-    ], // tab_name
     totalDesserts: 0,
     desserts: [],
     loading: true,
     options: {},
-    headers: [
-      {
-        text: "Dessert (100g serving)",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
-      { text: "Iron (%)", value: "iron" },
-    ],
   }),
   watch: {
     options: {
