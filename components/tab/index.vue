@@ -10,7 +10,7 @@
       :class="{ 'justify-center': $vuetify.breakpoint.xs }"
     >
       <v-btn
-        @click="test()"
+        @click="dialog.add = true"
         class="ma-2"
         tile
         :color="buttons.add.color"
@@ -46,6 +46,13 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
+
+    <DialogAdd
+      v-if="dialog.add === true"
+      :fields="buttons.add.fields"
+      :dialog="dialog.add"
+      @modal="modal"
+    />
   </v-card>
 </template>
 
@@ -58,10 +65,11 @@ export default {
     tab_name: Array,
     table_data: Array,
     table_headers: Array,
-    buttons: Object, //(add-edit-delete): color, btn_name, icon
+    buttons: Object, //(add-edit-delete): color, btn_name, icon , fields: array
   },
 
   data: () => ({
+    dialog: { add: false },
     tab: null,
     totalDesserts: 0,
     desserts: [],
@@ -77,8 +85,8 @@ export default {
     },
   },
   methods: {
-    test() {
-      console.log("testing");
+    modal(e) {
+      console.log("testing", e);
     },
     getDataFromApi() {
       this.loading = true;

@@ -78,6 +78,16 @@ export default {
         color: "primary",
         btn_name: "Add Property",
         icon: "mdi-cash-check",
+        // modal data
+        fields: [
+          {
+            cols: 1,
+            name: "first_item",
+            title: "First Item",
+            rules: "required",
+            type: "text",
+          },
+        ],
       },
       edit: {
         color: "warning",

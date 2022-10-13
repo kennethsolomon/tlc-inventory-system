@@ -65,7 +65,6 @@ export default {
         },
         options: ["foo", "bar", "fizz", "buzz"],
       },
-
       {
         cols: 2,
         name: "fourth_item",
