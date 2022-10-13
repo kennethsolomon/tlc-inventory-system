@@ -34,7 +34,6 @@
                   />
                 </v-col>
               </v-row>
-              <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -42,7 +41,11 @@
                   :color="hasIcon.modal.button.color"
                   :disabled="invalid"
                 >
-                  {{ hasIcon.modal.button.btn_name }}
+                  {{ hasIcon?.modal?.button?.btn_name }}
+
+                  <v-icon class="mx-1">
+                    {{ hasIcon?.modal?.button?.icon }}</v-icon
+                  >
                 </v-btn>
               </v-card-actions>
             </form>
