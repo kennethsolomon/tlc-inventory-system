@@ -13,11 +13,11 @@
         @click="test()"
         class="ma-2"
         tile
-        color="primary"
+        :color="buttons.add.color"
         :width="$vuetify.breakpoint.xs ? '100%' : ''"
       >
-        <v-icon left> mdi-plus </v-icon>
-        ADD PROPERTY
+        <v-icon left>{{ buttons.add.icon }}</v-icon>
+        {{ buttons.add.btn_name }}
       </v-btn>
     </div>
     <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
@@ -58,7 +58,7 @@ export default {
     tab_name: Array,
     table_data: Array,
     table_headers: Array,
-    button: Object, //color, btn_name, icon
+    buttons: Object, //(add-edit-delete): color, btn_name, icon
   },
 
   data: () => ({

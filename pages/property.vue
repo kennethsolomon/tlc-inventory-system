@@ -3,6 +3,7 @@
     :tab_name="tab_name"
     :table_data="table_data"
     :table_headers="table_headers"
+    :buttons="buttons"
   />
 </template>
 
@@ -72,9 +73,9 @@ export default {
         },
       ],
     ],
-    button: {
+    buttons: {
       add: {
-        color: "success",
+        color: "primary",
         btn_name: "Add Property",
         icon: "mdi-cash-check",
       },
