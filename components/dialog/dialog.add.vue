@@ -9,10 +9,17 @@
         <v-card-title
           class="d-flex justify-space-between text-h5 primary white--text"
         >
-          <!-- {{ hasIcon.modal.title }} -->
-          <!-- <v-icon @click="closeModal" color="white">mdi-close</v-icon> -->
+          {{ title }}
+          <v-icon @click="$emit('closeModal')" color="white">mdi-close</v-icon>
         </v-card-title>
-        <v-card-text class="pa-5"> testing data </v-card-text>
+        <v-card-text class="pa-5">
+          <Form
+            :fields="fields"
+            :button="button"
+            @values="save"
+            @modalInput="saveModal"
+          />
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -21,11 +28,22 @@
 <script>
 export default {
   props: {
+    className: String, // for api call
     dialog: Boolean,
+    title: String,
     fields: Array,
+    button: Object,
   },
   data: () => ({}),
-  methods: {},
+  methods: {
+    save(test) {
+      console.log(test, "add dialog save");
+    },
+    // Use if fields has icon modal
+    saveModal(modal_data) {
+      console.log(modal_data);
+    },
+  },
   mounted() {
     console.log(this.fields);
   },

@@ -49,8 +49,11 @@
 
     <DialogAdd
       v-if="dialog.add === true"
-      :fields="buttons.add.fields"
+      :title="buttons.add.modal.title"
+      :fields="buttons.add.modal.fields"
+      :button="buttons.add.modal.button"
       :dialog="dialog.add"
+      @closeModal="dialog.add = false"
       @modal="modal"
     />
   </v-card>
