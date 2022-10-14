@@ -37,20 +37,35 @@
       :success="valid"
     ></v-autocomplete>
 
-    <v-radio-group
+    <v-combobox
       class="pa-0 ma-0"
-      v-if="type === 'radio'"
+      v-if="type === 'combobox'"
       v-model="model"
       :name="name"
-      row
-    >
-      <v-radio
-        v-for="(option, index) in options"
-        :key="index"
-        :label="option.label"
-        :value="option.value"
-      ></v-radio>
-    </v-radio-group>
+      :items="options"
+      :label="title"
+      :error-messages="errors"
+      :success="valid"
+    ></v-combobox>
+
+    <div v-if="type === 'radio'">
+      <div class="text-overline">{{ title }}</div>
+      <v-radio-group
+        class="pa-0 ma-0"
+        v-model="model"
+        :name="name"
+        :error-messages="errors"
+        :success="valid"
+        row
+      >
+        <v-radio
+          v-for="(option, index) in options"
+          :key="index"
+          :label="option.label"
+          :value="option.value"
+        ></v-radio>
+      </v-radio-group>
+    </div>
 
     <DialogAddIcon
       v-if="hasIcon?.status === true && dialog === true"

@@ -105,6 +105,14 @@ export default {
         type: "autocomplete",
         options: ["foo", "bar", "fizz", "buzz"],
       },
+      {
+        cols: 2,
+        name: "combo_box",
+        title: "Combo Box",
+        rules: "required",
+        type: "combobox",
+        options: ["foo", "bar"],
+      },
     ],
     button: {
       color: "success",
