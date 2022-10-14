@@ -3,6 +3,7 @@
     <form class="d-flex flex-column" @submit.prevent="onSubmit">
       <v-row>
         <v-col
+          class="ma-0 pa-2"
           v-for="field in fields"
           :key="field.name"
           :cols="12 / field.cols"
@@ -14,6 +15,7 @@
             :type="field.type"
             :rules="field.rules"
             :hasIcon="field?.hasIcon"
+            :row="field?.row"
             :options="field?.options"
             @model="model($event, field.name)"
             @modalInput="modalInput"

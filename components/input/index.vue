@@ -24,6 +24,17 @@
       :success="valid"
     ></v-text-field>
 
+    <v-textarea
+      class="pa-0 ma-0"
+      v-if="type === 'textarea'"
+      v-model="model"
+      :name="name"
+      :label="title"
+      :rows="row"
+      :error-messages="errors"
+      :success="valid"
+    ></v-textarea>
+
     <v-autocomplete
       class="pa-0 ma-0"
       v-if="type === 'autocomplete'"
@@ -48,7 +59,7 @@
       :success="valid"
     ></v-combobox>
 
-    <div v-if="type === 'radio'">
+    <div class="pa-0 ma-0" v-if="type === 'radio'">
       <div class="text-overline">{{ title }}</div>
       <v-radio-group
         class="pa-0 ma-0"
@@ -88,6 +99,7 @@ export default {
     valid: Boolean,
     value: String,
     options: Array,
+    row: String, // for textarea
     hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
   },
   components: {
@@ -107,6 +119,7 @@ export default {
       this.dialog = status;
     },
     modalInput(data) {
+      this.options.push(Object.values(data)[0]);
       this.$emit("modalInput", data);
     },
   },

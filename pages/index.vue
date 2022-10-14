@@ -66,27 +66,6 @@ export default {
                 rules: "required",
                 type: "text",
               },
-              {
-                cols: 1,
-                name: "nested2",
-                title: "Nested Item2",
-                rules: "required",
-                type: "text",
-              },
-              {
-                cols: 2,
-                name: "nested3",
-                title: "Nested Item3",
-                rules: "required",
-                type: "text",
-              },
-              {
-                cols: 2,
-                name: "nested4",
-                title: "Nested Item4",
-                rules: "required",
-                type: "text",
-              },
             ],
             button: {
               color: "success",
