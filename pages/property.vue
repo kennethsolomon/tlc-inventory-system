@@ -124,7 +124,7 @@ export default {
             },
 
             {
-              cols: 1,
+              cols: 2,
               name: "category",
               title: "Category",
               rules: "required",
@@ -154,11 +154,11 @@ export default {
             },
 
             {
-              cols: 1,
+              cols: 2,
               name: "description",
               title: "Description",
               rules: "required",
-              row: "2",
+              row: "1",
               type: "textarea",
             },
 

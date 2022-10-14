@@ -46,6 +46,8 @@ export default {
   methods: {
     model(event, field) {
       this.form[field] = event;
+
+      this.$emit("values", this.form);
     },
     onSubmit() {
       this.$emit("values", this.form);

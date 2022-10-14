@@ -16,7 +16,7 @@
           <Form
             :fields="fields"
             :button="button"
-            @values="save"
+            @values="values"
             @modalInput="saveModal"
           />
         </v-card-text>
@@ -36,8 +36,8 @@ export default {
   },
   data: () => ({}),
   methods: {
-    save(test) {
-      console.log(test, "add dialog save");
+    values(form) {
+      console.log(form, "add dialog save");
     },
     // Use if fields has icon modal
     saveModal(modal_data) {
