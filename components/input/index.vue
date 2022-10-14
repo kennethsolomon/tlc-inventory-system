@@ -1,6 +1,7 @@
 <template>
   <ValidationProvider v-slot="{ errors }" :rules="rules" :name="title">
     <v-text-field
+      class="pa-0 ma-0"
       v-if="type === 'password'"
       v-model="model"
       :name="name"
@@ -12,6 +13,7 @@
     ></v-text-field>
 
     <v-text-field
+      class="pa-0 ma-0"
       v-if="type === 'text'"
       v-model="model"
       :name="name"
@@ -23,6 +25,7 @@
     ></v-text-field>
 
     <v-autocomplete
+      class="pa-0 ma-0"
       v-if="type === 'autocomplete'"
       v-model="model"
       :name="name"
@@ -33,6 +36,21 @@
       :error-messages="errors"
       :success="valid"
     ></v-autocomplete>
+
+    <v-radio-group
+      class="pa-0 ma-0"
+      v-if="type === 'radio'"
+      v-model="model"
+      :name="name"
+      row
+    >
+      <v-radio
+        v-for="(option, index) in options"
+        :key="index"
+        :label="option.label"
+        :value="option.value"
+      ></v-radio>
+    </v-radio-group>
 
     <DialogAddIcon
       v-if="hasIcon?.status === true && dialog === true"

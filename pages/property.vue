@@ -89,6 +89,13 @@ export default {
               rules: "required",
               type: "text",
             },
+            {
+              cols: 1,
+              name: "first_item",
+              title: "First Item",
+              rules: "required",
+              type: "text",
+            },
           ],
 
           button: {

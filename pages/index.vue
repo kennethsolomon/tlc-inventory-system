@@ -38,6 +38,17 @@ export default {
       },
       {
         cols: 2,
+        name: "radio",
+        title: "Radio Test",
+        rules: "required",
+        type: "radio",
+        options: [
+          { label: "Consumable", value: "Consumable" },
+          { label: "Non-Consumable", value: "Non-Consumable" },
+        ],
+      },
+      {
+        cols: 2,
         name: "test_icon",
         title: "test_icon",
         rules: "required",
