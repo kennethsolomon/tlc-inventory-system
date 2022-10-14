@@ -24,6 +24,18 @@
       :success="valid"
     ></v-text-field>
 
+    <v-text-field
+      class="pa-0 ma-0"
+      v-if="type === 'number'"
+      v-model.number="model"
+      :name="name"
+      :label="title"
+      :placeholder="title"
+      :type="type"
+      :error-messages="errors"
+      :success="valid"
+    ></v-text-field>
+
     <v-textarea
       class="pa-0 ma-0"
       v-if="type === 'textarea'"
@@ -78,6 +90,36 @@
       </v-radio-group>
     </div>
 
+    <v-dialog
+      v-if="type === 'date'"
+      ref="dialog"
+      v-model="date_modal"
+      :return-value.sync="model"
+      persistent
+      width="290px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          class="pa-0 ma-0"
+          v-model="model"
+          :label="title"
+          prepend-icon="mdi-calendar"
+          readonly
+          v-bind="attrs"
+          v-on="on"
+          :error-messages="errors"
+          :success="valid"
+        ></v-text-field>
+      </template>
+      <v-date-picker v-model="model" scrollable>
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="date_modal = false"> Cancel </v-btn>
+        <v-btn text color="primary" @click="$refs.dialog.save(model)">
+          OK
+        </v-btn>
+      </v-date-picker>
+    </v-dialog>
+
     <DialogAddIcon
       v-if="hasIcon?.status === true && dialog === true"
       :hasIcon="hasIcon"
@@ -108,6 +150,7 @@ export default {
   data: () => ({
     model: null,
     dialog: false,
+    date_modal: false,
   }),
   watch: {
     model: function (val) {
@@ -125,6 +168,10 @@ export default {
   },
   mounted() {
     if (this.value) this.model = this.value;
+    if (this.type === "date")
+      this.model = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
   },
 };
 </script>
