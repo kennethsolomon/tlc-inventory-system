@@ -256,6 +256,38 @@ export default {
               type: "autocomplete",
               options: ["active", "expired", "test"],
             },
+
+            {
+              cols: 1,
+              name: "date_acquired",
+              title: "Date Acquired",
+              rules: "required",
+              type: "date",
+            },
+
+            {
+              cols: 1,
+              name: "date_received",
+              title: "Date Received",
+              rules: "required",
+              type: "date",
+            },
+
+            {
+              cols: 1,
+              name: "cost",
+              title: "Cost",
+              rules: "required",
+              type: "number",
+            },
+
+            {
+              cols: 1,
+              name: "quantity",
+              title: "Quantity",
+              rules: "required",
+              type: "number",
+            },
           ],
 
           button: {
