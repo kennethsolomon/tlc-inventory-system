@@ -383,200 +383,216 @@ export default {
   methods: {
     // Category API
     addCategory(form) {
-      this.$store.dispatch("addCategory", form).then(
-        function (result) {
-          this.category.options.push({
-            id: result.id,
-            name: result.get("name"),
-          });
-          this.$toast.success("New Category has been added successfully.");
-        }.bind(this),
-        function (error) {
+      this.$store
+        .dispatch("addCategory", form)
+        .then(
+          function (result) {
+            this.category.options.push({
+              id: result.id,
+              name: result.get("name"),
+            });
+            this.$toast.success("New Category has been added successfully.");
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
     getCategory() {
-      this.$store.dispatch("getCategory").then(
-        function (result) {
-          result.forEach((category) => {
-            this.category.options.push({
-              id: category.id,
-              name: category.get("name"),
+      this.$store
+        .dispatch("getCategory")
+        .then(
+          function (result) {
+            result.forEach((category) => {
+              this.category.options.push({
+                id: category.id,
+                name: category.get("name"),
+              });
             });
-          });
-        }.bind(this),
-        function (error) {
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
     // End Category API
 
     // Location API
     addLocation(form) {
-      this.$store.dispatch("addLocation", form).then(
-        function (result) {
-          this.location.options.push({
-            id: result.id,
-            name: result.get("name"),
-          });
-          this.$toast.success("New Location has been added successfully.");
-        }.bind(this),
-        function (error) {
+      this.$store
+        .dispatch("addLocation", form)
+        .then(
+          function (result) {
+            this.location.options.push({
+              id: result.id,
+              name: result.get("name"),
+            });
+            this.$toast.success("New Location has been added successfully.");
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
     getLocation() {
-      this.$store.dispatch("getLocation").then(
-        function (result) {
-          result.forEach((location) => {
-            this.location.options.push({
-              id: location.id,
-              name: location.get("name"),
+      this.$store
+        .dispatch("getLocation")
+        .then(
+          function (result) {
+            result.forEach((location) => {
+              this.location.options.push({
+                id: location.id,
+                name: location.get("name"),
+              });
             });
-          });
-        }.bind(this),
-        function (error) {
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
     // End Location API
 
     // Received By API
     addEmployee(form) {
-      this.$store.dispatch("addEmployee", form).then(
-        function (result) {
-          this.received_by.options.push({
-            id: result.id,
-            full_name:
-              result?.get("fname") +
-              " " +
-              result?.get("lname") +
-              " | " +
-              result?.get("office"),
-            fname: result?.get("fname"),
-            mname: result?.get("mname"),
-            lname: result?.get("lname"),
-            office: result?.get("office"),
-          });
-          this.received_from.options.push({
-            id: result.id,
-            full_name:
-              result?.get("fname") +
-              " " +
-              result?.get("lname") +
-              " | " +
-              result?.get("office"),
-            fname: result?.get("fname"),
-            mname: result?.get("mname"),
-            lname: result?.get("lname"),
-            office: result?.get("office"),
-          });
-          this.assigned_person.options.push({
-            id: result.id,
-            full_name:
-              result?.get("fname") +
-              " " +
-              result?.get("lname") +
-              " | " +
-              result?.get("office"),
-            fname: result?.get("fname"),
-            mname: result?.get("mname"),
-            lname: result?.get("lname"),
-            office: result?.get("office"),
-          });
-          this.$toast.success("New Received by has been added successfully.");
-        }.bind(this),
-        function (error) {
-          this.$toast.error(error);
-        }
-      );
-    },
-    getEmployee() {
-      this.$store.dispatch("getEmployee").then(
-        function (result) {
-          result.forEach((employee) => {
+      this.$store
+        .dispatch("addEmployee", form)
+        .then(
+          function (result) {
             this.received_by.options.push({
-              id: employee.id,
+              id: result.id,
               full_name:
-                employee?.get("fname") +
+                result?.get("fname") +
                 " " +
-                employee?.get("lname") +
+                result?.get("lname") +
                 " | " +
-                employee?.get("office"),
-              fname: employee?.get("fname"),
-              mname: employee?.get("mname"),
-              lname: employee?.get("lname"),
-              office: employee?.get("office"),
+                result?.get("office"),
+              fname: result?.get("fname"),
+              mname: result?.get("mname"),
+              lname: result?.get("lname"),
+              office: result?.get("office"),
             });
             this.received_from.options.push({
-              id: employee.id,
+              id: result.id,
               full_name:
-                employee?.get("fname") +
+                result?.get("fname") +
                 " " +
-                employee?.get("lname") +
+                result?.get("lname") +
                 " | " +
-                employee?.get("office"),
-              fname: employee?.get("fname"),
-              mname: employee?.get("mname"),
-              lname: employee?.get("lname"),
-              office: employee?.get("office"),
+                result?.get("office"),
+              fname: result?.get("fname"),
+              mname: result?.get("mname"),
+              lname: result?.get("lname"),
+              office: result?.get("office"),
             });
             this.assigned_person.options.push({
-              id: employee.id,
+              id: result.id,
               full_name:
-                employee?.get("fname") +
+                result?.get("fname") +
                 " " +
-                employee?.get("lname") +
+                result?.get("lname") +
                 " | " +
-                employee?.get("office"),
-              fname: employee?.get("fname"),
-              mname: employee?.get("mname"),
-              lname: employee?.get("lname"),
-              office: employee?.get("office"),
+                result?.get("office"),
+              fname: result?.get("fname"),
+              mname: result?.get("mname"),
+              lname: result?.get("lname"),
+              office: result?.get("office"),
             });
-          });
-        }.bind(this),
-        function (error) {
+            this.$toast.success("New Received by has been added successfully.");
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
+    },
+    getEmployee() {
+      this.$store
+        .dispatch("getEmployee")
+        .then(
+          function (result) {
+            result.forEach((employee) => {
+              this.received_by.options.push({
+                id: employee.id,
+                full_name:
+                  employee?.get("fname") +
+                  " " +
+                  employee?.get("lname") +
+                  " | " +
+                  employee?.get("office"),
+                fname: employee?.get("fname"),
+                mname: employee?.get("mname"),
+                lname: employee?.get("lname"),
+                office: employee?.get("office"),
+              });
+              this.received_from.options.push({
+                id: employee.id,
+                full_name:
+                  employee?.get("fname") +
+                  " " +
+                  employee?.get("lname") +
+                  " | " +
+                  employee?.get("office"),
+                fname: employee?.get("fname"),
+                mname: employee?.get("mname"),
+                lname: employee?.get("lname"),
+                office: employee?.get("office"),
+              });
+              this.assigned_person.options.push({
+                id: employee.id,
+                full_name:
+                  employee?.get("fname") +
+                  " " +
+                  employee?.get("lname") +
+                  " | " +
+                  employee?.get("office"),
+                fname: employee?.get("fname"),
+                mname: employee?.get("mname"),
+                lname: employee?.get("lname"),
+                office: employee?.get("office"),
+              });
+            });
+          }.bind(this)
+        )
+        .catch((error) => {
+          this.$toast.error(error);
+        });
     },
     // End Location API
 
     getStatus() {
-      this.$store.dispatch("getStatus").then(
-        function (result) {
-          result.forEach((status) => {
-            this.status.options.push({
-              id: status.id,
-              name: status.get("name"),
+      this.$store
+        .dispatch("getStatus")
+        .then(
+          function (result) {
+            result.forEach((status) => {
+              this.status.options.push({
+                id: status.id,
+                name: status.get("name"),
+              });
             });
-          });
-        }.bind(this),
-        function (error) {
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
 
     getItem() {
-      this.$store.dispatch("getItem").then(
-        function (result) {
-          result.forEach((item) => {
-            this.item.options.push({
-              id: item.id,
-              name: item.get("property_name")
+      this.$store
+        .dispatch("getItem")
+        .then(
+          function (result) {
+            result.forEach((item) => {
+              this.item.options.push({
+                id: item.id,
+                name: item.get("property_name"),
+              });
             });
-          });
-        }.bind(this),
-        function (error) {
+          }.bind(this)
+        )
+        .catch((error) => {
           this.$toast.error(error);
-        }
-      );
+        });
     },
 
     onSubmit() {
