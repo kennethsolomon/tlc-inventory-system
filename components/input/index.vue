@@ -219,7 +219,6 @@ export default {
       this.dialog = status;
     },
     modalInput(data) {
-      this.options.push(Object.values(data)[0]);
       this.$emit("modalInput", data);
     },
   },
