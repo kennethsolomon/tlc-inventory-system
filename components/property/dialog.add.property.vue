@@ -498,7 +498,7 @@ export default {
               lname: result?.get("lname"),
               office: result?.get("office"),
             });
-            this.$toast.success("New Received by has been added successfully.");
+            this.$toast.success("New Employee has been added successfully.");
           }.bind(this)
         )
         .catch((error) => {
