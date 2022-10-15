@@ -71,6 +71,7 @@
                     :hasIcon="category.hasIcon"
                     :options="category.options"
                     @model="model($event, 'category')"
+                    @modalInput="modalInput"
                   />
                 </v-col>
                 <v-col cols="12" md="6" sm="12" xs="12">
@@ -259,12 +260,12 @@ export default {
         status: true,
         icon: "mdi-map-marker-plus-outline",
         modal: {
-          title: "Nested Data",
+          title: "Add Category",
           fields: [
             {
               cols: 1,
-              name: "nested",
-              title: "Nested Item",
+              name: "name",
+              title: "Category",
               rules: "required",
               type: "text",
             },
@@ -341,6 +342,11 @@ export default {
     },
   },
   methods: {
+    modalInput(form) {
+      this.$store.dispatch("addCategory", form).then((result) => {
+        console.log(result);
+      });
+    },
     onSubmit() {
       this.$emit("form", this.form);
     },

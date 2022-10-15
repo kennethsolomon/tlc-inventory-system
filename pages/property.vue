@@ -101,6 +101,12 @@ export default {
   }),
   methods: {
     formSave(data) {
+      this.$store
+        .dispatch("addItem", { property_name: "testing dispatch" })
+        .then((result) => {
+          console.log(result);
+        });
+
       console.log("property page", data);
     },
   },
