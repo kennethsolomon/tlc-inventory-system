@@ -177,11 +177,13 @@
                     name="status"
                     type="autocomplete"
                     rules="required"
+                    item_text="name"
+                    item_value="id"
                     :options="status.options"
                     @model="model($event, 'status')"
                   />
                 </v-col>
-                <v-col cols="12" md="4" sm="12">
+                <v-col cols="12" lg="4" md="4" sm="6" xs="12">
                   <Input
                     :valid="valid"
                     title="Date Acquired"
@@ -191,14 +193,14 @@
                     @model="model($event, 'date_acquired')"
                   />
                 </v-col>
-                <v-col cols="12" lg="4" sm="12" xs="12">
+                <v-col cols="12" lg="4" md="4" sm="6" xs="12">
                   <Input
                     :valid="valid"
-                    title="Date Quantity"
-                    name="date_quantity"
+                    title="Date Received"
+                    name="date_received"
                     type="date"
                     rules="required"
-                    @model="model($event, 'date_quantity')"
+                    @model="model($event, 'date_received')"
                   />
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
@@ -365,7 +367,7 @@ export default {
       options: [],
     },
     status: {
-      options: ["active", "expired"],
+      options: [],
     },
   }),
   computed: {
@@ -484,7 +486,6 @@ export default {
           this.$toast.success("New Received by has been added successfully.");
         }.bind(this),
         function (error) {
-          console.log(error);
           this.$toast.error(error);
         }
       );
@@ -540,6 +541,23 @@ export default {
       );
     },
     // End Location API
+
+    getStatus() {
+      this.$store.dispatch("getStatus").then(
+        function (result) {
+          result.forEach((status) => {
+            this.status.options.push({
+              id: status.id,
+              name: status.get("name"),
+            });
+          });
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+
     onSubmit() {
       this.$emit("form", this.form);
     },
@@ -555,7 +573,6 @@ export default {
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
         this.form.serial_number = "ABCD - ";
-        console.log(this.form.serial_number);
       } else {
         this.form.serial_number = null;
       }
@@ -565,6 +582,7 @@ export default {
     this.getCategory();
     this.getLocation();
     this.getEmployee();
+    this.getStatus();
   },
 };
 </script>

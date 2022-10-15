@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     modal(e) {
-      console.log("testing", e);
+      // console.log("testing", e);
     },
     getDataFromApi() {
       this.loading = true;

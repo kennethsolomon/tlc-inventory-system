@@ -101,10 +101,10 @@ export default {
   }),
   methods: {
     save(test) {
-      console.log(test);
+      // console.log(test);
     },
     saveModal(modal_data) {
-      console.log(modal_data);
+      // console.log(modal_data);
     },
   },
 };

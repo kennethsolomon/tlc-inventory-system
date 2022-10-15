@@ -101,13 +101,10 @@ export default {
   }),
   methods: {
     formSave(data) {
-      this.$store
-        .dispatch("addItem", { property_name: "testing dispatch" })
-        .then((result) => {
-          console.log(result);
-        });
-
-      console.log("property page", data);
+      this.$store.dispatch("addItem", data).then((result) => {
+        this.$toast.success("Add New Property " + data.type + " successfully!");
+        this.add_property_dialog = false;
+      });
     },
   },
 };

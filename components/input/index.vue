@@ -118,6 +118,8 @@
       v-model="model"
       :name="name"
       :items="options"
+      :item-text="item_text"
+      :item-value="item_value"
       :label="title"
       :error-messages="errors"
       :success="valid"
