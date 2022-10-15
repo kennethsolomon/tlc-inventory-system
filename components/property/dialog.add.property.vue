@@ -255,7 +255,11 @@ export default {
       { label: "Regional Office", value: "Regional Office" },
     ],
     category: {
-      options: ["ken", "lim", "solomon"],
+      options: [
+        { id: 1, name: "ken" },
+        { id: 2, name: "lim" },
+        { id: 3, name: "solomon" },
+      ],
       hasIcon: {
         status: true,
         icon: "mdi-map-marker-plus-outline",
@@ -343,9 +347,14 @@ export default {
   },
   methods: {
     addCategory(form) {
-      this.$store.dispatch("addCategory", form).then((result) => {
-        console.log(result);
-      });
+      this.$store.dispatch("addCategory", form).then(
+        function (result) {
+          this.$toast.success("New Category has been added successfully.");
+        }.bind(this),
+        function (error) {
+          // this.$toast.error(error);
+        }
+      );
     },
     onSubmit() {
       this.$emit("form", this.form);

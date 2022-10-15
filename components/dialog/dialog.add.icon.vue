@@ -71,6 +71,7 @@ export default {
     },
     onSubmit() {
       this.$emit("values", this.form);
+      this.$emit("modal", false);
     },
     closeModal() {
       this.$emit("modal", false);

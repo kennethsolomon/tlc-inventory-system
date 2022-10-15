@@ -91,6 +91,8 @@
       v-model="model"
       :name="name"
       :items="options"
+      item-text="name"
+      item-value="id"
       :label="title"
       :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
       @click:append-outer="modal(true)"
