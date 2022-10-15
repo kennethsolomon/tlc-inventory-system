@@ -56,7 +56,12 @@ export default{
     object.set('statusPointer', status_pointer)
     object.set('type', type)
 
-
     return object.save()
+	},
+
+	async getItem ({ commit }) {
+    const query = new Parse.Query(Item);
+    query.descending("createdAt");
+    return query.find()
 	}
 }

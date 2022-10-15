@@ -36,7 +36,9 @@
                     name="property_name"
                     type="combobox"
                     rules="required"
-                    :options="['Kenneth', 'Lim']"
+                    item_text="name"
+                    item_value="id"
+                    :options="item.options"
                     @model="model($event, 'property_name')"
                   />
                 </v-col>
@@ -256,6 +258,9 @@ export default {
       purchaser: null,
       cost: 0,
       quantity: 0,
+    },
+    item: {
+      options: [],
     },
     type: [
       { label: "Consumable", value: "Consumable" },
@@ -558,6 +563,22 @@ export default {
       );
     },
 
+    getItem() {
+      this.$store.dispatch("getItem").then(
+        function (result) {
+          result.forEach((item) => {
+            this.item.options.push({
+              id: item.id,
+              name: item.get("property_name")
+            });
+          });
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+
     onSubmit() {
       this.$emit("form", this.form);
     },
@@ -583,6 +604,7 @@ export default {
     this.getLocation();
     this.getEmployee();
     this.getStatus();
+    this.getItem();
   },
 };
 </script>
