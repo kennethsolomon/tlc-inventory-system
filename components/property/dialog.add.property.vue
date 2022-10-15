@@ -136,9 +136,12 @@
                     name="received_by"
                     type="autocomplete"
                     rules="required"
+                    item_text="full_name"
+                    item_value="id"
                     :hasIcon="received_by.hasIcon"
                     :options="received_by.options"
                     @model="model($event, 'received_by')"
+                    @modalInput="addReceivedBy"
                   />
                 </v-col>
                 <v-col cols="12">
@@ -313,12 +316,32 @@ export default {
         status: true,
         icon: "mdi-map-marker-plus-outline",
         modal: {
-          title: "Location Data",
+          title: "Received By",
           fields: [
             {
               cols: 1,
-              name: "locaiton",
-              title: "Location Item",
+              name: "fname",
+              title: "First Name",
+              rules: "required",
+              type: "text",
+            },
+            {
+              cols: 1,
+              name: "mname",
+              title: "Middle Name",
+              type: "text",
+            },
+            {
+              cols: 1,
+              name: "lname",
+              title: "Last Name",
+              rules: "required",
+              type: "text",
+            },
+            {
+              cols: 1,
+              name: "office",
+              title: "Office",
               rules: "required",
               type: "text",
             },
@@ -410,6 +433,57 @@ export default {
       );
     },
     // End Location API
+
+    // Received By API
+    addReceivedBy(form) {
+      this.$store.dispatch("addReceivedBy", form).then(
+        function (result) {
+          this.received_by.options.push({
+            id: result.id,
+            full_name:
+              result?.get("fname") +
+              " " +
+              result?.get("lname") +
+              " | " +
+              result?.get("office"),
+            fname: result?.get("fname"),
+            mname: result?.get("mname"),
+            lname: result?.get("lname"),
+            office: result?.get("office"),
+          });
+          this.$toast.success("New Received by has been added successfully.");
+        }.bind(this),
+        function (error) {
+          console.log(error);
+          this.$toast.error(error);
+        }
+      );
+    },
+    getReceivedBy() {
+      this.$store.dispatch("getReceivedBy").then(
+        function (result) {
+          result.forEach((employee) => {
+            this.received_by.options.push({
+              id: employee.id,
+              full_name:
+                employee?.get("fname") +
+                " " +
+                employee?.get("lname") +
+                " | " +
+                employee?.get("office"),
+              fname: employee?.get("fname"),
+              mname: employee?.get("mname"),
+              lname: employee?.get("lname"),
+              office: employee?.get("office"),
+            });
+          });
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+    // End Location API
     onSubmit() {
       this.$emit("form", this.form);
     },
@@ -434,6 +508,7 @@ export default {
   mounted() {
     this.getCategory();
     this.getLocation();
+    this.getReceivedBy();
   },
 };
 </script>

@@ -1,5 +1,9 @@
 <template>
-  <ValidationProvider v-slot="{ errors }" :rules="rules" :name="title">
+  <ValidationProvider
+    v-slot="{ errors }"
+    :rules="rules ? rules : ''"
+    :name="title"
+  >
     <!-- SAMPLE TEXT
     :valid="valid"
     title="Property Code"
