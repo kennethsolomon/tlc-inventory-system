@@ -91,8 +91,8 @@
       v-model="model"
       :name="name"
       :items="options"
-      item-text="name"
-      item-value="id"
+      :item-text="item_text"
+      :item-value="item_value"
       :label="title"
       :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
       @click:append-outer="modal(true)"
@@ -200,6 +200,8 @@ export default {
     options: Array,
     row: String, // for textarea
     hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
+    item_text: String, // use for autocomplete and combobox
+    item_value: String, // use for autocomplete and combobox
   },
   components: {
     DialogAddIcon,

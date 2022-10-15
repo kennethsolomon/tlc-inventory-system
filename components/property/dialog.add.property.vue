@@ -68,6 +68,8 @@
                     name="category"
                     type="autocomplete"
                     rules="required"
+                    item_text="name"
+                    item_value="id"
                     :hasIcon="category.hasIcon"
                     :options="category.options"
                     @model="model($event, 'category')"
