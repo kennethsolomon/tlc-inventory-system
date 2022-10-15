@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
-      :width="$vuetify.breakpoint.xs ? '90vw' : '40vw'"
+      :width="$vuetify.breakpoint.xs ? '80vw' : '30vw'"
       persistent
     >
       <v-card>

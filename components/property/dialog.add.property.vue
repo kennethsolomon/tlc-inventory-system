@@ -3,6 +3,7 @@
     <v-dialog
       v-model="add_property_dialog"
       :width="$vuetify.breakpoint.xs ? '90vw' : '40vw'"
+      scrollable
       persistent
     >
       <v-card>
@@ -207,9 +208,9 @@
                     @model="model($event, 'quantity')"
                   />
                 </v-col>
-                <v-col cols="12">
+                <v-col v-if="computeCost > 0" cols="12">
                   <v-alert type="success">
-                    {{ computeCost }}
+                    {{ $convertToCurrency(computeCost) }}
                   </v-alert>
                 </v-col>
               </v-row>
