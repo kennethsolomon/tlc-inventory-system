@@ -50,7 +50,24 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/toast',
   ],
+
+  toast: {
+      position: 'top-center',
+      duration: 3000,
+      register: [ // Register custom toasts
+        {
+          // To call u need to call
+          // this.$toast.global.custom-toast("message");
+          name: 'test',
+          message: 'Oops...Something went wrong',
+          options: {
+            type: 'error'
+          }
+        }
+      ]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
