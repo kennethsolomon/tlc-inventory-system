@@ -141,7 +141,7 @@
                     :hasIcon="received_by.hasIcon"
                     :options="received_by.options"
                     @model="model($event, 'received_by')"
-                    @modalInput="addReceivedBy"
+                    @modalInput="addEmployee"
                   />
                 </v-col>
                 <v-col cols="12">
@@ -151,6 +151,8 @@
                     name="received_from"
                     type="autocomplete"
                     rules="required"
+                    item_text="full_name"
+                    item_value="id"
                     :options="received_by.options"
                     @model="model($event, 'received_from')"
                   />
@@ -162,6 +164,8 @@
                     name="assigned_person"
                     type="autocomplete"
                     rules="required"
+                    item_text="full_name"
+                    item_value="id"
                     :options="assigned_person.options"
                     @model="model($event, 'assigned_person')"
                   />
@@ -355,10 +359,10 @@ export default {
       },
     },
     received_from: {
-      options: ["1", "3"],
+      options: [],
     },
     assigned_person: {
-      options: ["2", "4"],
+      options: [],
     },
     status: {
       options: ["active", "expired"],
@@ -435,10 +439,36 @@ export default {
     // End Location API
 
     // Received By API
-    addReceivedBy(form) {
-      this.$store.dispatch("addReceivedBy", form).then(
+    addEmployee(form) {
+      this.$store.dispatch("addEmployee", form).then(
         function (result) {
           this.received_by.options.push({
+            id: result.id,
+            full_name:
+              result?.get("fname") +
+              " " +
+              result?.get("lname") +
+              " | " +
+              result?.get("office"),
+            fname: result?.get("fname"),
+            mname: result?.get("mname"),
+            lname: result?.get("lname"),
+            office: result?.get("office"),
+          });
+          this.received_from.options.push({
+            id: result.id,
+            full_name:
+              result?.get("fname") +
+              " " +
+              result?.get("lname") +
+              " | " +
+              result?.get("office"),
+            fname: result?.get("fname"),
+            mname: result?.get("mname"),
+            lname: result?.get("lname"),
+            office: result?.get("office"),
+          });
+          this.assigned_person.options.push({
             id: result.id,
             full_name:
               result?.get("fname") +
@@ -459,11 +489,37 @@ export default {
         }
       );
     },
-    getReceivedBy() {
-      this.$store.dispatch("getReceivedBy").then(
+    getEmployee() {
+      this.$store.dispatch("getEmployee").then(
         function (result) {
           result.forEach((employee) => {
             this.received_by.options.push({
+              id: employee.id,
+              full_name:
+                employee?.get("fname") +
+                " " +
+                employee?.get("lname") +
+                " | " +
+                employee?.get("office"),
+              fname: employee?.get("fname"),
+              mname: employee?.get("mname"),
+              lname: employee?.get("lname"),
+              office: employee?.get("office"),
+            });
+            this.received_from.options.push({
+              id: employee.id,
+              full_name:
+                employee?.get("fname") +
+                " " +
+                employee?.get("lname") +
+                " | " +
+                employee?.get("office"),
+              fname: employee?.get("fname"),
+              mname: employee?.get("mname"),
+              lname: employee?.get("lname"),
+              office: employee?.get("office"),
+            });
+            this.assigned_person.options.push({
               id: employee.id,
               full_name:
                 employee?.get("fname") +
@@ -508,7 +564,7 @@ export default {
   mounted() {
     this.getCategory();
     this.getLocation();
-    this.getReceivedBy();
+    this.getEmployee();
   },
 };
 </script>
