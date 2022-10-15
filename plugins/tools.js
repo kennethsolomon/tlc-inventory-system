@@ -25,7 +25,10 @@ export default ({ app }, inject) => {
 		style: 'currency',
 		currency: 'PHP',
 	});
+    return formatter.format(money);
+  })
 
-	return formatter.format(money);
+  inject('capitalizeFirstLetter', (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   })
 }
