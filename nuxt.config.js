@@ -54,7 +54,7 @@ export default {
   ],
 
   toast: {
-      position: 'top-center',
+      position: 'bottom-center',
       duration: 3000,
       register: [ // Register custom toasts
         {
