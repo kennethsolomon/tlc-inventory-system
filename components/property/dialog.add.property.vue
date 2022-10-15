@@ -255,11 +255,7 @@ export default {
       { label: "Regional Office", value: "Regional Office" },
     ],
     category: {
-      options: [
-        { id: 1, name: "ken" },
-        { id: 2, name: "lim" },
-        { id: 3, name: "solomon" },
-      ],
+      options: [],
       hasIcon: {
         status: true,
         icon: "mdi-map-marker-plus-outline",
@@ -283,7 +279,7 @@ export default {
       },
     },
     location: {
-      options: ["location", "location2", "location3"],
+      options: [],
       hasIcon: {
         status: true,
         icon: "mdi-map-marker-plus-outline",
@@ -307,7 +303,7 @@ export default {
       },
     },
     received_by: {
-      options: ["received", "location2", "location3"],
+      options: [],
       hasIcon: {
         status: true,
         icon: "mdi-map-marker-plus-outline",
@@ -346,16 +342,37 @@ export default {
     },
   },
   methods: {
+    // Category API
     addCategory(form) {
       this.$store.dispatch("addCategory", form).then(
         function (result) {
+          this.category.options.push({
+            id: result.id,
+            name: result.get("name"),
+          });
           this.$toast.success("New Category has been added successfully.");
         }.bind(this),
         function (error) {
-          // this.$toast.error(error);
+          this.$toast.error(error);
         }
       );
     },
+    getCategory() {
+      this.$store.dispatch("getCategory").then(
+        function (result) {
+          result.forEach((category) => {
+            this.category.options.push({
+              id: category.id,
+              name: category.get("name"),
+            });
+          });
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+    // End Category API
     onSubmit() {
       this.$emit("form", this.form);
     },
@@ -376,6 +393,9 @@ export default {
         this.form.serial_number = null;
       }
     },
+  },
+  mounted() {
+    this.getCategory();
   },
 };
 </script>

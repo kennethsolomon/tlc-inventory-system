@@ -11,5 +11,11 @@ export default{
 		object.set('name', name)
 
 		return object.save()
+	},
+
+	async getCategory ({ commit }) {
+    const query = new Parse.Query(Category);
+    query.descending("createdAt");
+    return query.find()
 	}
 }
