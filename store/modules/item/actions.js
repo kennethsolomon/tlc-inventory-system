@@ -61,6 +61,7 @@ export default{
 
 	async getItem ({ commit }) {
     const query = new Parse.Query(Item);
+    query.limit(10)
     query.descending("createdAt");
     return query.find()
 	}

@@ -15,6 +15,7 @@ export default{
 
 	async getStatus ({ commit }) {
 		const query = new Parse.Query(ItemStatus);
+    query.limit(10)
 		query.descending("createdAt");
 		return query.find()
 	}

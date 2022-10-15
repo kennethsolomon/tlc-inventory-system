@@ -461,12 +461,7 @@ export default {
           function (result) {
             this.received_by.options.push({
               id: result.id,
-              full_name:
-                result?.get("fname") +
-                " " +
-                result?.get("lname") +
-                " | " +
-                result?.get("office"),
+              full_name: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -474,12 +469,7 @@ export default {
             });
             this.received_from.options.push({
               id: result.id,
-              full_name:
-                result?.get("fname") +
-                " " +
-                result?.get("lname") +
-                " | " +
-                result?.get("office"),
+              full_name: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -487,12 +477,7 @@ export default {
             });
             this.assigned_person.options.push({
               id: result.id,
-              full_name:
-                result?.get("fname") +
-                " " +
-                result?.get("lname") +
-                " | " +
-                result?.get("office"),
+              full_name: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -514,11 +499,7 @@ export default {
               this.received_by.options.push({
                 id: employee.id,
                 full_name:
-                  employee?.get("fname") +
-                  " " +
-                  employee?.get("lname") +
-                  " | " +
-                  employee?.get("office"),
+                  employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
                 lname: employee?.get("lname"),
@@ -527,11 +508,7 @@ export default {
               this.received_from.options.push({
                 id: employee.id,
                 full_name:
-                  employee?.get("fname") +
-                  " " +
-                  employee?.get("lname") +
-                  " | " +
-                  employee?.get("office"),
+                  employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
                 lname: employee?.get("lname"),
@@ -540,11 +517,7 @@ export default {
               this.assigned_person.options.push({
                 id: employee.id,
                 full_name:
-                  employee?.get("fname") +
-                  " " +
-                  employee?.get("lname") +
-                  " | " +
-                  employee?.get("office"),
+                  employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
                 lname: employee?.get("lname"),
