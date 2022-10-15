@@ -26,9 +26,9 @@ extend('min', {
 	message: '{_field_} may not be less than {length} characters',
 })
 
-extend('regex', {
+extend('regional_format', {
 	...regex,
-	message: '{_field_} {_value_} does not match {regex}',
+	message: '{_field_} {_value_} does not match the Correct format (ABC - ...)',
 })
 
 extend('email', {

@@ -9,7 +9,8 @@
       class="d-flex justify-end"
       :class="{ 'justify-center': $vuetify.breakpoint.xs }"
     >
-      <v-btn
+      <slot name="add_dialog"></slot>
+      <!-- <v-btn
         @click="dialog.add = true"
         class="ma-2"
         tile
@@ -18,7 +19,7 @@
       >
         <v-icon left>{{ buttons.add.icon }}</v-icon>
         {{ buttons.add.btn_name }}
-      </v-btn>
+      </v-btn> -->
     </div>
     <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
       <v-tab v-for="(item, index) in table_data" :key="index">
@@ -47,7 +48,7 @@
       </v-tab-item>
     </v-tabs-items>
 
-    <DialogAdd
+    <!-- <DialogAdd
       v-if="dialog.add === true"
       :title="buttons.add.modal.title"
       :fields="buttons.add.modal.fields"
@@ -55,7 +56,7 @@
       :dialog="dialog.add"
       @closeModal="dialog.add = false"
       @modal="modal"
-    />
+    /> -->
   </v-card>
 </template>
 

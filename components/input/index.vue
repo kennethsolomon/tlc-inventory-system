@@ -1,5 +1,12 @@
 <template>
   <ValidationProvider v-slot="{ errors }" :rules="rules" :name="title">
+    <!-- SAMPLE TEXT
+    :valid="valid"
+    title="Property Code"
+    name="property_code"
+    type="password"
+    rules="required"
+    @model="model($event, 'property_code')" -->
     <v-text-field
       class="pa-0 ma-0"
       v-if="type === 'password'"
@@ -12,6 +19,13 @@
       :success="valid"
     ></v-text-field>
 
+    <!-- SAMPLE Password
+    :valid="valid"
+    title="Property Code"
+    name="property_code"
+    type="text"
+    rules="required"
+    @model="model($event, 'property_code')" -->
     <v-text-field
       class="pa-0 ma-0"
       v-if="type === 'text'"
@@ -24,6 +38,13 @@
       :success="valid"
     ></v-text-field>
 
+    <!-- SAMPLE Number
+    :valid="valid"
+    title="Property Code"
+    name="property_code"
+    type="number"
+    rules="required"
+    @model="model($event, 'property_code')" -->
     <v-text-field
       class="pa-0 ma-0"
       v-if="type === 'number'"
@@ -36,6 +57,14 @@
       :success="valid"
     ></v-text-field>
 
+    <!-- SAMPLE TEXTAREA
+    :valid="valid"
+    title="Description"
+    row="1"
+    name="description"
+    type="textarea"
+    rules="required"
+    @model="model($event, 'description')" -->
     <v-textarea
       class="pa-0 ma-0"
       v-if="type === 'textarea'"
@@ -47,6 +76,15 @@
       :success="valid"
     ></v-textarea>
 
+    <!-- AUTOCOMPLETE
+    :valid="valid"
+    title="Category"
+    name="category"
+    type="autocomplete"
+    rules="required"
+    :hasIcon="category.hasIcon"
+    :options="category.options"
+    @model="model($event, 'category')" -->
     <v-autocomplete
       class="pa-0 ma-0"
       v-if="type === 'autocomplete'"
@@ -60,6 +98,14 @@
       :success="valid"
     ></v-autocomplete>
 
+    <!-- SAMPLE COMBOBOX
+    :valid="valid"
+    title="Property Name"
+    name="property_name"
+    type="combobox"
+    rules="required"
+    :options="['Kenneth', 'Lim']"
+    @model="model($event, 'property_name')" -->
     <v-combobox
       class="pa-0 ma-0"
       v-if="type === 'combobox'"
@@ -71,6 +117,14 @@
       :success="valid"
     ></v-combobox>
 
+    <!-- SAMPLE RADIO
+    :valid="valid"
+    title="Type"
+    name="type"
+    type="radio"
+    rules="required"
+    :options="type"
+    @model="model($event, 'type')" -->
     <div class="pa-0 ma-0" v-if="type === 'radio'">
       <div class="text-overline">{{ title }}</div>
       <v-radio-group
@@ -90,6 +144,7 @@
       </v-radio-group>
     </div>
 
+    <!-- title -->
     <v-dialog
       v-if="type === 'date'"
       ref="dialog"
