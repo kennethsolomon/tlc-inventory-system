@@ -3,6 +3,7 @@ import user from './modules/user';
 import snackbar from './modules/snackbar';
 import item from './modules/item';
 import category from './modules/category';
+import location from './modules/location';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -11,7 +12,8 @@ const createStore = () => {
       user,
       snackbar,
       item,
-      category
+      category,
+      location,
     }
   });
 };

@@ -121,9 +121,12 @@
                     name="location"
                     type="autocomplete"
                     rules="required"
+                    item_text="name"
+                    item_value="id"
                     :hasIcon="location.hasIcon"
                     :options="location.options"
                     @model="model($event, 'location')"
+                    @modalInput="addLocation"
                   />
                 </v-col>
                 <v-col cols="12">
@@ -286,12 +289,12 @@ export default {
         status: true,
         icon: "mdi-map-marker-plus-outline",
         modal: {
-          title: "Location Data",
+          title: "Location",
           fields: [
             {
               cols: 1,
-              name: "locaiton",
-              title: "Location Item",
+              name: "name",
+              title: "Location",
               rules: "required",
               type: "text",
             },
@@ -375,6 +378,38 @@ export default {
       );
     },
     // End Category API
+
+    // Location API
+    addLocation(form) {
+      this.$store.dispatch("addLocation", form).then(
+        function (result) {
+          this.location.options.push({
+            id: result.id,
+            name: result.get("name"),
+          });
+          this.$toast.success("New Location has been added successfully.");
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+    getLocation() {
+      this.$store.dispatch("getLocation").then(
+        function (result) {
+          result.forEach((location) => {
+            this.location.options.push({
+              id: location.id,
+              name: location.get("name"),
+            });
+          });
+        }.bind(this),
+        function (error) {
+          this.$toast.error(error);
+        }
+      );
+    },
+    // End Location API
     onSubmit() {
       this.$emit("form", this.form);
     },
@@ -398,6 +433,7 @@ export default {
   },
   mounted() {
     this.getCategory();
+    this.getLocation();
   },
 };
 </script>
