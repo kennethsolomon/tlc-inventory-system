@@ -36,8 +36,6 @@
                     name="property_name"
                     type="combobox"
                     rules="required"
-                    item_text="name"
-                    item_value="id"
                     :options="item.options"
                     @model="model($event, 'property_name')"
                   />
@@ -556,10 +554,7 @@ export default {
         .then(
           function (result) {
             result.forEach((item) => {
-              this.item.options.push({
-                id: item.id,
-                name: item.get("property_name"),
-              });
+              this.item.options.push(item.get("property_name"));
             });
           }.bind(this)
         )
