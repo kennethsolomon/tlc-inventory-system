@@ -71,7 +71,7 @@
                     :hasIcon="category.hasIcon"
                     :options="category.options"
                     @model="model($event, 'category')"
-                    @modalInput="modalInput"
+                    @modalInput="addCategory"
                   />
                 </v-col>
                 <v-col cols="12" md="6" sm="12" xs="12">
@@ -342,7 +342,7 @@ export default {
     },
   },
   methods: {
-    modalInput(form) {
+    addCategory(form) {
       this.$store.dispatch("addCategory", form).then((result) => {
         console.log(result);
       });
