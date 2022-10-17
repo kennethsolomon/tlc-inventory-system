@@ -9,23 +9,41 @@
       :table_headers="table_headers"
     >
       <template v-slot:add_dialog>
-        <v-btn
-          @click="add_property_dialog = true"
-          class="ma-2"
-          tile
-          color="primary"
-          :width="$vuetify.breakpoint.xs ? '100%' : ''"
+        <div
+          :class="
+            $vuetify.breakpoint.xs
+              ? 'd-flex flex-column'
+              : 'd-flex align-center'
+          "
         >
-          <v-icon left>mdi-close</v-icon>
-          Add Property
-        </v-btn>
+          <v-btn
+            :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
+            @click="add_property_dialog = true"
+            tile
+            color="primary"
+            :width="$vuetify.breakpoint.xs ? '100%' : ''"
+          >
+            <v-icon left>mdi-close</v-icon>
+            Add Property
+          </v-btn>
 
-        <AddProperty
-          v-if="add_property_dialog === true"
-          :add_property_dialog="add_property_dialog"
-          @form="formSave"
-          @closeModal="add_property_dialog = false"
-        />
+          <AddProperty
+            v-if="add_property_dialog === true"
+            :add_property_dialog="add_property_dialog"
+            @form="formSave"
+            @closeModal="add_property_dialog = false"
+          />
+          <v-select
+            v-model="select"
+            :items="items"
+            item-text="state"
+            item-value="abbr"
+            label="Select"
+            persistent-hint
+            return-object
+            single-line
+          ></v-select>
+        </div>
       </template>
     </Tab>
   </div>
@@ -38,6 +56,14 @@ export default {
     AddProperty,
   },
   data: () => ({
+    select: { state: "Florida", abbr: "FL" },
+    items: [
+      { state: "Florida", abbr: "FL" },
+      { state: "Georgia", abbr: "GA" },
+      { state: "Nebraska", abbr: "NE" },
+      { state: "California", abbr: "CA" },
+      { state: "New York", abbr: "NY" },
+    ],
     overlay: false,
     // TAB
     add_property_dialog: false,

@@ -36,8 +36,34 @@
               <v-data-table
                 :headers="table_headers"
                 :items="data.data"
+                group-by="purchaser"
                 class="elevation-1"
               >
+                <template v-slot:group.header="{ items, isOpen, toggle }">
+                  <th
+                    :colspan="table_headers.length"
+                    style="cursor: pointer"
+                    @click="toggle"
+                  >
+                    <v-btn :ref="items" small icon :data-open="isOpen">
+                      <v-icon v-if="isOpen">mdi-chevron-up</v-icon>
+                      <v-icon v-else>mdi-chevron-down</v-icon>
+                    </v-btn>
+                    <span class="subtitle-1">
+                      <strong>{{ items[0].purchaser }}</strong>
+                    </span>
+                    <!-- <span class="subtitle-1" style="float: right"
+                      ><strong
+                        >Total:
+                        {{
+                          buildTotalOrderByItem[
+                            items[0].item_name
+                          ].toLocaleString("en-US")
+                        }}</strong
+                      ></span
+                    > -->
+                  </th>
+                </template>
                 <template v-slot:[`item.date_received`]="{ item }">
                   {{ new Date(item.date_received).toISOString().split("T")[0] }}
                 </template>
