@@ -44,6 +44,11 @@
                 <template v-slot:[`item.date_acquired`]="{ item }">
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
+                <template v-slot:[`item.actions`]="{ item }">
+                  <v-btn class="primary">Edit</v-btn>
+                  <v-btn class="error">Delete</v-btn>
+                  <v-btn class="warning">Template</v-btn>
+                </template>
               </v-data-table>
             </div>
           </v-card-text>

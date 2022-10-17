@@ -52,6 +52,7 @@ export default {
       { text: "Cost", value: "cost" },
       { text: "Date Acquired", value: "date_acquired" },
       { text: "Date Received", value: "date_received" },
+      { text: "Actions", value: "actions" },
     ],
     table_data: [
       [
