@@ -34,6 +34,9 @@
             @closeModal="add_property_dialog = false"
           />
           <v-select
+            :style="
+              $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
+            "
             v-model="select"
             :items="items"
             item-text="state"
