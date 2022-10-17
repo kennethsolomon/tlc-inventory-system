@@ -1,29 +1,34 @@
 <template>
-  <Tab
-    :tab_name="tab_name"
-    :table_data="table_data"
-    :table_headers="table_headers"
-  >
-    <template v-slot:add_dialog>
-      <v-btn
-        @click="add_property_dialog = true"
-        class="ma-2"
-        tile
-        color="primary"
-        :width="$vuetify.breakpoint.xs ? '100%' : ''"
-      >
-        <v-icon left>mdi-close</v-icon>
-        Add Property
-      </v-btn>
+  <div>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+    <Tab
+      :tab_name="tab_name"
+      :table_data="table_data"
+      :table_headers="table_headers"
+    >
+      <template v-slot:add_dialog>
+        <v-btn
+          @click="add_property_dialog = true"
+          class="ma-2"
+          tile
+          color="primary"
+          :width="$vuetify.breakpoint.xs ? '100%' : ''"
+        >
+          <v-icon left>mdi-close</v-icon>
+          Add Property
+        </v-btn>
 
-      <AddProperty
-        v-if="add_property_dialog === true"
-        :add_property_dialog="add_property_dialog"
-        @form="formSave"
-        @closeModal="add_property_dialog = false"
-      />
-    </template>
-  </Tab>
+        <AddProperty
+          v-if="add_property_dialog === true"
+          :add_property_dialog="add_property_dialog"
+          @form="formSave"
+          @closeModal="add_property_dialog = false"
+        />
+      </template>
+    </Tab>
+  </div>
 </template>
 
 <script>
@@ -33,6 +38,7 @@ export default {
     AddProperty,
   },
   data: () => ({
+    overlay: false,
     // TAB
     add_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
@@ -53,47 +59,19 @@ export default {
       [
         {
           tab_name: "All Property",
-          data: [
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-            {
-              fname: "Kenneth",
-              mname: "Lim",
-              lname: "Solomon",
-            },
-          ],
+          data: [],
         },
       ],
       [
         {
           tab_name: "Consumable",
-          data: [
-            {
-              fname: "Testing Data",
-              mname: "Testing Data2",
-              lname: "Testing Data3",
-            },
-          ],
+          data: [],
         },
       ],
       [
         {
           tab_name: "Non-Consumable",
-          data: [
-            {
-              fname: "Testing Dat4",
-              mname: "Testing Data5",
-              lname: "Testing Data 6",
-            },
-          ],
+          data: [],
         },
       ],
     ],
@@ -106,6 +84,37 @@ export default {
         this.add_property_dialog = false;
       });
     },
+    getItem() {
+      let consumable = [];
+      let non_consumable = [];
+
+      this.$store
+        .dispatch("getItem")
+        .then(async (results) => {
+          this.overlay = true;
+          await results.forEach((result) => {
+            if (result.get("type") === "Consumable") {
+              consumable.push(result.attributes);
+            } else {
+              non_consumable.push(result.attributes);
+            }
+          });
+          return true;
+        })
+        .then((boolean) => {
+          const all_property = [...consumable];
+          Array.prototype.push.apply(all_property, non_consumable);
+
+          this.table_data[0][0].data = all_property;
+          this.table_data[1][0].data = consumable;
+          this.table_data[2][0].data = non_consumable;
+
+          this.overlay = false;
+        });
+    },
+  },
+  mounted() {
+    this.getItem();
   },
 };
 </script>
