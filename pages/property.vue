@@ -43,17 +43,15 @@ export default {
     add_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
     table_headers: [
-      {
-        text: "Dessert (100g serving)",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
-      { text: "Iron (%)", value: "iron" },
+      { text: "Property Name", align: "start", value: "property_name" },
+      { text: "Description", value: "description" },
+      { text: "Purchaser", value: "purchaser" },
+      { text: "Property Number", value: "property_code" },
+      { text: "Serial Number", value: "serial_number" },
+      { text: "Quantity", value: "quantity" },
+      { text: "Cost", value: "cost" },
+      { text: "Date Acquired", value: "date_acquired" },
+      { text: "Date Received", value: "date_received" },
     ],
     table_data: [
       [
