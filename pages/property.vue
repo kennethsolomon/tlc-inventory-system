@@ -7,6 +7,7 @@
       :tab_name="tab_name"
       :table_data="table_data"
       :table_headers="table_headers"
+      :group_by="group_by"
     >
       <template v-slot:add_dialog>
         <div
@@ -37,10 +38,12 @@
             :style="
               $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
             "
+            @change="selected"
             v-model="select"
             :items="items"
-            item-text="state"
-            item-value="abbr"
+            hint="Group by"
+            item-text="text"
+            item-value="name"
             label="Select"
             persistent-hint
             return-object
@@ -59,13 +62,11 @@ export default {
     AddProperty,
   },
   data: () => ({
-    select: { state: "Florida", abbr: "FL" },
+    group_by: "",
+    select: { name: "", text: "" },
     items: [
-      { state: "Florida", abbr: "FL" },
-      { state: "Georgia", abbr: "GA" },
-      { state: "Nebraska", abbr: "NE" },
-      { state: "California", abbr: "CA" },
-      { state: "New York", abbr: "NY" },
+      { name: "", text: "" },
+      { name: "purchaser", text: "Purchaser" },
     ],
     overlay: false,
     // TAB
@@ -106,6 +107,9 @@ export default {
     // END TAB
   }),
   methods: {
+    selected(selected) {
+      this.group_by = selected.name;
+    },
     formSave(data) {
       this.$store.dispatch("addItem", data).then((result) => {
         this.$toast.success("Add New Property " + data.type + " successfully!");

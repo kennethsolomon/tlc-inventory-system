@@ -36,10 +36,13 @@
               <v-data-table
                 :headers="table_headers"
                 :items="data.data"
-                group-by="purchaser"
+                v-bind="dataTableBindings"
                 class="elevation-1"
               >
-                <template v-slot:group.header="{ items, isOpen, toggle }">
+                <template
+                  v-if="group_by !== ''"
+                  v-slot:group.header="{ items, isOpen, toggle }"
+                >
                   <th
                     :colspan="table_headers.length"
                     style="cursor: pointer"
@@ -87,7 +90,7 @@
       :title="buttons.add.modal.title"
       :fields="buttons.add.modal.fields"
       :button="buttons.add.modal.button"
-      :dialog="dialog.add"
+      :dialog="dialog.add"dataTableBindings
       @closeModal="dialog.add = false"
       @modal="modal"
     /> -->
@@ -100,12 +103,22 @@ export default {
   middleware: "authUser",
   props: {
     class_name: String, // for api call
+    group_by: String,
     tab_name: Array,
     table_data: Array,
     table_headers: Array,
     buttons: Object, //(add-edit-delete): color, btn_name, icon , fields: array
   },
-
+  computed: {
+    dataTableBindings() {
+      if (this.group_by !== "") {
+        return {
+          "group-by": this.group_by,
+        };
+      }
+      return {};
+    },
+  },
   data: () => ({
     dialog: { add: false },
     tab: null,
