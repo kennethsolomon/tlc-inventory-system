@@ -126,11 +126,16 @@ export default {
           this.overlay = true;
           await results.forEach((result) => {
             if (result.get("type") === "Consumable") {
-              consumable.push(result.attributes);
+              let attributes = result.attributes;
+              let id = { id: result.id };
+              consumable.push({ ...attributes, ...id });
             } else {
-              non_consumable.push(result.attributes);
+              let attributes = result.attributes;
+              let id = { id: result.id };
+              non_consumable.push({ ...attributes, ...id });
             }
           });
+          console.log(this.consumable);
           return true;
         })
         .then((boolean) => {
