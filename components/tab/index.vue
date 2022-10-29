@@ -74,7 +74,7 @@
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
-                  <v-btn class="primary">Edit</v-btn>
+                  <v-btn class="primary" @click="edit(item)">Edit</v-btn>
                   <v-btn class="error">Delete</v-btn>
                   <v-btn class="warning">Template</v-btn>
                 </template>
@@ -123,6 +123,11 @@ export default {
     dialog: { add: false },
     tab: null,
   }),
+  methods: {
+    edit(item) {
+      this.$emit("edit_data", item);
+    },
+  },
 };
 </script>
 

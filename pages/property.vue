@@ -8,6 +8,7 @@
       :table_data="table_data"
       :table_headers="table_headers"
       :group_by="group_by"
+      @edit_data="editData"
     >
       <template v-slot:add_dialog>
         <div
@@ -34,6 +35,14 @@
             @form="formSave"
             @closeModal="add_property_dialog = false"
           />
+
+          <EditProperty
+            v-if="edit_property_dialog === true"
+            :edit_property_dialog="edit_property_dialog"
+            :edit_data="edit_data"
+            @form="formSave"
+            @closeModal="edit_property_dialog = false"
+          />
           <v-select
             :style="
               $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
@@ -57,11 +66,14 @@
 
 <script>
 import AddProperty from "../components/property/dialog.add.property.vue";
+import EditProperty from "../components/property/dialog.edit.property.vue";
 export default {
   components: {
     AddProperty,
+    EditProperty,
   },
   data: () => ({
+    edit_data: null,
     group_by: "",
     select: { name: "", text: "" },
     items: [
@@ -71,6 +83,7 @@ export default {
     overlay: false,
     // TAB
     add_property_dialog: false,
+    edit_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
     table_headers: [
       { text: "Property Name", align: "start", value: "property_name" },
@@ -107,6 +120,10 @@ export default {
     // END TAB
   }),
   methods: {
+    editData(data) {
+      this.edit_data = data;
+      this.edit_property_dialog = true;
+    },
     selected(selected) {
       this.group_by = selected.name;
     },
