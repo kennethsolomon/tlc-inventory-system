@@ -15,7 +15,9 @@
             >Login Form</v-card-title
           >
           <v-card-text>
-            <Form :fields="fields" :button="button" @values="login" />
+            <div class="pa-3">
+              <Form :fields="fields" :button="button" @values="login" />
+            </div>
           </v-card-text>
         </v-card>
       </div>
@@ -51,7 +53,9 @@
                 >Login Form</v-card-title
               >
               <v-card-text>
-                <Form :fields="fields" :button="button" @values="login" />
+                <div class="pa-3">
+                  <Form :fields="fields" :button="button" @values="login" />
+                </div>
               </v-card-text>
             </v-card>
           </v-col>
