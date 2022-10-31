@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import Parse from "parse";
 export default {
   layout: "login",
   name: "LoginPage",
@@ -96,15 +95,8 @@ export default {
     },
   }),
   methods: {
-    login(event) {
-      Parse.User.logIn(event.username, event.password).then(
-        (result) => {
-          this.$router.push("/");
-        },
-        (error) => {
-          this.error = error;
-        }
-      );
+    login() {
+      // Login
     },
   },
 };

@@ -103,7 +103,6 @@
 </template>
 
 <script>
-import Parse from "parse";
 export default {
   name: "InitializePage",
   data() {
@@ -150,9 +149,7 @@ export default {
   },
   methods: {
     logOut() {
-      Parse.User.logOut().then(() => {
-        this.$router.push("/login");
-      });
+      // Logout
     },
   },
 };

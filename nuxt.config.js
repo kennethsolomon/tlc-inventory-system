@@ -26,8 +26,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/vee-validate.js",
-    "~/plugins/parse.js",
-    "~/plugins/tools.js"
+    "~/plugins/tools.js",
+    '~/plugins/axios',
   ],
 
   // Global Middleware
@@ -45,7 +45,9 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
+    modules: [
+    // https://auth.nuxtjs.org/guide/setup/
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
@@ -80,6 +82,10 @@ export default {
     manifest: {
       lang: 'en'
     }
+  },
+
+  auth: {
+
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
