@@ -6,6 +6,7 @@ export default async function ({ store, from }) {
 			store.dispatch('getEmployees'),
 			store.dispatch('getItemCategories'),
 			store.dispatch('getItems'),
+			store.dispatch('getLocations'),
 		])
     }
 }
