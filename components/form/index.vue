@@ -50,7 +50,7 @@ export default {
       this.$emit("values", this.form);
     },
     onSubmit() {
-      this.$emit("values", this.form);
+      this.$emit("submit", this.form);
     },
     modalInput(data) {
       this.$emit("modalInput", data);

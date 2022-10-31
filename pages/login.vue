@@ -54,7 +54,12 @@
               >
               <v-card-text>
                 <div class="pa-3">
-                  <Form :fields="fields" :button="button" @values="login" />
+                  <Form
+                    :fields="fields"
+                    :button="button"
+                    @values="formData"
+                    @submit="login"
+                  />
                 </div>
               </v-card-text>
             </v-card>
@@ -69,7 +74,6 @@
 export default {
   layout: "login",
   name: "LoginPage",
-  middleware: "unAuthUser",
   data: () => ({
     error: null,
     fields: [
@@ -93,10 +97,23 @@ export default {
       btn_name: "LOGIN",
       icon: "mdi-account-key",
     },
+    form: {
+      email: null,
+      password: null,
+    },
   }),
   methods: {
+    formData(event) {
+      this.form.email = event.username;
+      this.form.password = event.password;
+    },
     login() {
-      // Login
+      this.$auth
+        .loginWith("laravelSanctum", {
+          data: this.form,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => (this.error = "Invalid Username or Password"));
     },
   },
 };

@@ -31,9 +31,9 @@ export default {
   ],
 
   // Global Middleware
-  // router: {
-  //   middleware: ['authUser'],
-  // },
+  router: {
+    middleware: ['auth', 'pre-load-data'],
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -74,7 +74,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://localhost:8001/api/',
+    credentials: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -85,8 +86,43 @@ export default {
   },
 
   auth: {
+    strategies: {
+      cookie: {
+          cookie: {
+          name: 'XSRF-TOKEN',
+          }
+      },
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:8001',
+        endpoints: {
+          csrf: {
+            url: '/sanctum/csrf-cookie',
+          },
+          login: {
+            url: '/api/login',
+          },
+          logout: {
+            url: '/api/logout',
+          },
+          user: {
+            url: '/api/user',
+          },
+        },
+        user: {
+          property: 'id',
+        },
+      },
+    },
+
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/',
+    },
 
   },
+
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

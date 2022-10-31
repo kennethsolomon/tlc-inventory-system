@@ -148,8 +148,12 @@ export default {
     };
   },
   methods: {
-    logOut() {
-      // Logout
+    async logOut() {
+      try {
+        await this.$auth.logout();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

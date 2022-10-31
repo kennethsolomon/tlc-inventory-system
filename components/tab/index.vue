@@ -100,7 +100,6 @@
 <script>
 export default {
   name: "PropertyPage",
-  middleware: "authUser",
   props: {
     class_name: String, // for api call
     group_by: String,

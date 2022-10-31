@@ -12,7 +12,6 @@
 // fields: Array, //rules, name,title
 export default {
   name: "IndexPage",
-  middleware: "authUser",
   data: () => ({
     fields: [
       {
