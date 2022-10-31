@@ -4,7 +4,7 @@ export default async function ({ store, from }) {
     if (isInitialPageLoad) {
 		await Promise.all([
 			store.dispatch('getEmployees'),
-			// store.dispatch('callGetCustomers'),
+			store.dispatch('getItemCategories'),
 			// store.dispatch('callGetItems'),
 		])
     }

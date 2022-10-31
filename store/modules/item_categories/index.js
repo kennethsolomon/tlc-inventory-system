@@ -3,7 +3,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
-  user_status: null
+  item_categories: []
 }
 
 const inBrowser = typeof window !== 'undefined';
