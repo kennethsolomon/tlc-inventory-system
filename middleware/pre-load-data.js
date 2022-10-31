@@ -5,7 +5,7 @@ export default async function ({ store, from }) {
 		await Promise.all([
 			store.dispatch('getEmployees'),
 			store.dispatch('getItemCategories'),
-			// store.dispatch('callGetItems'),
+			store.dispatch('getItems'),
 		])
     }
 }

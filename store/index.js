@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import user from './modules/user';
 import snackbar from './modules/snackbar';
-import item from './modules/item';
+import items from './modules/items';
 import item_categories from './modules/item_categories';
 import location from './modules/location';
 import employees from './modules/employees';
@@ -13,9 +13,9 @@ const createStore = () => {
     modules: {
       employees,
       item_categories,
+      items,
       user,
       snackbar,
-      item,
       location,
       status
     }
