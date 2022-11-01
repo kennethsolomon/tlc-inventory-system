@@ -119,6 +119,18 @@ export default {
     ],
     // END TAB
   }),
+  computed: {
+    consumable() {
+      return this.$store.state.items.items.data.filter(
+        (item) => item.type === "Consumable"
+      );
+    },
+    nonConsumable() {
+      return this.$store.state.items.items.data.filter(
+        (item) => item.type === "Non-Consumable"
+      );
+    },
+  },
   methods: {
     editData(data) {
       this.edit_data = data;
@@ -134,41 +146,19 @@ export default {
       });
     },
     getItem() {
-      let consumable = [];
-      let non_consumable = [];
+      this.overlay = true;
 
-      this.$store
-        .dispatch("getItem")
-        .then(async (results) => {
-          this.overlay = true;
-          await results.forEach((result) => {
-            if (result.get("type") === "Consumable") {
-              let attributes = result.attributes;
-              let id = { id: result.id };
-              consumable.push({ ...attributes, ...id });
-            } else {
-              let attributes = result.attributes;
-              let id = { id: result.id };
-              non_consumable.push({ ...attributes, ...id });
-            }
-          });
-          console.log(this.consumable);
-          return true;
-        })
-        .then((boolean) => {
-          const all_property = [...consumable];
-          Array.prototype.push.apply(all_property, non_consumable);
+      const all_property = this.$store.state.items.items.data;
+      this.table_data[0][0].data = this.$store.state.items.items.data;
+      this.table_data[1][0].data = this.consumable;
+      this.table_data[2][0].data = this.nonConsumable;
 
-          this.table_data[0][0].data = all_property;
-          this.table_data[1][0].data = consumable;
-          this.table_data[2][0].data = non_consumable;
-
-          this.overlay = false;
-        });
+      this.overlay = false;
     },
   },
   mounted() {
     this.getItem();
+    console.log(this.$store.state.items);
   },
 };
 </script>
