@@ -151,6 +151,7 @@ export default {
     async logOut() {
       try {
         await this.$auth.logout();
+        sessionStorage.clear();
       } catch (error) {
         console.log(error);
       }
