@@ -422,37 +422,18 @@ export default {
 
     // Received By API
     addEmployee(form) {
+      console.log(form);
       this.$store
-        .dispatch("addEmployee", form)
-        .then(
-          function (result) {
-            this.received_by.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.received_from.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.assigned_person.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.$toast.success("New Employee has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postEmployee", form)
+        .then((result) => {
+          this.$toast.success(
+            `Employee ${result.data.fullname} has been added successfully.`
+          );
+          this.$store.dispatch("getEmployees");
+          this.received_by.options.push(result.data);
+          this.received_from.options.push(result.data);
+          this.assigned_person.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
