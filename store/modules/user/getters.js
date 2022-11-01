@@ -1,3 +1,3 @@
 export default {
-  getUserStatus: state => state.user_satatus
+  getUser: state => state.user
 }
