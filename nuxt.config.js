@@ -27,7 +27,8 @@ export default {
   plugins: [
     "~/plugins/vee-validate.js",
     "~/plugins/tools.js",
-    '~/plugins/axios',
+    "~/plugins/axios",
+    "~/plugins/persistedState.client.js",
   ],
 
   // Global Middleware
