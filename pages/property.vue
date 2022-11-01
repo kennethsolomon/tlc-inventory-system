@@ -5,7 +5,7 @@
     </v-overlay>
     <Tab
       :tab_name="tab_name"
-      :table_data="table_data"
+      :table_data="table"
       :table_headers="table_headers"
       :group_by="group_by"
       @edit_data="editData"
@@ -120,6 +120,9 @@ export default {
     // END TAB
   }),
   computed: {
+    table() {
+      return this.table_data;
+    },
     consumable() {
       return this.$store.state.items.items.data.filter(
         (item) => item.type === "Consumable"
@@ -143,7 +146,7 @@ export default {
     formSave(data, action) {
       this.$store.dispatch("postItem", data).then((result) => {
         this.$store.dispatch("getItems");
-        this.getItem();
+
         if (action === "add") {
           this.$toast.success(
             "Add New Property " + data.type + " successfully!"
@@ -161,6 +164,12 @@ export default {
           this.add_property_dialog = false;
         } else if (action === "edit") {
           this.$toast.success("Edit Property " + data.type + " successfully!");
+
+          const index = this.$store.state.items.items.data
+            .map((e) => e.id)
+            .indexOf(result.data.id);
+
+          this.table_data[0][0].data.splice(index, 1, result.data);
 
           this.edit_property_dialog = false;
         }

@@ -38,7 +38,6 @@
                     type="combobox"
                     rules="required"
                     item_text="property_name"
-                    item_value="property_name"
                     :options="item.options"
                     :value="edit_data.property_name"
                     @model="model($event, 'property_name')"
@@ -475,7 +474,9 @@ export default {
 
     onSubmit() {
       this.form.serial_number = this.serial_number_edit;
-      this.form.id = Number(this.form.id);
+      this.form.property_name =
+        this.form.property_name.property_name ?? this.form.property_name;
+      this.form.id = this.form.id;
       this.$emit("form", this.form, "edit");
     },
     closeModal() {
