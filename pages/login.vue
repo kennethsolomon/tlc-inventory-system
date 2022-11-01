@@ -112,7 +112,9 @@ export default {
         .loginWith("laravelSanctum", {
           data: this.form,
         })
-        .then((response) => console.log(response))
+        .then((response) => {
+          this.$store.commit("SET_USER", response.data);
+        })
         .catch((error) => (this.error = "Invalid Username or Password"));
     },
   },
