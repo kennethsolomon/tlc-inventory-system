@@ -136,7 +136,7 @@
                     name="received_by"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :hasIcon="received_by.hasIcon"
                     :options="received_by.options"
@@ -151,7 +151,7 @@
                     name="received_from"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :options="received_by.options"
                     @model="model($event, 'received_from')"
@@ -164,7 +164,7 @@
                     name="assigned_person"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :options="assigned_person.options"
                     @model="model($event, 'assigned_person')"
@@ -382,36 +382,22 @@ export default {
     // Category API
     addCategory(form) {
       this.$store
-        .dispatch("addCategory", form)
-        .then(
-          function (result) {
-            this.category.options.push({
-              id: result.id,
-              name: result.get("name"),
-            });
-            this.$toast.success("New Category has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postItemCategory", form)
+        .then((result) => {
+          console.log(result);
+          this.$toast.success(
+            `Category ${result.data.name} has been added successfully.`
+          );
+          this.$store.dispatch("getItemCategories");
+          this.category.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
     },
     getCategory() {
-      this.$store
-        .dispatch("getCategory")
-        .then(
-          function (result) {
-            result.forEach((category) => {
-              this.category.options.push({
-                id: category.id,
-                name: category.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.category.options =
+        this.$store.state.item_categories.item_categories.data;
     },
     // End Category API
 
@@ -433,21 +419,7 @@ export default {
         });
     },
     getLocation() {
-      this.$store
-        .dispatch("getLocation")
-        .then(
-          function (result) {
-            result.forEach((location) => {
-              this.location.options.push({
-                id: location.id,
-                name: location.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.location.options = this.$store.state.locations.locations.data;
     },
     // End Location API
 
@@ -459,7 +431,7 @@ export default {
           function (result) {
             this.received_by.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -467,7 +439,7 @@ export default {
             });
             this.received_from.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -475,7 +447,7 @@ export default {
             });
             this.assigned_person.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -489,78 +461,18 @@ export default {
         });
     },
     getEmployee() {
-      this.$store
-        .dispatch("getEmployee")
-        .then(
-          function (result) {
-            result.forEach((employee) => {
-              this.received_by.options.push({
-                id: employee.id,
-                full_name:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-              this.received_from.options.push({
-                id: employee.id,
-                full_name:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-              this.assigned_person.options.push({
-                id: employee.id,
-                full_name:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.received_by.options = this.$store.state.employees.employees.data;
+      this.received_from.options = this.$store.state.employees.employees.data;
+      this.assigned_person.options = this.$store.state.employees.employees.data;
     },
     // End Location API
 
     getStatus() {
-      this.$store
-        .dispatch("getStatus")
-        .then(
-          function (result) {
-            result.forEach((status) => {
-              this.status.options.push({
-                id: status.id,
-                name: status.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.status.options = this.$store.state.item_status.item_status.data;
     },
 
     getItem() {
-      this.$store
-        .dispatch("getItem")
-        .then(
-          function (result) {
-            result.forEach((item) => {
-              this.item.options.push(item.get("property_name"));
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.item.options = this.$store.state.items.items.data;
     },
 
     onSubmit() {
