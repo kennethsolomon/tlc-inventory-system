@@ -26,8 +26,7 @@
                     type="radio"
                     rules="required"
                     :options="type"
-                    v-if="form.type"
-                    :value="form.type"
+                    :value="edit_data.type"
                     @model="model($event, 'type')"
                   />
                 </v-col>
@@ -38,9 +37,10 @@
                     name="property_name"
                     type="combobox"
                     rules="required"
+                    item_text="property_name"
+                    item_value="property_name"
                     :options="item.options"
-                    v-if="form.property_name"
-                    :value="form.property_name"
+                    :value="edit_data.property_name"
                     @model="model($event, 'property_name')"
                   />
                 </v-col>
@@ -52,8 +52,7 @@
                     type="radio"
                     rules="required"
                     :options="purchaser"
-                    v-if="form.purchaser"
-                    :value="form.purchaser"
+                    :value="edit_data.purchaser"
                     @model="model($event, 'purchaser')"
                   />
                 </v-col>
@@ -64,8 +63,7 @@
                     name="property_code"
                     type="text"
                     rules="required"
-                    v-if="form.property_code"
-                    :value="form.property_code"
+                    :value="edit_data.property_code"
                     @model="model($event, 'property_code')"
                   />
                 </v-col>
@@ -80,8 +78,7 @@
                     item_value="id"
                     :hasIcon="category.hasIcon"
                     :options="category.options"
-                    v-if="form.category"
-                    :value="form.category"
+                    :value="edit_data.item_category_info"
                     @model="model($event, 'category')"
                     @modalInput="addCategory"
                   />
@@ -94,8 +91,7 @@
                     name="description"
                     type="textarea"
                     rules="required"
-                    v-if="form.description"
-                    :value="form.description"
+                    :value="edit_data.description"
                     @model="model($event, 'description')"
                   />
                 </v-col>
@@ -115,14 +111,13 @@
                   >
                     <v-text-field
                       class="pa-0 ma-0"
-                      v-model="form.serial_number"
+                      v-model="serial_number_edit"
                       name="serial_number"
                       label="Serial Number"
                       placeholder="Serial Number"
                       type="text"
                       :error-messages="errors"
                       :success="valid"
-                      v-if="form.serial_number"
                       :value="form.serial_number"
                     ></v-text-field>
                   </ValidationProvider>
@@ -139,8 +134,7 @@
                     item_value="id"
                     :hasIcon="location.hasIcon"
                     :options="location.options"
-                    v-if="form.location"
-                    :value="form.location"
+                    :value="edit_data.location_info"
                     @model="model($event, 'location')"
                     @modalInput="addLocation"
                   />
@@ -156,8 +150,7 @@
                     item_value="id"
                     :hasIcon="received_by.hasIcon"
                     :options="received_by.options"
-                    v-if="form.received_by"
-                    :value="form.received_by"
+                    :value="edit_data.received_by_info"
                     @model="model($event, 'received_by')"
                     @modalInput="addEmployee"
                   />
@@ -172,8 +165,7 @@
                     item_text="fullname"
                     item_value="id"
                     :options="received_by.options"
-                    v-if="form.received_from"
-                    :value="form.received_from"
+                    :value="edit_data.received_from_info"
                     @model="model($event, 'received_from')"
                   />
                 </v-col>
@@ -187,8 +179,7 @@
                     item_text="fullname"
                     item_value="id"
                     :options="assigned_person.options"
-                    v-if="form.assigned_person"
-                    :value="form.assigned_person"
+                    :value="edit_data.assigned_person_info"
                     @model="model($event, 'assigned_person')"
                   />
                 </v-col>
@@ -202,8 +193,7 @@
                     item_text="name"
                     item_value="id"
                     :options="status.options"
-                    v-if="form.status"
-                    :value="form.status"
+                    :value="edit_data.item_status_info"
                     @model="model($event, 'status')"
                   />
                 </v-col>
@@ -214,8 +204,7 @@
                     name="date_acquired"
                     type="date"
                     rules="required"
-                    v-if="form.date_acquired"
-                    :value="String(form.date_acquired)"
+                    :value="edit_data.date_acquired"
                     @model="model($event, 'date_acquired')"
                   />
                 </v-col>
@@ -226,8 +215,7 @@
                     name="date_received"
                     type="date"
                     rules="required"
-                    v-if="form.date_received"
-                    :value="form.date_received"
+                    :value="edit_data.date_received"
                     @model="model($event, 'date_received')"
                   />
                 </v-col>
@@ -238,6 +226,7 @@
                     name="cost"
                     type="number"
                     rules="required"
+                    :value="edit_data.cost"
                     @model="model($event, 'cost')"
                   />
                 </v-col>
@@ -248,6 +237,7 @@
                     name="quantity"
                     type="number"
                     rules="required"
+                    :value="edit_data.quantity"
                     @model="model($event, 'quantity')"
                   />
                 </v-col>
@@ -260,7 +250,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" color="primary" :disabled="invalid">
-                  Add Property
+                  Save Property
 
                   <v-icon class="mx-1"> mdi-close</v-icon>
                 </v-btn>
@@ -280,6 +270,7 @@ export default {
     edit_data: Object,
   },
   data: () => ({
+    serial_number_edit: null,
     form: {
       serial_number: null,
       purchaser: null,
@@ -411,189 +402,81 @@ export default {
     // Category API
     addCategory(form) {
       this.$store
-        .dispatch("addCategory", form)
-        .then(
-          function (result) {
-            this.category.options.push({
-              id: result.id,
-              name: result.get("name"),
-            });
-            this.$toast.success("New Category has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postItemCategory", form)
+        .then((result) => {
+          this.$toast.success(
+            `Category ${result.data.name} has been added successfully.`
+          );
+          this.$store.dispatch("getItemCategories");
+          this.category.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
     },
     getCategory() {
-      this.$store
-        .dispatch("getCategory")
-        .then(
-          function (result) {
-            result.forEach((category) => {
-              this.category.options.push({
-                id: category.id,
-                name: category.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.category.options =
+        this.$store.state.item_categories.item_categories.data;
     },
     // End Category API
 
     // Location API
     addLocation(form) {
       this.$store
-        .dispatch("addLocation", form)
-        .then(
-          function (result) {
-            this.location.options.push({
-              id: result.id,
-              name: result.get("name"),
-            });
-            this.$toast.success("New Location has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postLocation", form)
+        .then((result) => {
+          this.$toast.success(
+            `Location ${result.data.name} has been added successfully.`
+          );
+          this.$store.dispatch("getLocations");
+          this.location.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
     },
     getLocation() {
-      this.$store
-        .dispatch("getLocation")
-        .then(
-          function (result) {
-            result.forEach((location) => {
-              this.location.options.push({
-                id: location.id,
-                name: location.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.location.options = this.$store.state.locations.locations.data;
     },
     // End Location API
 
     // Received By API
     addEmployee(form) {
+      console.log(form);
       this.$store
-        .dispatch("addEmployee", form)
-        .then(
-          function (result) {
-            this.received_by.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.received_from.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.assigned_person.options.push({
-              id: result.id,
-              fullname: result?.get("fname") + " " + result?.get("lname"),
-              fname: result?.get("fname"),
-              mname: result?.get("mname"),
-              lname: result?.get("lname"),
-              office: result?.get("office"),
-            });
-            this.$toast.success("New Employee has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postEmployee", form)
+        .then((result) => {
+          this.$toast.success(
+            `Employee ${result.data.fullname} has been added successfully.`
+          );
+          this.$store.dispatch("getEmployees");
+          this.received_by.options.push(result.data);
+          this.received_from.options.push(result.data);
+          this.assigned_person.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
     },
     getEmployee() {
-      this.$store
-        .dispatch("getEmployee")
-        .then(
-          function (result) {
-            result.forEach((employee) => {
-              this.received_by.options.push({
-                id: employee.id,
-                fullname:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-              this.received_from.options.push({
-                id: employee.id,
-                fullname:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-              this.assigned_person.options.push({
-                id: employee.id,
-                fullname:
-                  employee?.get("fname") + " " + employee?.get("lname"),
-                fname: employee?.get("fname"),
-                mname: employee?.get("mname"),
-                lname: employee?.get("lname"),
-                office: employee?.get("office"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.received_by.options = this.$store.state.employees.employees.data;
+      this.received_from.options = this.$store.state.employees.employees.data;
+      this.assigned_person.options = this.$store.state.employees.employees.data;
     },
     // End Location API
 
     getStatus() {
-      this.$store
-        .dispatch("getStatus")
-        .then(
-          function (result) {
-            result.forEach((status) => {
-              this.status.options.push({
-                id: status.id,
-                name: status.get("name"),
-              });
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.status.options = this.$store.state.item_status.item_status.data;
     },
 
     getItem() {
-      this.$store
-        .dispatch("getItem")
-        .then(
-          function (result) {
-            result.forEach((item) => {
-              this.item.options.push(item.get("property_name"));
-            });
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.$toast.error(error);
-        });
+      this.item.options = this.$store.state.items.items.data;
     },
 
     onSubmit() {
-      this.$emit("form", this.form);
+      this.form.serial_number = this.serial_number_edit;
+      this.form.id = Number(this.form.id);
+      this.$emit("form", this.form, "edit");
     },
     closeModal() {
       this.$emit("closeModal", false);
@@ -603,12 +486,13 @@ export default {
       this.form[field] = event;
     },
   },
+
   watch: {
     "form.purchaser": function (val) {
-      if (val === "Regional Office") {
-        this.form.serial_number = "ABCD - ";
+      if (val === "Regional Office" && !this.form.serial_number) {
+        this.serial_number_edit = "ABCD - ";
       } else {
-        this.form.serial_number = null;
+        this.serial_number_edit = this.form.serial_number;
       }
     },
   },
@@ -619,7 +503,6 @@ export default {
     this.getStatus();
     this.getItem();
     if (this.edit_data) {
-      console.log(this.edit_data);
       this.form = this.edit_data;
     }
   },

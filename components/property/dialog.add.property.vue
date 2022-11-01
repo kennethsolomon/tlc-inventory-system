@@ -234,7 +234,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" color="primary" :disabled="invalid">
-                  Add Property
+                  Save Property
 
                   <v-icon class="mx-1"> mdi-close</v-icon>
                 </v-btn>
@@ -464,7 +464,7 @@ export default {
       this.form.received_from_id = Number(this.form.received_from);
       this.form.item_status_id = Number(this.form.status);
       this.form.location_id = Number(this.form.location);
-      this.$emit("form", this.form);
+      this.$emit("form", this.form, "add");
     },
 
     closeModal() {

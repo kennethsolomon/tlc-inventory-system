@@ -133,23 +133,42 @@ export default {
   },
   methods: {
     editData(data) {
-      this.edit_data = data;
+      let form_data = { ...data };
+      this.edit_data = form_data;
       this.edit_property_dialog = true;
     },
     selected(selected) {
       this.group_by = selected.name;
     },
-    formSave(data) {
-      console.log(data);
+    formSave(data, action) {
       this.$store.dispatch("postItem", data).then((result) => {
-        this.$toast.success("Add New Property " + data.type + " successfully!");
-        this.add_property_dialog = false;
+        this.$store.dispatch("getItems");
+        this.getItem();
+        if (action === "add") {
+          this.$toast.success(
+            "Add New Property " + data.type + " successfully!"
+          );
+
+          if (data.type === "Consumable") {
+            this.table_data[1][0].data.push(data);
+          } else if (data.type === "Non-Consumable") {
+            this.table_data[2][0].data.push(data);
+          }
+
+          // All Property
+          this.table_data[0][0].data.push(data);
+
+          this.add_property_dialog = false;
+        } else if (action === "edit") {
+          this.$toast.success("Edit Property " + data.type + " successfully!");
+
+          this.edit_property_dialog = false;
+        }
       });
     },
     getItem() {
       this.overlay = true;
 
-      const all_property = this.$store.state.items.items.data;
       this.table_data[0][0].data = this.$store.state.items.items.data;
       this.table_data[1][0].data = this.consumable;
       this.table_data[2][0].data = this.nonConsumable;
@@ -159,7 +178,6 @@ export default {
   },
   mounted() {
     this.getItem();
-    console.log(this.$store.state.items);
   },
 };
 </script>

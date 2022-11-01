@@ -202,7 +202,7 @@ export default {
     rules: String,
     type: String,
     valid: Boolean,
-    value: String,
+    value: [String, Object, Number],
     options: Array,
     row: String, // for textarea
     hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
