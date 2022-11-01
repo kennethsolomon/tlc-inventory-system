@@ -140,7 +140,8 @@ export default {
       this.group_by = selected.name;
     },
     formSave(data) {
-      this.$store.dispatch("addItem", data).then((result) => {
+      console.log(data);
+      this.$store.dispatch("postItem", data).then((result) => {
         this.$toast.success("Add New Property " + data.type + " successfully!");
         this.add_property_dialog = false;
       });

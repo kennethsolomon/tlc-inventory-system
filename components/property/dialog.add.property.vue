@@ -36,6 +36,8 @@
                     name="property_name"
                     type="combobox"
                     rules="required"
+                    item_text="property_name"
+                    item_value="property_name"
                     :options="item.options"
                     @model="model($event, 'property_name')"
                   />
@@ -454,8 +456,17 @@ export default {
     },
 
     onSubmit() {
+      this.form.property_name =
+        this.form.property_name.property_name ?? this.form.property_name;
+      this.form.assigned_person_id = Number(this.form.assigned_person);
+      this.form.item_category_id = Number(this.form.category);
+      this.form.received_by_id = Number(this.form.received_by);
+      this.form.received_from_id = Number(this.form.received_from);
+      this.form.item_status_id = Number(this.form.status);
+      this.form.location_id = Number(this.form.location);
       this.$emit("form", this.form);
     },
+
     closeModal() {
       this.$emit("closeModal", false);
     },
