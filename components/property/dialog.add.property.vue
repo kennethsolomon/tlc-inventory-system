@@ -384,7 +384,6 @@ export default {
       this.$store
         .dispatch("postItemCategory", form)
         .then((result) => {
-          console.log(result);
           this.$toast.success(
             `Category ${result.data.name} has been added successfully.`
           );
@@ -404,16 +403,14 @@ export default {
     // Location API
     addLocation(form) {
       this.$store
-        .dispatch("addLocation", form)
-        .then(
-          function (result) {
-            this.location.options.push({
-              id: result.id,
-              name: result.get("name"),
-            });
-            this.$toast.success("New Location has been added successfully.");
-          }.bind(this)
-        )
+        .dispatch("postLocation", form)
+        .then((result) => {
+          this.$toast.success(
+            `Location ${result.data.name} has been added successfully.`
+          );
+          this.$store.dispatch("getLocations");
+          this.location.options.push(result.data);
+        })
         .catch((error) => {
           this.$toast.error(error);
         });
