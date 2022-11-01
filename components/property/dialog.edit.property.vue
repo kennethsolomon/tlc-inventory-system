@@ -152,7 +152,7 @@
                     name="received_by"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :hasIcon="received_by.hasIcon"
                     :options="received_by.options"
@@ -169,7 +169,7 @@
                     name="received_from"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :options="received_by.options"
                     v-if="form.received_from"
@@ -184,7 +184,7 @@
                     name="assigned_person"
                     type="autocomplete"
                     rules="required"
-                    item_text="full_name"
+                    item_text="fullname"
                     item_value="id"
                     :options="assigned_person.options"
                     v-if="form.assigned_person"
@@ -488,7 +488,7 @@ export default {
           function (result) {
             this.received_by.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -496,7 +496,7 @@ export default {
             });
             this.received_from.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -504,7 +504,7 @@ export default {
             });
             this.assigned_person.options.push({
               id: result.id,
-              full_name: result?.get("fname") + " " + result?.get("lname"),
+              fullname: result?.get("fname") + " " + result?.get("lname"),
               fname: result?.get("fname"),
               mname: result?.get("mname"),
               lname: result?.get("lname"),
@@ -525,7 +525,7 @@ export default {
             result.forEach((employee) => {
               this.received_by.options.push({
                 id: employee.id,
-                full_name:
+                fullname:
                   employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
@@ -534,7 +534,7 @@ export default {
               });
               this.received_from.options.push({
                 id: employee.id,
-                full_name:
+                fullname:
                   employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
@@ -543,7 +543,7 @@ export default {
               });
               this.assigned_person.options.push({
                 id: employee.id,
-                full_name:
+                fullname:
                   employee?.get("fname") + " " + employee?.get("lname"),
                 fname: employee?.get("fname"),
                 mname: employee?.get("mname"),
