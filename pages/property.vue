@@ -197,7 +197,11 @@ export default {
 
           this.table_data[0][0].data.splice(index, 1, result.data);
 
+          this.$store.commit("SET_ITEMS", this.table_data[0][0]);
+
           this.edit_property_dialog = false;
+
+          this.getItem();
         }
       });
     },
