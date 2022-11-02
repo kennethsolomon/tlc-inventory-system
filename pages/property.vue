@@ -198,6 +198,10 @@ export default {
       let index = this.getIndex(this.$store.state.items.items.data, data.id);
 
       this.table_data[0][0].data.splice(index, 1);
+
+      this.$store.commit("SET_ITEMS", this.table_data[0][0]);
+
+      this.getItem();
     },
     selected(selected) {
       this.group_by = selected.name;
