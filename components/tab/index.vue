@@ -74,9 +74,12 @@
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
-                  <v-btn class="primary" @click="edit(item)">Edit</v-btn>
-                  <v-btn class="error" @click="destroy(item)">Delete</v-btn>
-                  <v-btn class="warning">Template</v-btn>
+                  <div class="d-flex">
+                    <v-btn class="primary mr-2" @click="edit(item)">Edit</v-btn>
+                    <v-btn class="error" @click="destroy(item)">Delete</v-btn>
+                  </div>
+
+                  <!-- <v-btn class="warning">Template</v-btn> -->
                 </template>
               </v-data-table>
             </div>
