@@ -73,6 +73,28 @@
                 <template v-slot:[`item.date_acquired`]="{ item }">
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
+                <template v-slot:[`item.stocks`]="{ item }">
+                  <div class="d-flex">
+                    <v-btn
+                      class="primary mr-2"
+                      fab
+                      x-small
+                      @click="stocks(item, 'deduct')"
+                    >
+                      <v-icon dark> mdi-minus </v-icon></v-btn
+                    >
+                    <v-btn
+                      class="primary mr-2"
+                      fab
+                      x-small
+                      @click="stocks(item, 'add')"
+                    >
+                      <v-icon dark> mdi-plus </v-icon></v-btn
+                    >
+                  </div>
+
+                  <!-- <v-btn class="warning">Template</v-btn> -->
+                </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div class="d-flex">
                     <v-btn class="primary mr-2" @click="edit(item)">Edit</v-btn>
@@ -128,6 +150,9 @@ export default {
   methods: {
     edit(item) {
       this.$emit("edit_data", item);
+    },
+    stocks(item, type) {
+      this.$emit("stocks", { item: item, type: type });
     },
     destroy(item) {
       this.$emit("destroy_data", item);

@@ -10,6 +10,7 @@
       :group_by="group_by"
       @edit_data="editData"
       @destroy_data="deleteData"
+      @stocks="stocks"
     >
       <template v-slot:add_dialog>
         <div
@@ -55,6 +56,16 @@
             @confirmDelete="confirmDelete"
           />
 
+          <StocksProperty
+            v-if="stocks_property_dialog === true"
+            :dialog="stocks_property_dialog"
+            title="Stocks Property"
+            end_point="update_or_create_item"
+            :stocks_data="stocks_data"
+            @closeModal="stocks_property_dialog = false"
+            @confirmStocks="confirmStocks"
+          />
+
           <v-select
             :style="
               $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
@@ -80,15 +91,18 @@
 import AddProperty from "../components/property/dialog.add.property.vue";
 import EditProperty from "../components/property/dialog.edit.property.vue";
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
+import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
   components: {
     AddProperty,
     EditProperty,
     DeleteProperty,
+    StocksProperty,
   },
   data: () => ({
     edit_data: null,
     delete_data: null,
+    stocks_data: null,
     group_by: "",
     select: { name: "", text: "" },
     items: [
@@ -100,6 +114,7 @@ export default {
     add_property_dialog: false,
     edit_property_dialog: false,
     delete_property_dialog: false,
+    stocks_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
     table_headers: [
       { text: "Property Name", align: "start", value: "property_name" },
@@ -111,6 +126,7 @@ export default {
       { text: "Cost", value: "cost" },
       { text: "Date Acquired", value: "date_acquired" },
       { text: "Date Received", value: "date_received" },
+      { text: "Stocks", value: "stocks" },
       { text: "Actions", value: "actions" },
     ],
     table_data: [
@@ -155,6 +171,24 @@ export default {
       let form_data = { ...data };
       this.edit_data = form_data;
       this.edit_property_dialog = true;
+    },
+    stocks(data) {
+      this.stocks_data = data;
+      this.stocks_property_dialog = true;
+    },
+    confirmStocks(data) {
+      let index = this.getIndex(
+        this.$store.state.items.items.data,
+        data.data.id
+      );
+
+      this.table_data[0][0].data.splice(index, 1, data.data);
+
+      this.$store.commit("SET_ITEMS", this.table_data[0][0]);
+
+      this.getItem();
+
+      this.$toast.success("Stocks updated successfully.");
     },
     deleteData(data) {
       this.delete_data = data;
