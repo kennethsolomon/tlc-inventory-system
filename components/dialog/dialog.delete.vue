@@ -12,7 +12,7 @@
           {{ title }}
           <v-icon @click="$emit('closeModal')" color="white">mdi-close</v-icon>
         </v-card-title>
-        <v-card-text class="pa-5">
+        <v-card-text>
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-subtitle
@@ -25,12 +25,13 @@
               <v-img src="trash.png"></v-img>
             </v-list-item-avatar>
           </v-list-item>
+        </v-card-text>
+        <v-divider></v-divider>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="destroy()" color="primary">Delete</v-btn>
-          </v-card-actions></v-card-text
-        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="destroy()" color="primary">Delete</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
