@@ -75,7 +75,7 @@
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <v-btn class="primary" @click="edit(item)">Edit</v-btn>
-                  <v-btn class="error">Delete</v-btn>
+                  <v-btn class="error" @click="destroy(item)">Delete</v-btn>
                   <v-btn class="warning">Template</v-btn>
                 </template>
               </v-data-table>
@@ -125,6 +125,9 @@ export default {
   methods: {
     edit(item) {
       this.$emit("edit_data", item);
+    },
+    destroy(item) {
+      this.$emit("destroy_data", item);
     },
   },
 };

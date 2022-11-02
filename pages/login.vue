@@ -16,7 +16,12 @@
           >
           <v-card-text>
             <div class="pa-3">
-              <Form :fields="fields" :button="button" @values="login" />
+              <Form
+                :fields="fields"
+                :button="button"
+                @values="formData"
+                @submit="login"
+              />
             </div>
           </v-card-text>
         </v-card>

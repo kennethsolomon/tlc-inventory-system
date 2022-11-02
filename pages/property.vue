@@ -9,6 +9,7 @@
       :table_headers="table_headers"
       :group_by="group_by"
       @edit_data="editData"
+      @destroy_data="deleteData"
     >
       <template v-slot:add_dialog>
         <div
@@ -43,6 +44,17 @@
             @form="formSave"
             @closeModal="edit_property_dialog = false"
           />
+
+          <DeleteProperty
+            v-if="delete_property_dialog === true"
+            :dialog="delete_property_dialog"
+            title="Delete Property"
+            end_point="delete_item"
+            :delete_data="delete_data"
+            @closeModal="delete_property_dialog = false"
+            @confirmDelete="confirmDelete"
+          />
+
           <v-select
             :style="
               $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
@@ -67,13 +79,16 @@
 <script>
 import AddProperty from "../components/property/dialog.add.property.vue";
 import EditProperty from "../components/property/dialog.edit.property.vue";
+import DeleteProperty from "../components/dialog/dialog.delete.vue";
 export default {
   components: {
     AddProperty,
     EditProperty,
+    DeleteProperty,
   },
   data: () => ({
     edit_data: null,
+    delete_data: null,
     group_by: "",
     select: { name: "", text: "" },
     items: [
@@ -84,6 +99,7 @@ export default {
     // TAB
     add_property_dialog: false,
     edit_property_dialog: false,
+    delete_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
     table_headers: [
       { text: "Property Name", align: "start", value: "property_name" },
@@ -140,6 +156,15 @@ export default {
       this.edit_data = form_data;
       this.edit_property_dialog = true;
     },
+    deleteData(data) {
+      this.delete_data = data;
+      this.delete_property_dialog = true;
+    },
+    confirmDelete(data) {
+      let index = this.getIndex(this.$store.state.items.items.data, data.id);
+
+      this.table_data[0][0].data.splice(index, 1);
+    },
     selected(selected) {
       this.group_by = selected.name;
     },
@@ -165,9 +190,10 @@ export default {
         } else if (action === "edit") {
           this.$toast.success("Edit Property " + data.type + " successfully!");
 
-          const index = this.$store.state.items.items.data
-            .map((e) => e.id)
-            .indexOf(result.data.id);
+          let index = this.getIndex(
+            this.$store.state.items.items.data,
+            result.data.id
+          );
 
           this.table_data[0][0].data.splice(index, 1, result.data);
 
@@ -183,6 +209,11 @@ export default {
       this.table_data[2][0].data = this.nonConsumable;
 
       this.overlay = false;
+    },
+    getIndex(array, id) {
+      const index = array.map((e) => e.id).indexOf(id);
+
+      return index;
     },
   },
   mounted() {
