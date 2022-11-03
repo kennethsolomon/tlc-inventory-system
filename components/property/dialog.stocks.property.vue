@@ -50,17 +50,21 @@ export default {
   }),
   methods: {
     async stocks() {
-      this.data.quantity =
-        this.stocks_data.type === "deduct"
-          ? (this.data.quantity -= this.form.quantity)
-          : (this.data.quantity += this.form.quantity);
+      if (this.data.quantity < this.form.quantity) {
+        this.$toast.error("Not Enought Stock/Stocks.");
+      } else {
+        this.data.quantity =
+          this.stocks_data.type === "deduct"
+            ? (this.data.quantity -= this.form.quantity)
+            : (this.data.quantity += this.form.quantity);
 
-      await this.$axios
-        .$post(`update_or_create_item`, this.data)
-        .then((result) => {
-          this.$emit("confirmStocks", result);
-          this.$emit("closeModal");
-        });
+        await this.$axios
+          .$post(`update_or_create_item`, this.data)
+          .then((result) => {
+            this.$emit("confirmStocks", result);
+            this.$emit("closeModal");
+          });
+      }
     },
 
     model(event, field) {
