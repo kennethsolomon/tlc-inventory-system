@@ -50,7 +50,10 @@ export default {
   }),
   methods: {
     async stocks() {
-      if (this.data.quantity < this.form.quantity) {
+      if (
+        this.data.quantity < this.form.quantity &&
+        this.stocks_data.type === "deduct"
+      ) {
         this.$toast.error("Not Enought Stock/Stocks.");
       } else {
         this.data.quantity =
