@@ -29,11 +29,17 @@
                     <span>Kenneth Solomon</span>
                     <span>CHED - PTS III</span>
                   </div> -->
-                  <div class="d-flex flex-column justify-center my-2">
+                  <div
+                    class="d-flex flex-column justify-center my-2"
+                    style="cursor: pointer"
+                    @click="updateAccount"
+                  >
                     <span class="align-self-center">{{
                       $store.state.user.user.firstname +
                       " " +
-                      $store.state.user.user.middlename +
+                      ($store.state.user.user.middlename
+                        ? $store.state.user.user.middlename
+                        : "") +
                       " " +
                       $store.state.user.user.lastname
                     }}</span>
@@ -50,6 +56,22 @@
                       </v-chip></span
                     >
                   </div>
+                  <!-- Sample for update Dialog -->
+                  <UpdateAccount
+                    v-if="update_account_dialog === true"
+                    :dialog="update_account_dialog"
+                    :button="{
+                      color: 'primary',
+                      btn_name: 'Save',
+                      icon: 'mdi-close',
+                    }"
+                    :id="update_account_id"
+                    :fields="fields"
+                    className="update_account"
+                    title="Update Account"
+                    @closeModal="update_account_dialog = false"
+                    @callBack="updatedAccount"
+                  />
                 </v-list-item-title>
               </div>
               <v-divider class="primary"></v-divider>
@@ -126,14 +148,23 @@
 </template>
 
 <script>
+import UpdateAccount from "../components/dialog/dialog.update.vue";
 export default {
   name: "InitializePage",
+  components: {
+    UpdateAccount,
+  },
   data() {
     return {
+      update_account_dialog: false,
+      update_account_id: null,
       isLoggedIn: false,
       clipped: false,
       drawer: true,
       fixed: false,
+      // Update Account
+      fields: [],
+      // Update Account
       items: [
         {
           icon: "mdi-apps",
@@ -171,6 +202,72 @@ export default {
     };
   },
   methods: {
+    updateAccount() {
+      const { id, firstname, middlename, lastname, position, email } =
+        this.$store.state.user.user;
+      this.update_account_id = id;
+      this.fields = [
+        {
+          cols: 1,
+          name: "email",
+          title: "Username",
+          rules: "required",
+          value: email,
+          type: "text",
+        },
+        {
+          cols: 1,
+          name: "password",
+          title: "Password",
+          rules: "required",
+          type: "password",
+        },
+        {
+          cols: 1,
+          name: "firstname",
+          title: "First Name",
+          rules: "required",
+          value: firstname,
+          type: "text",
+        },
+        {
+          cols: 1,
+          name: "middlename",
+          title: "Middle Name",
+          value: middlename,
+          type: "text",
+        },
+        {
+          cols: 1,
+          name: "lastname",
+          title: "Last Name",
+          rules: "required",
+          value: lastname,
+          type: "text",
+        },
+        {
+          cols: 1,
+          name: "position",
+          title: "Position",
+          rules: "required",
+          value: position,
+          type: "text",
+        },
+      ];
+
+      this.update_account_dialog = !this.update_account_dialog;
+    },
+    async updatedAccount() {
+      await this.$axios.$get("user").then((result) => {
+        this.$store.commit("SET_USER", result);
+
+        this.$toast.success(
+          `${result.firstname} ${result?.middlename} ${result.lastname} info has updated successfully.`
+        );
+
+        this.update_account_dialog = false;
+      });
+    },
     async logOut() {
       try {
         await this.$auth.logout();

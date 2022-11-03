@@ -14,6 +14,7 @@
             :name="field.name"
             :type="field.type"
             :rules="field.rules"
+            :value="field?.value"
             :hasIcon="field?.hasIcon"
             :row="field?.row"
             :options="field?.options"
