@@ -19,11 +19,17 @@
           <v-list-item class="pa-0">
             <v-list-item-content>
               <div>
-                <v-list-item-title class="d-flex align-center fill-width">
-                  <v-avatar class="mb-2 mx-3 mr-5" color="indigo">
+                <v-list-item-title
+                  class="d-flex justify-center align-center fill-width"
+                >
+                  <!-- <v-avatar class="mb-2 mx-3 mr-5" color="indigo">
                     <v-icon dark> mdi-account-circle </v-icon>
-                  </v-avatar>
-                  <div class="d-flex flex-column">
+                  </v-avatar> -->
+                  <!-- <div class="d-flex flex-column">
+                    <span>Kenneth Solomon</span>
+                    <span>CHED - PTS III</span>
+                  </div> -->
+                  <div class="d-flex flex-column my-2">
                     <span>Kenneth Solomon</span>
                     <span>CHED - PTS III</span>
                   </div>
