@@ -29,9 +29,26 @@
                     <span>Kenneth Solomon</span>
                     <span>CHED - PTS III</span>
                   </div> -->
-                  <div class="d-flex flex-column my-2">
-                    <span>Kenneth Solomon</span>
-                    <span>CHED - PTS III</span>
+                  <div class="d-flex flex-column justify-center my-2">
+                    <span class="align-self-center">{{
+                      $store.state.user.user.firstname +
+                      " " +
+                      $store.state.user.user.middlename +
+                      " " +
+                      $store.state.user.user.lastname
+                    }}</span>
+                    <span class="align-self-center">{{
+                      $store.state.user.user.position
+                    }}</span>
+                    <span class="align-self-center">
+                      <v-chip color="primary" text-color="white">
+                        <v-avatar left>
+                          <v-icon>mdi-account-circle</v-icon>
+                        </v-avatar>
+
+                        {{ $store.state.user.user.role }}
+                      </v-chip></span
+                    >
                   </div>
                 </v-list-item-title>
               </div>

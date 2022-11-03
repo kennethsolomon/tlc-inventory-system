@@ -1,4 +1,3 @@
-import axios from 'axios';
 export default{
 	// async getUser ({ commit }) {
 	// 	const employees = await axios.get(`http://localhost:8000/api/employees`)
