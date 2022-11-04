@@ -38,6 +38,7 @@
       :label="title"
       :placeholder="title"
       :type="type"
+      :disabled="disabled"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -204,6 +205,7 @@ export default {
     valid: Boolean,
     value: [String, Object, Number],
     options: Array,
+    disabled: Boolean,
     row: String, // for textarea
     hasIcon: Object, // status, icon, data {fields(Array){Object} rules, title, type; button{Object} color, btn_name, icon }
     item_text: String, // use for autocomplete and combobox

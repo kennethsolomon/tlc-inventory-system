@@ -19,6 +19,7 @@ export default {
         name: "first_item",
         title: "First Item",
         rules: "required",
+        disabled: true,
         type: "text",
       },
       {

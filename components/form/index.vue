@@ -16,6 +16,7 @@
             :rules="field.rules"
             :value="field?.value"
             :hasIcon="field?.hasIcon"
+            :disabled="field?.disabled"
             :row="field?.row"
             :options="field?.options"
             @model="model($event, field.name)"
