@@ -19,6 +19,7 @@
       :label="title"
       :placeholder="title"
       :type="type"
+      :disabled="disabled"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -58,6 +59,7 @@
       :label="title"
       :placeholder="title"
       :type="type"
+      :disabled="disabled"
       :error-messages="errors"
       :success="valid"
     ></v-text-field>
@@ -77,6 +79,7 @@
       :name="name"
       :label="title"
       :rows="row"
+      :disabled="disabled"
       :error-messages="errors"
       :success="valid"
     ></v-textarea>
@@ -100,6 +103,7 @@
       :item-value="item_value"
       :label="title"
       :append-outer-icon="hasIcon?.status === true ? hasIcon?.icon : ''"
+      :disabled="disabled"
       @click:append-outer="modal(true)"
       :error-messages="errors"
       :success="valid"
@@ -121,6 +125,7 @@
       :items="options"
       :item-text="item_text"
       :item-value="item_value"
+      :disabled="disabled"
       :label="title"
       :error-messages="errors"
       :success="valid"
@@ -142,6 +147,7 @@
         :name="name"
         :error-messages="errors"
         :success="valid"
+        :disabled="disabled"
         row
       >
         <v-radio
@@ -171,6 +177,7 @@
           readonly
           v-bind="attrs"
           v-on="on"
+          :disabled="disabled"
           :error-messages="errors"
           :success="valid"
         ></v-text-field>
