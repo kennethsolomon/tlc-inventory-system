@@ -43,7 +43,7 @@
                       " " +
                       $store.state.user.user.lastname
                     }}</span>
-                    <span class="align-self-center font-weight-bold">{{
+                    <span class="align-self-center font-weight-bold mb-1">{{
                       $store.state.user.user.position
                     }}</span>
                     <span class="align-self-center">
