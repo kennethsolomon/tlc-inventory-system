@@ -11,6 +11,7 @@
       @edit_data="editData"
       @destroy_data="deleteData"
       @stocks="stocks"
+      @template="propertyTemplateData"
     >
       <template v-slot:add_dialog>
         <div
@@ -44,6 +45,14 @@
             :edit_data="edit_data"
             @form="formSave"
             @closeModal="edit_property_dialog = false"
+          />
+
+          <PropertyTemplate
+            v-if="property_template_dialog === true"
+            :property_template_dialog="property_template_dialog"
+            :property_template_data="property_template_data"
+            @form="formSave"
+            @closeModal="property_template_dialog = false"
           />
 
           <DeleteProperty
@@ -90,17 +99,20 @@
 <script>
 import AddProperty from "../components/property/dialog.add.property.vue";
 import EditProperty from "../components/property/dialog.edit.property.vue";
+import PropertyTemplate from "../components/property/dialog.template.property.vue";
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
 import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
   components: {
     AddProperty,
     EditProperty,
+    PropertyTemplate,
     DeleteProperty,
     StocksProperty,
   },
   data: () => ({
     edit_data: null,
+    property_template_data: null,
     delete_data: null,
     stocks_data: null,
     group_by: "",
@@ -113,6 +125,7 @@ export default {
     // TAB
     add_property_dialog: false,
     edit_property_dialog: false,
+    property_template_dialog: false,
     delete_property_dialog: false,
     stocks_property_dialog: false,
     tab_name: ["All Property", "Consumable", "Non-Consumable"],
@@ -128,6 +141,7 @@ export default {
       { text: "Date Received", value: "date_received" },
       { text: "Stocks", value: "stocks" },
       { text: "Actions", value: "actions" },
+      { text: "Template", value: "template" },
     ],
     table_data: [
       [
@@ -167,9 +181,31 @@ export default {
     },
   },
   methods: {
+    propertyTemplateData(data) {
+      let form_data = { ...data };
+      let property_template = {
+        type: form_data.type,
+        property_name: form_data.property_name,
+        purchaser: form_data.purchaser,
+        property_code: form_data.property_code,
+        assigned_person_id: form_data.assigned_person_id,
+        item_category_id: form_data.item_category_id,
+        item_status_id: form_data.item_status_id,
+        location_id: form_data.location_id,
+        received_by_id: form_data.received_by_id,
+        received_from_id: form_data.received_from_id,
+        item_category_info: form_data.item_category_info,
+        description: form_data.description,
+        quantity: 0,
+        cost: 0,
+      };
+      this.property_template_data = property_template;
+      this.property_template_dialog = true;
+    },
     editData(data) {
       let form_data = { ...data };
       this.edit_data = form_data;
+      console.log(form_data);
       this.edit_property_dialog = true;
     },
     stocks(data) {
@@ -225,6 +261,7 @@ export default {
           this.table_data[0][0].data.push(data);
 
           this.add_property_dialog = false;
+          this.property_template_dialog = false;
         } else if (action === "edit") {
           this.$toast.success("Edit Property " + data.type + " successfully!");
 

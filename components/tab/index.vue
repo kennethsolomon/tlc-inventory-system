@@ -95,6 +95,20 @@
 
                   <!-- <v-btn class="warning">Template</v-btn> -->
                 </template>
+                <template v-slot:[`item.template`]="{ item }">
+                  <div class="d-flex">
+                    <v-btn
+                      class="primary mr-2"
+                      fab
+                      x-small
+                      @click="template(item)"
+                    >
+                      <v-icon dark> mdi-content-copy </v-icon></v-btn
+                    >
+                  </div>
+
+                  <!-- <v-btn class="warning">Template</v-btn> -->
+                </template>
                 <template v-slot:[`item.actions`]="{ item }">
                   <div class="d-flex">
                     <v-btn class="primary mr-2" @click="edit(item)">Edit</v-btn>
@@ -153,6 +167,9 @@ export default {
     },
     stocks(item, type) {
       this.$emit("stocks", { item: item, type: type });
+    },
+    template(item) {
+      this.$emit("template", item);
     },
     destroy(item) {
       this.$emit("destroy_data", item);
