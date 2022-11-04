@@ -195,6 +195,7 @@ export default {
           name: "email",
           title: "Username",
           rules: "required",
+          disabled: true,
           value: email,
           type: "text",
         },
