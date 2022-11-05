@@ -121,6 +121,8 @@ export default {
     items: [
       { name: "", text: "" },
       { name: "purchaser", text: "Purchaser" },
+      { name: "property_code", text: "Property Code" },
+      { name: "description", text: "Description" },
     ],
     overlay: false,
     // TAB

@@ -61,7 +61,7 @@
                       <v-icon v-else>mdi-chevron-down</v-icon>
                     </v-btn>
                     <span class="subtitle-1">
-                      <strong>{{ items[0].purchaser }}</strong>
+                      <strong>{{ items[0][group_by] }}</strong>
                     </span>
                     <!-- <span class="subtitle-1" style="float: right"
                       ><strong
