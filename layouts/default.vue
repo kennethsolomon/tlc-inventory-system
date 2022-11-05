@@ -63,7 +63,7 @@
                     :button="{
                       color: 'primary',
                       btn_name: 'Save',
-                      icon: 'mdi-close',
+                      icon: 'mdi-content-save',
                     }"
                     :id="update_account_id"
                     :fields="fields"
