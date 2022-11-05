@@ -1,6 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+
+  server: {
+    host: '0' // default: localhost
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -75,7 +80,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8001/api/',
+    baseURL: 'http://192.168.1.13:8001/api/',
     credentials: true,
   },
 
@@ -95,7 +100,7 @@ export default {
       },
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8001',
+        url: 'http://192.168.1.13:8001',
         endpoints: {
           csrf: {
             url: '/sanctum/csrf-cookie',
