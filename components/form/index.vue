@@ -30,7 +30,7 @@
         :color="button.color"
         :disabled="invalid"
       >
-        <v-icon class="ml-2">{{ button.icon }}</v-icon>
+        <v-icon>{{ button.icon }}</v-icon>
         {{ button.btn_name }}
       </v-btn>
     </form>
