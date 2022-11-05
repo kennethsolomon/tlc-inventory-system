@@ -30,7 +30,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="destroy()" color="primary">Delete</v-btn>
+          <v-btn @click="destroy()" color="primary">
+            <v-icon small class="mr-1"> mdi-delete</v-icon>
+            Delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

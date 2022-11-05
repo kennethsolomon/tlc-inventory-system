@@ -30,7 +30,8 @@
         :color="button.color"
         :disabled="invalid"
       >
-        {{ button.btn_name }} <v-icon class="ml-2">{{ button.icon }}</v-icon>
+        <v-icon class="ml-2">{{ button.icon }}</v-icon>
+        {{ button.btn_name }}
       </v-btn>
     </form>
   </ValidationObserver>

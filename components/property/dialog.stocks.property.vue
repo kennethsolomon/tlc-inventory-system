@@ -26,7 +26,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="stocks()" color="primary">Save</v-btn>
+          <v-btn @click="stocks()" color="primary">
+            <v-icon small class="mr-1"> mdi-content-save</v-icon>
+            Save</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>

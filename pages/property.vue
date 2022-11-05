@@ -28,9 +28,26 @@
             color="primary"
             :width="$vuetify.breakpoint.xs ? '100%' : ''"
           >
-            <v-icon left>mdi-close</v-icon>
+            <v-icon left>mdi-plus</v-icon>
             Add Property
           </v-btn>
+
+          <v-select
+            :style="
+              $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
+            "
+            @change="selected"
+            v-model="select"
+            :items="items"
+            hint="Group by"
+            item-text="text"
+            item-value="name"
+            label="Select"
+            persistent-hint
+            return-object
+            single-line
+            prepend-inner-icon="mdi-filter"
+          ></v-select>
 
           <AddProperty
             v-if="add_property_dialog === true"
@@ -74,22 +91,6 @@
             @closeModal="stocks_property_dialog = false"
             @confirmStocks="confirmStocks"
           />
-
-          <v-select
-            :style="
-              $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
-            "
-            @change="selected"
-            v-model="select"
-            :items="items"
-            hint="Group by"
-            item-text="text"
-            item-value="name"
-            label="Select"
-            persistent-hint
-            return-object
-            single-line
-          ></v-select>
         </div>
       </template>
     </Tab>

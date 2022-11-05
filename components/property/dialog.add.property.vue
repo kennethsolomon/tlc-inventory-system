@@ -236,9 +236,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" color="primary" :disabled="invalid">
+                  <v-icon class="mx-1"> mdi-content-save</v-icon>
                   Save Property
-
-                  <v-icon class="mx-1"> mdi-close</v-icon>
                 </v-btn>
               </v-card-actions>
             </form>
@@ -279,7 +278,7 @@ export default {
       options: [],
       hasIcon: {
         status: true,
-        icon: "mdi-map-marker-plus-outline",
+        icon: "mdi-folder-multiple-outline",
         modal: {
           title: "Add Category",
           fields: [
@@ -294,7 +293,7 @@ export default {
           button: {
             color: "success",
             btn_name: "Save",
-            icon: "mdi-cash-check",
+            icon: "mdi-content-save",
           },
         },
       },
@@ -318,7 +317,7 @@ export default {
           button: {
             color: "success",
             btn_name: "Save",
-            icon: "mdi-cash-check",
+            icon: "mdi-content-save",
           },
         },
       },
@@ -327,7 +326,7 @@ export default {
       options: [],
       hasIcon: {
         status: true,
-        icon: "mdi-map-marker-plus-outline",
+        icon: "mdi-account",
         modal: {
           title: "Received By",
           fields: [
@@ -362,7 +361,7 @@ export default {
           button: {
             color: "success",
             btn_name: "Save",
-            icon: "mdi-cash-check",
+            icon: "mdi-content-save",
           },
         },
       },

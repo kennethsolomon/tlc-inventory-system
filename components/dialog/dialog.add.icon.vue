@@ -41,11 +41,10 @@
                   :color="hasIcon.modal.button.color"
                   :disabled="invalid"
                 >
-                  {{ hasIcon?.modal?.button?.btn_name }}
-
                   <v-icon class="mx-1">
                     {{ hasIcon?.modal?.button?.icon }}</v-icon
                   >
+                  {{ hasIcon?.modal?.button?.btn_name }}
                 </v-btn>
               </v-card-actions>
             </form>
