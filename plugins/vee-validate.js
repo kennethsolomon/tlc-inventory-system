@@ -28,7 +28,7 @@ extend('min', {
 
 extend('regional_format', {
 	...regex,
-	message: '{_field_} {_value_} does not match the Correct format (ABC - ...)',
+	message: '{_field_} {_value_} does not match the Correct format (ABCD - ...)',
 })
 
 extend('email', {
