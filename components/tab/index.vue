@@ -33,9 +33,17 @@
         <v-card class="mt-5" flat>
           <v-card-text class="pa-0 ma-0">
             <div v-for="(data, index) in item" :key="index">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
               <v-data-table
                 :headers="table_headers"
                 :items="data.data"
+                :search="search"
                 v-bind="dataTableBindings"
                 class="elevation-1"
               >
@@ -158,6 +166,7 @@ export default {
     },
   },
   data: () => ({
+    search: "",
     dialog: { add: false },
     tab: null,
   }),
