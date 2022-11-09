@@ -146,6 +146,7 @@ export default {
       { text: "Stocks", value: "stocks" },
       { text: "Actions", value: "actions" },
       { text: "Template", value: "template" },
+      { text: "QR Code", value: "qr" },
     ],
     table_data: [
       [

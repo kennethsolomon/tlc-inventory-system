@@ -16,6 +16,7 @@
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "parse": "^3.4.4",
+    "qrcode.vue": "^1.7.0",
     "vee-validate": "^3.4.9",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
