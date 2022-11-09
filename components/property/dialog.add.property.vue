@@ -217,6 +217,7 @@
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
+                    v-if="show"
                     :valid="valid"
                     title="Quantity"
                     name="quantity"
@@ -254,11 +255,12 @@ export default {
     add_property_dialog: Boolean,
   },
   data: () => ({
+    show: true,
     form: {
       serial_number: null,
       purchaser: null,
       cost: 0,
-      quantity: 0,
+      quantity: 1,
     },
     item: {
       options: [],
@@ -480,8 +482,11 @@ export default {
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
         this.form.serial_number = "ABCD - ";
+        this.form.quantity = 1;
+        this.show = false;
       } else {
         this.form.serial_number = null;
+        this.show = true;
       }
     },
   },

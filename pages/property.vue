@@ -120,6 +120,7 @@ export default {
     select: { name: "", text: "" },
     items: [
       { name: "", text: "" },
+      { name: "property_name", text: "Property Name" },
       { name: "purchaser", text: "Purchaser" },
       { name: "property_code", text: "Property Code" },
       { name: "description", text: "Description" },
