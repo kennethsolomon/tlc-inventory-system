@@ -119,6 +119,16 @@
       <v-icon class="mr-2">mdi-chart-bar-stacked</v-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
+      <v-btn icon @click.stop="camera()">
+        <v-icon>mdi-camera</v-icon>
+      </v-btn>
+
+      <Camera
+        v-if="camera_dialog === true"
+        :camera_dialog="camera_dialog"
+        @closeCamera="closeCamera"
+      ></Camera>
+
       <v-btn icon @click.stop="logOut()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -150,13 +160,16 @@
 
 <script>
 import UpdateAccount from "../components/dialog/dialog.update.vue";
+import Camera from "../components/dialog/dialog.camera.vue";
 export default {
   name: "InitializePage",
   components: {
     UpdateAccount,
+    Camera,
   },
   data() {
     return {
+      camera_dialog: false,
       update_account_dialog: false,
       update_account_id: null,
       isLoggedIn: false,
@@ -186,6 +199,12 @@ export default {
     };
   },
   methods: {
+    camera() {
+      this.camera_dialog = true;
+    },
+    closeCamera() {
+      this.camera_dialog = false;
+    },
     updateAccount() {
       const { id, firstname, middlename, lastname, position, email } =
         this.$store.state.user.user;

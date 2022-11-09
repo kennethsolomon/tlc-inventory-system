@@ -39,7 +39,10 @@ export default {
   components: {
     QrcodeVue,
   },
-  data: () => ({}),
+  data() {
+    return {};
+  },
+
   methods: {
     print() {
       console.log("print");
