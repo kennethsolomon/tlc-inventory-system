@@ -12,8 +12,12 @@
           QR CODE
           <v-icon @click="$emit('closeQr')" color="white">mdi-close</v-icon>
         </v-card-title>
-        <v-card-text class="d-flex justify-center mt-5" v-if="qr_data">
-          <qrcode-vue :value="qr_data" :size="150" level="H" />
+        <v-card-text
+          id="printMe"
+          class="d-flex justify-center mt-5"
+          v-if="qr_data"
+        >
+          <qrcode-vue render-as="svg" :value="qr_data" :size="150" level="H" />
         </v-card-text>
         <v-divider></v-divider>
 
@@ -30,6 +34,23 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueHtmlToPaper from "vue-html-to-paper";
+
+const options = {
+  name: "_blank",
+  specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+  styles: [
+    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
+    "https://unpkg.com/kidlat-css/css/kidlat.css",
+  ],
+  timeout: 1000, // default timeout before the print window appears
+  autoClose: true, // if false, the window will not close after printing
+  windowTitle: window.document.title, // override the window title
+};
+
+Vue.use(VueHtmlToPaper);
+
 import QrcodeVue from "qrcode.vue";
 export default {
   props: {
@@ -44,8 +65,9 @@ export default {
   },
 
   methods: {
-    print() {
-      console.log("print");
+    async print() {
+      // Pass the element id here
+      await this.$htmlToPaper("printMe");
     },
   },
 };

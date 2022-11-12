@@ -19,6 +19,7 @@
     "qrcode.vue": "^1.7.0",
     "vee-validate": "^3.4.9",
     "vue": "^2.7.10",
+    "vue-html-to-paper": "^1.4.4",
     "vue-qrcode-reader": "^3.1.0",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
