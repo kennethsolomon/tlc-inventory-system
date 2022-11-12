@@ -53,15 +53,23 @@
                     @model="model($event, 'purchaser')"
                   />
                 </v-col>
-                <v-col class="my-0 py-0" cols="12">
-                  <Input
-                    :valid="valid"
-                    title="Property Code"
-                    name="property_code"
-                    type="text"
+                <v-col cols="12" v-if="show_property_code">
+                  <ValidationProvider
+                    v-slot="{ errors }"
                     rules="required"
-                    @model="model($event, 'property_code')"
-                  />
+                    name="Property COde"
+                  >
+                    <v-text-field
+                      class="pa-0 ma-0"
+                      v-model="form.property_code"
+                      name="property_code"
+                      label="Property Code"
+                      placeholder="Property Code"
+                      type="text"
+                      :error-messages="errors"
+                      :success="valid"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="6" sm="12" xs="12">
                   <Input
@@ -217,7 +225,7 @@
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
-                    v-if="show"
+                    v-if="show_quantity"
                     :valid="valid"
                     title="Quantity"
                     name="quantity"
@@ -255,12 +263,14 @@ export default {
     add_property_dialog: Boolean,
   },
   data: () => ({
-    show: true,
+    show_quantity: true,
+    show_property_code: false,
     form: {
       serial_number: null,
       purchaser: null,
       cost: 0,
       quantity: 1,
+      property_code: null,
     },
     item: {
       options: [],
@@ -483,10 +493,14 @@ export default {
       if (val === "Regional Office") {
         this.form.serial_number = "ABCD - ";
         this.form.quantity = 1;
-        this.show = false;
+        this.show_quantity = false;
+        this.show_property_code = true;
+        this.form.property_code = "";
       } else {
         this.form.serial_number = null;
-        this.show = true;
+        this.show_quantity = true;
+        this.show_property_code = false;
+        this.form.property_code = "PO-" + new Date().getFullYear() + "-";
       }
     },
   },
