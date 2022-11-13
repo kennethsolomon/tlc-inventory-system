@@ -61,10 +61,19 @@
                       <v-icon v-else>mdi-chevron-down</v-icon>
                     </v-btn>
                     <span class="subtitle-1">
-                      <strong>{{ items[0][group_by] }}</strong>
+                      <strong></strong>{{ items[0][group_by] }}
                     </span>
+
                     <span class="subtitle-1" style="float: right"
-                      ><strong> Quantity: {{ items.length }} </strong>
+                      ><strong> Total Amount: </strong
+                      >{{
+                        $convertToCurrency(
+                          computeQuantity(items) * items[0].cost
+                        )
+                      }}
+                    </span>
+                    <span class="subtitle-1 mr-5" style="float: right"
+                      ><strong> Quantity: </strong>{{ computeQuantity(items) }}
                     </span>
                   </th>
                 </template>
@@ -74,7 +83,7 @@
                 <template v-slot:[`item.date_acquired`]="{ item }">
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
-                <template v-slot:[`item.stocks`]="{ item }">
+                <!-- <template v-slot:[`item.stocks`]="{ item }">
                   <div class="d-flex">
                     <v-btn
                       class="primary mr-2"
@@ -94,8 +103,8 @@
                     >
                   </div>
 
-                  <!-- <v-btn class="warning">Template</v-btn> -->
-                </template>
+                  <v-btn class="warning">Template</v-btn>
+                </template> -->
                 <template v-slot:[`item.template`]="{ item }">
                   <div class="d-flex">
                     <v-btn
@@ -197,6 +206,14 @@ export default {
     tab: null,
   }),
   methods: {
+    computeQuantity(items) {
+      let quantity = 0;
+      items.forEach((item) => {
+        quantity += item.quantity;
+      });
+
+      return quantity;
+    },
     qr(item) {
       let data = {
         property_name: item.property_name,

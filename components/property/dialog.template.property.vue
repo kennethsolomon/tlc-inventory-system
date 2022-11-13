@@ -46,6 +46,7 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Purchaser"
                     name="purchaser"
                     type="radio"

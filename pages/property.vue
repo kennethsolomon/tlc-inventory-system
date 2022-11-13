@@ -39,7 +39,7 @@
             @change="selected"
             v-model="select"
             :items="items"
-            hint="Group by"
+            hint="Filter by"
             item-text="text"
             item-value="name"
             label="Select"
@@ -143,7 +143,7 @@ export default {
       { text: "Cost", value: "cost" },
       { text: "Date Acquired", value: "date_acquired" },
       { text: "Date Received", value: "date_received" },
-      { text: "Stocks", value: "stocks" },
+      // { text: "Stocks", value: "stocks" },
       { text: "Actions", value: "actions" },
       { text: "Template", value: "template" },
       { text: "QR Code", value: "qr" },
