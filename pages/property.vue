@@ -49,6 +49,10 @@
             prepend-inner-icon="mdi-filter"
           ></v-select>
 
+          <v-checkbox
+            v-model="group_by_description"
+            label="Group By Description"
+          ></v-checkbox>
           <AddProperty
             v-if="add_property_dialog === true"
             :add_property_dialog="add_property_dialog"
@@ -112,6 +116,7 @@ export default {
     StocksProperty,
   },
   data: () => ({
+    group_by_description: false,
     edit_data: null,
     property_template_data: null,
     delete_data: null,
@@ -185,6 +190,42 @@ export default {
       );
     },
   },
+  watch: {
+    group_by_description: function (val) {
+      let items = [
+        { text: "Property Name", align: "start", value: "property_name" },
+        { text: "Description", value: "description" },
+        { text: "Purchaser", value: "purchaser" },
+        { text: "Property Number", value: "property_code" },
+        { text: "Serial Number", value: "serial_number" },
+        { text: "Quantity", value: "quantity" },
+        { text: "Cost", value: "cost" },
+        { text: "Date Acquired", value: "date_acquired" },
+        { text: "Date Received", value: "date_received" },
+        { text: "Actions", value: "actions" },
+        { text: "Template", value: "template" },
+        { text: "QR Code", value: "qr" },
+      ];
+
+      let item_list = [
+        { text: "Property Name", align: "start", value: "property_name" },
+        { text: "Description", value: "description" },
+        { text: "Purchaser", value: "purchaser" },
+        { text: "Quantity", value: "quantity" },
+        { text: "Cost", value: "cost" },
+        { text: "Actions", value: "actions" },
+        { text: "Template", value: "template" },
+        { text: "QR Code", value: "qr" },
+      ];
+      if (val) {
+        this.table_headers = item_list;
+        this.getItemList();
+      } else {
+        this.table_headers = items;
+        this.getItem();
+      }
+    },
+  },
   methods: {
     propertyTemplateData(data) {
       let form_data = { ...data };
@@ -228,6 +269,7 @@ export default {
       this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
       this.getItem();
+      this.getItemList();
 
       this.$toast.success("Stocks updated successfully.");
     },
@@ -243,6 +285,7 @@ export default {
       this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
       this.getItem();
+      this.getItemList();
     },
     selected(selected) {
       this.group_by = selected.name;
@@ -282,6 +325,7 @@ export default {
           this.edit_property_dialog = false;
 
           this.getItem();
+          this.getItemList();
         }
       });
     },
@@ -289,6 +333,16 @@ export default {
       this.overlay = true;
 
       this.table_data[0][0].data = this.$store.state.items.items.data;
+      this.table_data[1][0].data = this.consumable;
+      this.table_data[2][0].data = this.nonConsumable;
+
+      this.overlay = false;
+    },
+
+    getItemList() {
+      this.overlay = true;
+
+      this.table_data[0][0].data = this.$store.state.item_list.item_list.data;
       this.table_data[1][0].data = this.consumable;
       this.table_data[2][0].data = this.nonConsumable;
 

@@ -159,7 +159,7 @@
       :qr_data="qr_data"
       @closeQr="qr_dialog = false"
     ></qr>
-    <v-btn
+    <!-- <v-btn
       :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
       @click="qr_dialog = true"
       tile
@@ -168,7 +168,7 @@
     >
       <v-icon left>mdi-qrcode</v-icon>
       QR Dialog
-    </v-btn>
+    </v-btn> -->
   </v-card>
 </template>
 
