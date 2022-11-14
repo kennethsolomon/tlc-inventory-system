@@ -53,13 +53,14 @@
                     @model="model($event, 'purchaser')"
                   />
                 </v-col>
-                <v-col cols="12" v-if="show_property_code">
+                <v-col cols="12">
                   <ValidationProvider
                     v-slot="{ errors }"
                     rules="required"
                     name="Property COde"
                   >
                     <v-text-field
+                      :disabled="!show_property_code"
                       class="pa-0 ma-0"
                       v-model="form.property_code"
                       name="property_code"
@@ -180,8 +181,9 @@
                     @model="model($event, 'assigned_person')"
                   />
                 </v-col>
-                <v-col cols="12" lg="4" sm="12" xs="12" v-if="show_type">
+                <v-col cols="12" lg="4" sm="12" xs="12">
                   <Input
+                    :disabled="show_type"
                     :valid="valid"
                     title="Status"
                     name="status"
@@ -223,8 +225,9 @@
                     @model="model($event, 'cost')"
                   />
                 </v-col>
-                <v-col cols="12" lg="6" sm="12" xs="12" v-if="show_quantity">
+                <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
+                    :disabled="show_quantity"
                     :valid="valid"
                     title="Quantity"
                     name="quantity"

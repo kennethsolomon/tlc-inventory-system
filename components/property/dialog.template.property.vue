@@ -46,7 +46,6 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
-                    disabled="disabled"
                     title="Purchaser"
                     name="purchaser"
                     type="radio"
@@ -56,17 +55,24 @@
                     @model="model($event, 'purchaser')"
                   />
                 </v-col>
-                <v-col class="my-0 py-0" cols="12">
-                  <Input
-                    :valid="valid"
-                    title="Property Code"
-                    name="property_code"
-                    type="text"
+                <v-col cols="12">
+                  <ValidationProvider
+                    v-slot="{ errors }"
                     rules="required"
-                    :disabled="true"
-                    :value="property_template_data.property_code"
-                    @model="model($event, 'property_code')"
-                  />
+                    name="Property COde"
+                  >
+                    <v-text-field
+                      :disabled="!show_property_code"
+                      class="pa-0 ma-0"
+                      v-model="form.property_code"
+                      name="property_code"
+                      label="Property Code"
+                      placeholder="Property Code"
+                      type="text"
+                      :error-messages="errors"
+                      :success="valid"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="6" sm="12" xs="12">
                   <Input
@@ -112,14 +118,13 @@
                   >
                     <v-text-field
                       class="pa-0 ma-0"
-                      v-model="serial_number_edit"
+                      v-model="form.serial_number"
                       name="serial_number"
                       label="Serial Number"
                       placeholder="Serial Number"
                       type="text"
                       :error-messages="errors"
                       :success="valid"
-                      :value="form.serial_number"
                     ></v-text-field>
                   </ValidationProvider>
                 </v-col>
@@ -186,6 +191,7 @@
                 </v-col>
                 <v-col cols="12" lg="4" sm="12" xs="12">
                   <Input
+                    :disabled="show_type"
                     :valid="valid"
                     title="Status"
                     name="status"
@@ -233,6 +239,7 @@
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
+                    :disabled="show_quantity"
                     :valid="valid"
                     title="Quantity"
                     name="quantity"
@@ -270,12 +277,17 @@ export default {
     property_template_data: Object,
   },
   data: () => ({
+    show_type: false,
+    show_quantity: true,
+    show_property_code: false,
     serial_number_edit: null,
     form: {
+      type: null,
       serial_number: null,
       purchaser: null,
       cost: 0,
-      quantity: 0,
+      quantity: 1,
+      property_code: null,
     },
     item: {
       options: [],
@@ -490,11 +502,28 @@ export default {
   },
 
   watch: {
-    "form.purchaser": function (val) {
-      if (val === "Regional Office" && !this.form.serial_number) {
-        this.serial_number_edit = "ABCD - ";
+    "form.type": function (val) {
+      console.log(val);
+      if (val === "Consumable") {
+        console.log(val);
+        this.show_type = false;
       } else {
-        this.serial_number_edit = this.form.serial_number;
+        console.log(val);
+        this.show_type = true;
+      }
+    },
+    "form.purchaser": function (val) {
+      if (val === "Regional Office") {
+        this.form.serial_number = "ABCD - ";
+        this.form.quantity = 1;
+        this.show_quantity = false;
+        this.show_property_code = true;
+        this.form.property_code = "";
+      } else {
+        this.form.serial_number = null;
+        this.show_quantity = true;
+        this.show_property_code = false;
+        this.form.property_code = "PO-" + new Date().getFullYear() + "-";
       }
     },
   },
