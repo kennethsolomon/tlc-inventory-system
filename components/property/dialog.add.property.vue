@@ -180,7 +180,7 @@
                     @model="model($event, 'assigned_person')"
                   />
                 </v-col>
-                <v-col cols="12" lg="4" sm="12" xs="12">
+                <v-col cols="12" lg="4" sm="12" xs="12" v-if="show_type">
                   <Input
                     :valid="valid"
                     title="Status"
@@ -223,9 +223,8 @@
                     @model="model($event, 'cost')"
                   />
                 </v-col>
-                <v-col cols="12" lg="6" sm="12" xs="12">
+                <v-col cols="12" lg="6" sm="12" xs="12" v-if="show_quantity">
                   <Input
-                    v-if="show_quantity"
                     :valid="valid"
                     title="Quantity"
                     name="quantity"
@@ -263,9 +262,11 @@ export default {
     add_property_dialog: Boolean,
   },
   data: () => ({
+    show_type: false,
     show_quantity: true,
     show_property_code: false,
     form: {
+      type: null,
       serial_number: null,
       purchaser: null,
       cost: 0,
@@ -437,7 +438,6 @@ export default {
 
     // Received By API
     addEmployee(form) {
-      console.log(form);
       this.$store
         .dispatch("postEmployee", form)
         .then((result) => {
@@ -489,6 +489,16 @@ export default {
     },
   },
   watch: {
+    "form.type": function (val) {
+      console.log(val);
+      if (val === "Consumable") {
+        console.log(val);
+        this.show_type = false;
+      } else {
+        console.log(val);
+        this.show_type = true;
+      }
+    },
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
         this.form.serial_number = "ABCD - ";
