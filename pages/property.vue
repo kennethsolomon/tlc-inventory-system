@@ -269,7 +269,7 @@ export default {
       this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
       this.getItem();
-      this.getItemList();
+      // this.getItemList();
 
       this.$toast.success("Stocks updated successfully.");
     },
@@ -285,7 +285,7 @@ export default {
       this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
       this.getItem();
-      this.getItemList();
+      // this.getItemList();
     },
     selected(selected) {
       this.group_by = selected.name;
@@ -318,14 +318,14 @@ export default {
             result.data.id
           );
 
-          this.table_data[0][0].data.splice(index, 1, result.data);
+          this.table_data[0][0].data.splice(index, 1, data);
 
           this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
           this.edit_property_dialog = false;
 
           this.getItem();
-          this.getItemList();
+          // this.getItemList();
         }
       });
     },
