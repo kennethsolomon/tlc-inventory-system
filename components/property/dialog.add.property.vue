@@ -226,17 +226,25 @@
                   />
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
-                  <Input
-                    :disabled="show_quantity"
-                    :valid="valid"
-                    title="Quantity"
-                    name="quantity"
-                    type="number"
+                  <ValidationProvider
+                    v-slot="{ errors }"
                     rules="required"
-                    @model="model($event, 'quantity')"
-                  />
+                    name="Quantity"
+                  >
+                    <v-text-field
+                      :disabled="!show_quantity"
+                      class="pa-0 ma-0"
+                      v-model="form.quantity"
+                      name="quantity"
+                      label="Quantity"
+                      placeholder="Quantity"
+                      type="number"
+                      :error-messages="errors"
+                      :success="valid"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
-                <v-col v-if="computeCost > 0" cols="12">
+                <v-col if="computeCost > 0" cols="12">
                   <v-alert type="success">
                     {{ $convertToCurrency(computeCost) }}
                   </v-alert>
