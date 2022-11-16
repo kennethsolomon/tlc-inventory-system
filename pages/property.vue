@@ -213,9 +213,6 @@ export default {
         { text: "Purchaser", value: "purchaser" },
         { text: "Quantity", value: "quantity" },
         { text: "Cost", value: "cost" },
-        { text: "Actions", value: "actions" },
-        { text: "Template", value: "template" },
-        { text: "QR Code", value: "qr" },
       ];
       if (val) {
         this.table_headers = item_list;
