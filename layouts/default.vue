@@ -190,6 +190,11 @@ export default {
           title: "Property",
           to: "/property",
         },
+        {
+          icon: "mdi-application-cog",
+          title: "Manage Stocks",
+          to: "/stocks",
+        },
       ],
       miniVariant: false,
       right: true,

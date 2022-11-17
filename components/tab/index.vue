@@ -10,16 +10,6 @@
       :class="{ 'justify-center': $vuetify.breakpoint.xs }"
     >
       <slot name="add_dialog"></slot>
-      <!-- <v-btn
-        @click="dialog.add = true"
-        class="ma-2"
-        tile
-        :color="buttons.add.color"
-        :width="$vuetify.breakpoint.xs ? '100%' : ''"
-      >
-        <v-icon left>{{ buttons.add.icon }}</v-icon>
-        {{ buttons.add.btn_name }}
-      </v-btn> -->
     </div>
     <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
       <v-tab v-for="(item, index) in table_data" :key="index">
@@ -83,7 +73,7 @@
                 <template v-slot:[`item.date_acquired`]="{ item }">
                   {{ new Date(item.date_acquired).toISOString().split("T")[0] }}
                 </template>
-                <!-- <template v-slot:[`item.stocks`]="{ item }">
+                <template v-slot:[`item.stocks`]="{ item }">
                   <div class="d-flex">
                     <v-btn
                       class="primary mr-2"
@@ -103,8 +93,8 @@
                     >
                   </div>
 
-                  <v-btn class="warning">Template</v-btn>
-                </template> -->
+                  <!-- <v-btn class="warning">Template</v-btn> -->
+                </template>
                 <template v-slot:[`item.template`]="{ item }">
                   <div class="d-flex">
                     <v-btn
