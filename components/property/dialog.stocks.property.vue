@@ -17,6 +17,28 @@
             <form class="d-flex flex-column" @submit.prevent="onSubmit">
               <Input
                 :valid="valid"
+                disabled="disabled"
+                title="Type"
+                name="type"
+                type="radio"
+                rules="required"
+                :value="stocks_data.item.type"
+                :options="type"
+                @model="model($event, 'type')"
+              />
+              <Input
+                :valid="valid"
+                disabled="disabled"
+                title="Purchaser"
+                name="purchaser"
+                type="radio"
+                rules="required"
+                :value="stocks_data.item.purchaser"
+                :options="purchaser"
+                @model="model($event, 'purchaser')"
+              />
+              <Input
+                :valid="valid"
                 title="Category"
                 name="category"
                 type="autocomplete"
@@ -40,15 +62,29 @@
               <ValidationProvider
                 v-slot="{ errors }"
                 :rules="
-                  stocks_data.purchaser === 'Regional Office'
+                  stocks_data.property_code === 'Regional Office'
                     ? {
                         required: true,
                         regional_format: '^(ABCD - )[A-Za-z0-9]',
                       }
                     : { required: true }
                 "
-                name="Serial Number"
+                name="Property Code"
               >
+                <v-text-field
+                  :disabled="!show_property_code"
+                  class="pa-0 ma-0"
+                  v-model="form.property_code"
+                  name="property_code"
+                  label="Property Code"
+                  placeholder="Property Code"
+                  type="text"
+                  :error-messages="errors"
+                  :success="valid"
+                ></v-text-field>
+              </ValidationProvider>
+
+              <ValidationProvider v-slot="{ errors }" name="Serial Number">
                 <v-text-field
                   class="pa-0 ma-0"
                   v-model="form.serial_number"
@@ -131,6 +167,21 @@
                 @model="model($event, 'date_received')"
               />
 
+              <ValidationProvider v-slot="{ errors }" name="Status">
+                <v-autocomplete
+                  class="pa-0 ma-0"
+                  v-model="form.status"
+                  :items="status.options"
+                  item-text="name"
+                  item-value="id"
+                  label="Status"
+                  name="status"
+                  :disabled="show_type"
+                  :error-messages="errors"
+                  :success="valid"
+                ></v-autocomplete>
+              </ValidationProvider>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
@@ -174,11 +225,15 @@ export default {
     title: String,
   },
   data: () => ({
+    show_type: false,
+    show_property_code: false,
     show_quantity: true,
     field_title: null,
     data: null,
     form: {
+      item_status_id: null,
       property_name: null,
+      action: null,
       type: null,
       serial_number: null,
       purchaser: null,
@@ -186,7 +241,13 @@ export default {
       quantity: 1,
       property_code: null,
     },
-
+    status: {
+      options: [],
+    },
+    type: [
+      { label: "Consumable", value: "Consumable" },
+      { label: "Non-Consumable", value: "Non-Consumable" },
+    ],
     received_by: {
       options: [],
       hasIcon: {
@@ -262,6 +323,13 @@ export default {
         },
       },
     },
+    purchaser: [
+      {
+        label: "Provincial Office",
+        value: "Provincial Office",
+      },
+      { label: "Regional Office", value: "Regional Office" },
+    ],
     category: {
       options: [],
       hasIcon: {
@@ -295,12 +363,24 @@ export default {
       this.form.item_category_id = Number(this.form.category);
       this.form.received_by_id = Number(this.form.received_by);
       this.form.received_from_id = Number(this.form.received_from);
-      this.form.item_status_id = Number(this.form.status);
+      this.stocks_data.item.type === "Consumable"
+        ? (this.form.item_status_id = Number(this.form.status))
+        : (this.form.item_status_id = null);
+
       this.form.location_id = Number(this.form.location);
-      console.log(this.stocks_data, "stock data");
-      this.$emit("addStock", this.form);
+      this.form.type = this.stocks_data.item.type;
+      this.form.action = this.stocks_data.type;
+      this.form.purchaser = this.stocks_data.item.purchaser;
+      this.form.cost = this.stocks_data.item.cost;
+      this.form.property_name = this.stocks_data.item.property_name;
+      this.form.description = this.stocks_data.item.description;
+
+      this.$emit("manageStocks", this.form, "add");
     },
 
+    getStatus() {
+      this.status.options = this.$store.state.item_status.item_status.data;
+    },
     // Location API
     addLocation(form) {
       this.$store
@@ -389,7 +469,6 @@ export default {
     "form.type": function (val) {
       console.log(val);
       if (val === "Consumable") {
-        console.log(val);
         this.show_type = false;
       } else {
         console.log(val);
@@ -398,13 +477,11 @@ export default {
     },
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
-        this.form.serial_number = "ABCD - ";
         this.form.quantity = 1;
         this.show_quantity = false;
         this.show_property_code = true;
-        this.form.property_code = "";
+        this.form.property_code = "ABCD - ";
       } else {
-        this.form.serial_number = null;
         this.show_quantity = true;
         this.show_property_code = false;
         this.form.property_code = "PO-" + new Date().getFullYear() + "-";
@@ -414,11 +491,12 @@ export default {
   mounted() {
     this.data = this.stocks_data.item;
     this.field_title =
-      this.stocks_data.type === "deduct" ? "Deduct Quantity" : "Add Quantity";
+      this.stocks_data.action === "deduct" ? "Deduct Quantity" : "Add Quantity";
 
     this.getCategory();
     this.getEmployee();
     this.getLocation();
+    this.getStatus();
   },
 };
 </script>

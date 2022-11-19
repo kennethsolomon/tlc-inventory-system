@@ -21,7 +21,7 @@
           end_point="update_or_create_item"
           :stocks_data="stocks_data"
           @closeModal="stocks_property_dialog = false"
-          @addStock="addStock"
+          @manageStocks="manageStocks"
         />
       </template>
     </Tab>
@@ -175,21 +175,15 @@ export default {
       this.stocks_data = data;
       this.stocks_property_dialog = true;
     },
-    addStock(data) {
-      console.log(data, "ADD STOCK");
-      // let index = this.getIndex(
-      //   this.$store.state.items.items.data,
-      //   data.data.id
-      // );
+    manageStocks(data, action) {
+      this.$store.dispatch("postItem", data).then(async (result) => {
+        await this.$store.dispatch("getItemList");
+        if (action === "add") {
+          this.getItemList();
+        }
 
-      // this.table_data[0][0].data.splice(index, 1, data.data);
-
-      // this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-      // this.getItem();
-      // // this.getItemList();
-
-      // this.$toast.success("Stocks updated successfully.");
+        this.stocks_property_dialog = false;
+      });
     },
     deleteData(data) {
       this.delete_data = data;
@@ -207,45 +201,6 @@ export default {
     },
     selected(selected) {
       this.group_by = selected.name;
-    },
-    formSave(data, action) {
-      this.$store.dispatch("postItem", data).then((result) => {
-        this.$store.dispatch("getItems");
-
-        if (action === "add") {
-          this.$toast.success(
-            "Add New Property " + data.type + " successfully!"
-          );
-
-          if (data.type === "Consumable") {
-            this.table_data[1][0].data.push(data);
-          } else if (data.type === "Non-Consumable") {
-            this.table_data[2][0].data.push(data);
-          }
-
-          // All Property
-          this.table_data[0][0].data.push(data);
-
-          this.add_property_dialog = false;
-          this.property_template_dialog = false;
-        } else if (action === "edit") {
-          this.$toast.success("Edit Property " + data.type + " successfully!");
-
-          let index = this.getIndex(
-            this.$store.state.items.items.data,
-            result.data.id
-          );
-
-          this.table_data[0][0].data.splice(index, 1, data);
-
-          this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-          this.edit_property_dialog = false;
-
-          this.getItem();
-          // this.getItemList();
-        }
-      });
     },
     getItem() {
       this.overlay = true;

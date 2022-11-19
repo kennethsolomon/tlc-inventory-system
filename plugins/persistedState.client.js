@@ -9,7 +9,8 @@ export default ({store}) => {
 		'item_categories',
 		'item_status',
 		'items',
-		'locations'
+		'locations',
+		'item_list'
 	]
   })(store)
 }

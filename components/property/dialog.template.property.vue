@@ -58,8 +58,15 @@
                 <v-col cols="12">
                   <ValidationProvider
                     v-slot="{ errors }"
-                    rules="required"
-                    name="Property COde"
+                    :rules="
+                      stocks_data.property_code === 'Regional Office'
+                        ? {
+                            required: true,
+                            regional_format: '^(ABCD - )[A-Za-z0-9]',
+                          }
+                        : { required: true }
+                    "
+                    name="Property Code"
                   >
                     <v-text-field
                       :disabled="!show_property_code"
@@ -104,18 +111,7 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    :rules="
-                      form.purchaser === 'Regional Office'
-                        ? {
-                            required: true,
-                            regional_format: '^(ABCD - )[A-Za-z0-9]',
-                          }
-                        : { required: true }
-                    "
-                    name="Serial Number"
-                  >
+                  <ValidationProvider v-slot="{ errors }" name="Serial Number">
                     <v-text-field
                       class="pa-0 ma-0"
                       v-model="form.serial_number"
@@ -514,13 +510,11 @@ export default {
     },
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
-        this.form.serial_number = "ABCD - ";
         this.form.quantity = 1;
         this.show_quantity = false;
         this.show_property_code = true;
-        this.form.property_code = "";
+        this.form.property_code = "ABCD - ";
       } else {
-        this.form.serial_number = null;
         this.show_quantity = true;
         this.show_property_code = false;
         this.form.property_code = "PO-" + new Date().getFullYear() + "-";
