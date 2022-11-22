@@ -23,6 +23,17 @@
           @closeModal="stocks_property_dialog = false"
           @manageStocks="manageStocks"
         />
+        <UpdateStocks
+          v-if="update_stocks_dialog === true"
+          :dialog="update_stocks_dialog"
+          action="postItemList"
+          title="Minus Stocks"
+          :id="stocks_data"
+          @closeModal="update_stocks_dialog = false"
+          @callBack="minusStock()"
+          :fields="minus_stock_fields"
+          :button="minus_stock_button"
+        />
       </template>
     </Tab>
   </div>
@@ -30,19 +41,20 @@
 
 <script>
 import AddProperty from "../components/property/dialog.add.property.vue";
-import EditProperty from "../components/property/dialog.edit.property.vue";
+import UpdateStocks from "../components/dialog/dialog.update.vue";
 import PropertyTemplate from "../components/property/dialog.template.property.vue";
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
 import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
   components: {
     AddProperty,
-    EditProperty,
+    UpdateStocks,
     PropertyTemplate,
     DeleteProperty,
     StocksProperty,
   },
   data: () => ({
+    update_stocks_dialog: false,
     group_by_description: false,
     edit_data: null,
     property_template_data: null,
@@ -50,6 +62,20 @@ export default {
     stocks_data: null,
     group_by: "",
     select: { name: "", text: "" },
+    minus_stock_button: {
+      color: "primary",
+      btn_name: "Save",
+      icon: "mdi-content-save",
+    },
+    minus_stock_fields: [
+      {
+        cols: 1,
+        name: "quantity",
+        title: "Quantity",
+        rules: "required",
+        type: "text",
+      },
+    ],
     items: [
       { name: "", text: "" },
       { name: "property_name", text: "Property Name" },
@@ -144,6 +170,11 @@ export default {
     },
   },
   methods: {
+    async minusStock() {
+      this.update_stocks_dialog = false;
+      await this.$store.dispatch("getItemList");
+      this.getItemList();
+    },
     propertyTemplateData(data) {
       let form_data = { ...data };
       let property_template = {
@@ -173,7 +204,13 @@ export default {
     },
     stocks(data) {
       this.stocks_data = data;
-      this.stocks_property_dialog = true;
+      if (data.type === "add") {
+        this.stocks_data = data;
+        this.stocks_property_dialog = true;
+      } else if (data.type === "deduct") {
+        this.update_stocks_dialog = true;
+        this.stocks_data = Number(data.item.id);
+      }
     },
     manageStocks(data, action) {
       this.$store.dispatch("postItem", data).then(async (result) => {

@@ -29,7 +29,7 @@
 <script>
 export default {
   props: {
-    className: String, // for api call
+    action: String, // for api call
     dialog: Boolean,
     title: String,
     id: Number,
@@ -45,13 +45,14 @@ export default {
       this.form.id = this.id;
     },
     async update() {
-      await this.$axios
-        .$post(this.className, this.form)
-        .then(async () => {
+      this.$store
+        .dispatch(this.action, this.form)
+        .then((result) => {
+          this.$toast.success("Successfully Updated!");
           this.$emit("callBack");
         })
         .catch((error) => {
-          this.$toast.error(error);
+          this.$toast.error(error.response.data.message);
         });
     },
     // Use if fields has icon modal
