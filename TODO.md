@@ -1,0 +1,8 @@
+- [ ] Transfer Property Table
+  - [ ] Save Transfer Proerpty Data
+- [ ] Loan Fields Property
+  - [ ] Loan Table Property
+  - [ ] Loan Save Data
+- [ ] LOGs
+- [ ] Dashboard: Charts, Notification if Stocks is below 10
+- [ ] Staff user can only view the data
