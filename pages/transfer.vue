@@ -20,6 +20,11 @@
           <template v-slot:[`item.property_count`]="{ item }">
             <p>{{ item.item_data.length }}</p>
           </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon @click="destroyTransaction(Number(item.id))"
+              >mdi-delete</v-icon
+            >
+          </template>
           <template v-slot:[`item.info`]="{ item }">
             <v-menu
               :close-on-content-click="false"
@@ -381,6 +386,11 @@ export default {
     transactions: [],
   }),
   methods: {
+    destroyTransaction(id) {
+      this.$store.dispatch("destroyTransactions", id).then(() => {
+        this.getTransactions();
+      });
+    },
     onSubmit() {
       this.$store
         .dispatch("postTransferProperty", this.form)
@@ -397,6 +407,10 @@ export default {
           };
           this.getTransactions();
           this.$store.dispatch("getItemList");
+          this.$store.dispatch("getItems");
+          this.items = this.$store.state.items.items.data.filter(
+            (item) => item.transaction_status == null
+          );
         })
         .catch((error) => {
           this.$toast.error(error);
@@ -410,7 +424,10 @@ export default {
   },
   mounted() {
     this.getTransactions();
-    this.items = this.$store.state.items.items.data;
+    this.items = this.$store.state.items.items.data.filter(
+      (item) => item.transaction_status == null
+    );
+
     // console.log(this.$store.state.items.items.data);
 
     // console.log(this.$store.state.items.transactions.data, "transactions");

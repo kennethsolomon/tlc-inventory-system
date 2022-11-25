@@ -21,5 +21,10 @@ export default{
 		return transactions.data
 	},
 
+	async destroyTransactions ({}, id) {
+		const transactions = await this.$axios.$delete(`delete_transaction/${id}`)
+		return transactions
+	},
+
 
 }

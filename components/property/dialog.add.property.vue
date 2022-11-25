@@ -184,7 +184,6 @@
                     title="Status"
                     name="status"
                     type="autocomplete"
-                    rules="required"
                     item_text="name"
                     item_value="id"
                     :options="status.options"
@@ -499,10 +498,9 @@ export default {
     "form.type": function (val) {
       console.log(val);
       if (val === "Consumable") {
-        console.log(val);
         this.show_type = false;
       } else {
-        console.log(val);
+        this.form.status = "";
         this.show_type = true;
       }
     },
