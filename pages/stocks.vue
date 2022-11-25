@@ -265,7 +265,7 @@ export default {
     },
   },
   mounted() {
-    this.getItemList();
+    this.$store.dispatch("getItemList"), this.getItemList();
   },
 };
 </script>

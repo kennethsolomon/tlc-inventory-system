@@ -322,6 +322,7 @@ export default {
           this.edit_property_dialog = false;
 
           this.getItem();
+          this.$store.dispatch("getItemList");
           // this.getItemList();
         }
       });

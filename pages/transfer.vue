@@ -396,8 +396,7 @@ export default {
             transfer_type_others: null,
           };
           this.getTransactions();
-          // this.$store.dispatch("getItemCategories");
-          // this.category.options.push(result.data);
+          this.$store.dispatch("getItemList");
         })
         .catch((error) => {
           this.$toast.error(error);
