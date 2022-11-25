@@ -7,5 +7,11 @@ export default{
 	async postItem ({}, form) {
 		const item = await this.$axios.$post(`update_or_create_item`, form)
 		return item
+	},
+
+	async postTransferProperty ({}, form) {
+		const transfer_property = await this.$axios.$post(`transfer_property`, form)
+		return transfer_property
 	}
+
 }

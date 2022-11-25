@@ -60,7 +60,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="item_data"
+              name="Property List"
             >
               <v-autocomplete
                 v-model="form.item_data"
@@ -121,7 +121,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="transaction_no"
+              name="Transaction No."
             >
               <v-text-field
                 label="Transaction No."
@@ -137,7 +137,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="condition"
+              name="Condition of PPE"
             >
               <v-select
                 v-model="form.condition"
@@ -152,7 +152,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="transfer_type"
+              name="Transfer Type"
             >
               <v-select
                 v-model="form.transfer_type"
@@ -172,11 +172,26 @@
               v-model="form.transfer_type_others"
             ></v-text-field>
 
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="required"
+              name="Reason for Transfer"
+            >
+              <v-textarea
+                v-model="form.reason_for_transfer"
+                name="reason_for_transfer"
+                label="Reason for Transfer"
+                rows="2"
+                :error-messages="errors"
+                :success="valid"
+              ></v-textarea>
+            </ValidationProvider>
+
             <p class="font-weight-black">II. Borrower's Information</p>
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="received_by"
+              name="Received By"
             >
               <v-text-field
                 label="Received by"
@@ -191,7 +206,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="borrower_designation"
+              name="Borrower Designation"
             >
               <v-text-field
                 label="Designation"
@@ -206,7 +221,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="borrower_agency"
+              name="Borrower Agency"
             >
               <v-text-field
                 label="Agency"
@@ -222,7 +237,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="received_from"
+              name="Received from"
             >
               <v-text-field
                 label="Agency"
@@ -233,10 +248,11 @@
                 :success="valid"
               ></v-text-field>
             </ValidationProvider>
+
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="lender_designation"
+              name="Lender Designation"
             >
               <v-text-field
                 label="Designation"
@@ -251,7 +267,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="lender_agency"
+              name="Lender Agency"
             >
               <v-text-field
                 label="Agency"
@@ -268,7 +284,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="approved_by"
+              name="Approved by"
             >
               <v-text-field
                 label="Approved by"
@@ -283,7 +299,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
-              name="approver_designation"
+              name="Designation"
             >
               <v-text-field
                 label="Designation"
@@ -325,9 +341,26 @@ export default {
     },
   }),
   methods: {
-    // TODO:: Save to Database
     onSubmit() {
-      console.log(this.form);
+      this.$store
+        .dispatch("postTransferProperty", this.form)
+        .then((result) => {
+          this.$toast.success(
+            `Transfer Property with ${result.data.transaction_no} Transaction No. has been added successfully.`
+          );
+
+          this.$refs.observer.reset();
+
+          this.form = {
+            item_data: [],
+            transfer_type_others: null,
+          };
+          // this.$store.dispatch("getItemCategories");
+          // this.category.options.push(result.data);
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
     },
   },
   mounted() {
