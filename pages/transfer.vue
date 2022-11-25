@@ -1,59 +1,79 @@
 <template>
   <v-row class="container fluid">
-    <v-col cols="6">
-      <v-autocomplete
-        v-model="form.values"
-        :items="items"
-        dense
-        chips
-        small-chips
-        label="Property List"
-        multiple
-        solo
-        item-text="property_code"
-        return-object
-      >
-        <template v-slot:item="data">
+    <v-col cols="8">
+      <v-card>
+        <v-card-title>
+          Transaction List
+          <v-spacer></v-spacer>
           <v-text-field
-            readonly
-            label="Date Acquired"
-            hide-details="auto"
-            :value="data.item.date_acquired"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
           ></v-text-field>
-          <v-text-field
-            readonly
-            label="Property Code"
-            hide-details="auto"
-            :value="data.item.property_code"
-          ></v-text-field>
-          <v-text-field
-            readonly
-            label="Description"
-            hide-details="auto"
-            :value="data.item.description"
-          ></v-text-field>
-          <v-text-field
-            readonly
-            label="Amount"
-            hide-details="auto"
-            :value="data.item.cost"
-          ></v-text-field>
-          <v-text-field
-            readonly
-            label="Category"
-            hide-details="auto"
-            :value="data.item.item_category_info.name"
-          ></v-text-field>
-          <v-text-field
-            readonly
-            label="Purchaser"
-            hide-details="auto"
-            :value="data.item.purchaser"
-          ></v-text-field>
-        </template>
-      </v-autocomplete>
+        </v-card-title>
+        <v-data-table :headers="headers" :items="transactions" :search="search">
+          <template v-slot:[`item.created_at`]="{ item }">
+            <p>{{ item.created_at.split("T")[0] }}</p>
+          </template>
+          <template v-slot:[`item.property_count`]="{ item }">
+            <p>{{ item.item_data.length }}</p>
+          </template>
+          <template v-slot:[`item.info`]="{ item }">
+            <v-menu
+              :close-on-content-click="false"
+              open-on-hover
+              :nudge-width="200"
+              offset-y
+              bottom
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <span v-bind="attrs" v-on="on">
+                  <v-icon style="cursor: pointer" color="primary"
+                    >mdi-information</v-icon
+                  >
+                </span>
+              </template>
+              <v-card flat>
+                <v-simple-table dense>
+                  <template v-slot:default>
+                    <h2 class="mx-3 my-3">Property List:</h2>
+                    <divider></divider>
+                    <tbody v-for="(item, index) in item.item_data" :key="index">
+                      <th>Number</th>
+                      <th>Name</th>
+                      <th>Code</th>
+                      <th>Description</th>
+                      <th>SN</th>
+                      <th>Cost</th>
+                      <th>Date Acquired</th>
+                      <th>Date Received</th>
+                      <th>Type</th>
+                      <th>Purchaser</th>
+                      <tr>
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ item.property_name }}</td>
+                        <td>{{ item.property_code }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.serial_number }}</td>
+                        <td>{{ item.cost }}</td>
+                        <td>{{ item.date_acquired }}</td>
+                        <td>{{ item.date_received }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.purchaser }}</td>
+                      </tr>
+                      <v-divider></v-divider>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-card>
+            </v-menu>
+          </template>
+        </v-data-table>
+      </v-card>
     </v-col>
-    <v-col cols="6">
+    <v-col cols="4">
       <v-card class="pa-3">
         <ValidationObserver ref="observer" v-slot="{ valid, invalid }">
           <form class="d-flex flex-column" @submit.prevent="onSubmit">
@@ -339,6 +359,26 @@ export default {
       item_data: [],
       transfer_type_others: null,
     },
+    search: "",
+    headers: [
+      {
+        text: "Info",
+        align: "start",
+        sortable: false,
+        value: "info",
+      },
+      { text: "Transaction Date", value: "created_at" },
+      { text: "PTR Number", value: "transaction_no" },
+      { text: "Property Count", value: "property_count" },
+      { text: "Transfer Type", value: "transfer_type" },
+      { text: "Received Type", value: "received_by" },
+      { text: "Received From", value: "received_from" },
+      { text: "Approved By", value: "approved_by" },
+      { text: "Status", value: "condition" },
+      { text: "Actions", value: "actions" },
+    ],
+
+    transactions: [],
   }),
   methods: {
     onSubmit() {
@@ -355,6 +395,7 @@ export default {
             item_data: [],
             transfer_type_others: null,
           };
+          this.getTransactions();
           // this.$store.dispatch("getItemCategories");
           // this.category.options.push(result.data);
         })
@@ -362,10 +403,18 @@ export default {
           this.$toast.error(error);
         });
     },
+    getTransactions() {
+      this.$store.dispatch("getTransactions").then((result) => {
+        this.transactions = result;
+      });
+    },
   },
   mounted() {
+    this.getTransactions();
     this.items = this.$store.state.items.items.data;
-    console.log(this.$store.state.items.items.data);
+    // console.log(this.$store.state.items.items.data);
+
+    // console.log(this.$store.state.items.transactions.data, "transactions");
   },
 };
 </script>

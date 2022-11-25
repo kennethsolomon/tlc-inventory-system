@@ -10,7 +10,8 @@ export default ({store}) => {
 		'item_status',
 		'items',
 		'locations',
-		'item_list'
+		'item_list',
+		'transactions'
 	]
   })(store)
 }

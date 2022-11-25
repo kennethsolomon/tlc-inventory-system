@@ -3,7 +3,8 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
-  items: []
+  items: [],
+  transactions: []
 }
 
 const inBrowser = typeof window !== 'undefined';

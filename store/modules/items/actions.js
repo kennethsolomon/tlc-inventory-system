@@ -12,6 +12,14 @@ export default{
 	async postTransferProperty ({}, form) {
 		const transfer_property = await this.$axios.$post(`transfer_property`, form)
 		return transfer_property
-	}
+	},
+
+	async getTransactions ({ commit }) {
+		const transactions = await this.$axios.$get(`transaction_list`)
+		commit('SET_TRANSACTIONS', transactions)
+
+		return transactions.data
+	},
+
 
 }
