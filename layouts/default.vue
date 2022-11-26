@@ -186,27 +186,27 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-application-cog",
+          icon: "mdi-file-cabinet",
           title: "Property",
           to: "/property",
         },
         {
-          icon: "mdi-application-cog",
+          icon: "mdi-chart-line",
           title: "Manage Stocks",
           to: "/stocks",
         },
         {
-          icon: "mdi-application-cog",
+          icon: "mdi-transfer",
           title: "Transfer Property",
           to: "/transfer",
         },
         {
-          icon: "mdi-application-cog",
+          icon: "mdi-camera-metering-partial",
           title: "Loan Property",
           to: "/loan",
         },
         {
-          icon: "mdi-application-cog",
+          icon: "mdi-math-log",
           title: "Logs",
           to: "/logs",
         },
