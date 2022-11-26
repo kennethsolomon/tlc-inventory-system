@@ -200,6 +200,11 @@ export default {
           title: "Transfer Property",
           to: "/transfer",
         },
+        {
+          icon: "mdi-application-cog",
+          title: "Loan Property",
+          to: "/loan",
+        },
       ],
       miniVariant: false,
       right: true,

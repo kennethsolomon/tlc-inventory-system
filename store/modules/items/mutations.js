@@ -5,5 +5,9 @@ export default {
 
 	SET_TRANSACTIONS(state, transactions) {
 		state.transactions = transactions
+	},
+
+	SET_LOANS(state, loans) {
+		state.loans =  loans
 	}
 }

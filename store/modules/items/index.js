@@ -4,7 +4,8 @@ import mutations from './mutations';
 
 const defaultState = {
   items: [],
-  transactions: []
+  transactions: [],
+  loans: [],
 }
 
 const inBrowser = typeof window !== 'undefined';

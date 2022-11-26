@@ -11,7 +11,8 @@ export default ({store}) => {
 		'items',
 		'locations',
 		'item_list',
-		'transactions'
+		'transactions',
+		'loans',
 	]
   })(store)
 }

@@ -9,6 +9,7 @@ export default{
 		return item
 	},
 
+	// Transfer / Transaction
 	async postTransferProperty ({}, form) {
 		const transfer_property = await this.$axios.$post(`transfer_property`, form)
 		return transfer_property
@@ -26,5 +27,22 @@ export default{
 		return transactions
 	},
 
+	// Loan
+
+	async postLoanProperty ({}, form) {
+		const loan_property = await this.$axios.$post(`loan_property`, form)
+		return loan_property
+	},
+
+	async getLoans ({ commit }) {
+		const loans = await this.$axios.$get(`loan_list`)
+		commit('SET_LOANS', loans)
+		return loans.data
+	},
+
+	async destroyLoans ({}, id) {
+		const loans = await this.$axios.$delete(`delete_loan/${id}`)
+		return loans
+	},
 
 }
