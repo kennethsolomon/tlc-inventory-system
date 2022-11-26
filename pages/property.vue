@@ -150,7 +150,7 @@ export default {
       { text: "Date Received", value: "date_received" },
       // { text: "Stocks", value: "stocks" },
       { text: "Actions", value: "actions" },
-      { text: "Template", value: "template" },
+      // { text: "Template", value: "template" },
       { text: "QR Code", value: "qr" },
     ],
     table_data: [
