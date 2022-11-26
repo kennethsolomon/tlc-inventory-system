@@ -6,7 +6,7 @@
   - [x] Loan Save Data
 - [ ] Dashboard: Charts, Notification if Stocks is below 10
 - [ ] Staff user can only view the data
-- [ ] LOGs
+- [x] LOGs
 
 ### Loan Property Table
 
