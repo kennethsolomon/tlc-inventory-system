@@ -205,6 +205,11 @@ export default {
           title: "Loan Property",
           to: "/loan",
         },
+        {
+          icon: "mdi-application-cog",
+          title: "Logs",
+          to: "/logs",
+        },
       ],
       miniVariant: false,
       right: true,

@@ -13,6 +13,7 @@ export default ({store}) => {
 		'item_list',
 		'transactions',
 		'loans',
+		'logs'
 	]
   })(store)
 }
