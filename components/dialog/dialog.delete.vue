@@ -15,10 +15,11 @@
         <v-card-text>
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-subtitle
+              <!-- <v-list-item-subtitle
                 >Are you sure you want to delete this
                 data?</v-list-item-subtitle
-              >
+              > -->
+              Are you sure you want to delete this data?
             </v-list-item-content>
 
             <v-list-item-avatar tile size="100">

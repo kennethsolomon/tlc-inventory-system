@@ -351,12 +351,28 @@
         </ValidationObserver>
       </v-card>
     </v-col>
+
+    <DeleteTransaction
+      v-if="delete_transaction_dialog === true"
+      :dialog="delete_transaction_dialog"
+      title="Delete Transaction"
+      end_point="delete_transaction"
+      :delete_data="delete_data"
+      @closeModal="delete_transaction_dialog = false"
+      @confirmDelete="confirmDelete"
+    />
   </v-row>
 </template>
 
 <script>
+import DeleteTransaction from "../components/dialog/dialog.delete.vue";
 export default {
+  components: {
+    DeleteTransaction,
+  },
   data: () => ({
+    delete_transaction_dialog: false,
+    delete_data: { id: null },
     transfer_type: ["Donation", "Relocate", "Others"],
     items: [],
     condition: ["New", "Used", "Damaged"],
@@ -386,10 +402,16 @@ export default {
     transactions: [],
   }),
   methods: {
+    confirmDelete() {
+      this.$toast.success(
+        `Transfer with ID ${this.delete_data.id} has been deleted successfully.`
+      );
+
+      this.getTransactions();
+    },
     destroyTransaction(id) {
-      this.$store.dispatch("destroyTransactions", id).then(() => {
-        this.getTransactions();
-      });
+      this.delete_data.id = id;
+      this.delete_transaction_dialog = true;
     },
     onSubmit() {
       this.$store

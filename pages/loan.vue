@@ -380,12 +380,28 @@
         </ValidationObserver>
       </v-card>
     </v-col>
+
+    <DeleteLoan
+      v-if="delete_loan_dialog === true"
+      :dialog="delete_loan_dialog"
+      title="Delete Loan"
+      end_point="delete_loan"
+      :delete_data="delete_data"
+      @closeModal="delete_loan_dialog = false"
+      @confirmDelete="confirmDelete"
+    />
   </v-row>
 </template>
 
 <script>
+import DeleteLoan from "../components/dialog/dialog.delete.vue";
 export default {
+  components: {
+    DeleteLoan,
+  },
   data: () => ({
+    delete_loan_dialog: false,
+    delete_data: { id: null },
     start_date_modal: false,
     end_date_modal: false,
     transfer_type: ["Donation", "Relocate", "Others"],
@@ -415,12 +431,16 @@ export default {
     transactions: [],
   }),
   methods: {
-    destroyLoan(id) {
-      this.$store.dispatch("destroyLoans", id).then(() => {
-        this.getLoans();
+    confirmDelete() {
+      this.$toast.success(
+        `Loan with ID ${this.delete_data.id} has been deleted successfully.`
+      );
 
-        this.$toast.error(`Loan Property has been deleted.`);
-      });
+      this.getLoans();
+    },
+    destroyLoan(id) {
+      this.delete_data.id = id;
+      this.delete_loan_dialog = true;
     },
     onSubmit() {
       this.$store
