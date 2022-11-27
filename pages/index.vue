@@ -1,8 +1,12 @@
 <template>
   <div>
-    <v-alert border="right" colored-border type="error" elevation="2"
+    <v-alert
+      v-if="reStock.length > 0"
+      border="right"
+      colored-border
+      type="error"
+      elevation="2"
       ><strong>Please re-stock this following properties:</strong>
-
       <div v-for="(item_list, index) in reStock" :key="index">
         {{ index + 1 }}. <strong>{{ item_list.property_name }}</strong> :
         {{ item_list.description }} (Quantity: {{ item_list.quantity }})
@@ -178,6 +182,13 @@ export default {
       },
       chartOptions: {
         responsive: true,
+        scales: {
+          xAxes: [
+            {
+              barPercentage: 0.3,
+            },
+          ],
+        },
       },
     };
   },
