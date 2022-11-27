@@ -46,6 +46,7 @@ import PropertyTemplate from "../components/property/dialog.template.property.vu
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
 import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
+  middleware: "admin",
   components: {
     AddProperty,
     UpdateStocks,

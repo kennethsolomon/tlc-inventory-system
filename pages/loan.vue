@@ -396,6 +396,7 @@
 <script>
 import DeleteLoan from "../components/dialog/dialog.delete.vue";
 export default {
+  middleware: "admin",
   components: {
     DeleteLoan,
   },

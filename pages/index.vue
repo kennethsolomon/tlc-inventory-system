@@ -182,13 +182,6 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        scales: {
-          xAxes: [
-            {
-              barPercentage: 0.3,
-            },
-          ],
-        },
       },
     };
   },

@@ -39,6 +39,7 @@
 
 <script>
 export default {
+  middleware: "admin",
   data: () => ({
     table: ["Transaction", "Loan", "Property"],
     value: "",

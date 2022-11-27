@@ -367,6 +367,7 @@
 <script>
 import DeleteTransaction from "../components/dialog/dialog.delete.vue";
 export default {
+  middleware: "admin",
   components: {
     DeleteTransaction,
   },

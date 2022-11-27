@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  middleware: "admin",
   data: () => ({
     search: "",
     headers: [
