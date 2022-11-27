@@ -126,12 +126,12 @@ export default {
       return this.table_data;
     },
     consumable() {
-      return this.$store.state.items.items.data.filter(
+      return this.$store.getters.getItemList.data.filter(
         (item) => item.type === "Consumable"
       );
     },
     nonConsumable() {
-      return this.$store.state.items.items.data.filter(
+      return this.$store.getters.getItemList.data.filter(
         (item) => item.type === "Non-Consumable"
       );
     },
@@ -265,7 +265,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getItemList"), this.getItemList();
+    this.$store.dispatch("getItemList").then(() => {
+      this.getItemList();
+    });
   },
 };
 </script>
