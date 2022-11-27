@@ -1,6 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+
+  server: {
+    // host: '0' // default: localhost ; uncomment this if your using ip address instead of localhost
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -46,7 +51,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-    modules: [
+  modules: [
     // https://auth.nuxtjs.org/guide/setup/
     '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/axios
@@ -57,25 +62,25 @@ export default {
   ],
 
   toast: {
-      position: 'bottom-center',
-      duration: 3000,
-      register: [ // Register custom toasts
-        {
-          // To call u need to call
-          // this.$toast.global.custom-toast("message");
-          name: 'test',
-          message: 'Oops...Something went wrong',
-          options: {
-            type: 'error'
-          }
+    position: 'bottom-center',
+    duration: 3000,
+    register: [ // Register custom toasts
+      {
+        // To call u need to call
+        // this.$toast.global.custom-toast("message");
+        name: 'test',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error'
         }
-      ]
+      }
+    ]
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8001/api/',
+    baseURL: 'http://localhost:8000/api/',
     credentials: true,
   },
 
@@ -89,13 +94,13 @@ export default {
   auth: {
     strategies: {
       cookie: {
-          cookie: {
+        cookie: {
           name: 'XSRF-TOKEN',
-          }
+        }
       },
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8001',
+        url: 'http://localhost:8000',
         endpoints: {
           csrf: {
             url: '/sanctum/csrf-cookie',

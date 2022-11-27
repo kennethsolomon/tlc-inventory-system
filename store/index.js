@@ -6,6 +6,7 @@ import item_categories from './modules/item_categories';
 import locations from './modules/locations';
 import employees from './modules/employees';
 import item_status from './modules/item_status';
+import item_list from './modules/item_list';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -17,7 +18,8 @@ const createStore = () => {
       locations,
       user,
       snackbar,
-      item_status
+      item_status,
+      item_list,
     }
   });
 };

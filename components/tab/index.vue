@@ -10,16 +10,6 @@
       :class="{ 'justify-center': $vuetify.breakpoint.xs }"
     >
       <slot name="add_dialog"></slot>
-      <!-- <v-btn
-        @click="dialog.add = true"
-        class="ma-2"
-        tile
-        :color="buttons.add.color"
-        :width="$vuetify.breakpoint.xs ? '100%' : ''"
-      >
-        <v-icon left>{{ buttons.add.icon }}</v-icon>
-        {{ buttons.add.btn_name }}
-      </v-btn> -->
     </div>
     <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
       <v-tab v-for="(item, index) in table_data" :key="index">
@@ -61,18 +51,20 @@
                       <v-icon v-else>mdi-chevron-down</v-icon>
                     </v-btn>
                     <span class="subtitle-1">
-                      <strong>{{ items[0][group_by] }}</strong>
+                      <strong></strong>{{ items[0][group_by] }}
                     </span>
-                    <!-- <span class="subtitle-1" style="float: right"
-                      ><strong
-                        >Total:
-                        {{
-                          buildTotalOrderByItem[
-                            items[0].item_name
-                          ].toLocaleString("en-US")
-                        }}</strong
-                      ></span
-                    > -->
+
+                    <span class="subtitle-1" style="float: right"
+                      ><strong> Total Amount: </strong
+                      >{{
+                        $convertToCurrency(
+                          computeQuantity(items) * items[0].cost
+                        )
+                      }}
+                    </span>
+                    <span class="subtitle-1 mr-5" style="float: right"
+                      ><strong> Quantity: </strong>{{ computeQuantity(items) }}
+                    </span>
                   </th>
                 </template>
                 <template v-slot:[`item.date_received`]="{ item }">
@@ -125,6 +117,16 @@
 
                   <!-- <v-btn class="warning">Template</v-btn> -->
                 </template>
+
+                <template v-slot:[`item.qr`]="{ item }">
+                  <div class="d-flex">
+                    <v-btn class="primary mr-2" fab x-small @click="qr(item)">
+                      <v-icon dark>mdi-qrcode</v-icon></v-btn
+                    >
+                  </div>
+
+                  <!-- <v-btn class="warning">Template</v-btn> -->
+                </template>
               </v-data-table>
             </div>
           </v-card-text>
@@ -141,10 +143,28 @@
       @closeModal="dialog.add = false"
       @modal="modal"
     /> -->
+    <qr
+      v-if="qr_dialog === true"
+      :qr_dialog="qr_dialog"
+      :qr_data="qr_data"
+      @closeQr="qr_dialog = false"
+    ></qr>
+    <!-- <v-btn
+      :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
+      @click="qr_dialog = true"
+      tile
+      color="primary"
+      :width="$vuetify.breakpoint.xs ? '100%' : ''"
+    >
+      <v-icon left>mdi-qrcode</v-icon>
+      QR Dialog
+    </v-btn> -->
   </v-card>
 </template>
 
 <script>
+import Qr from "../property/dialog.qr.property.vue";
+
 export default {
   name: "PropertyPage",
   props: {
@@ -165,12 +185,39 @@ export default {
       return {};
     },
   },
+  components: {
+    Qr,
+  },
   data: () => ({
+    qr_dialog: false,
+    qr_data: "",
     search: "",
     dialog: { add: false },
     tab: null,
   }),
   methods: {
+    computeQuantity(items) {
+      let quantity = 0;
+      items.forEach((item) => {
+        quantity += item.quantity;
+      });
+
+      return quantity;
+    },
+    qr(item) {
+      let data = {
+        property_name: item.property_name,
+        description: item.description,
+        property_code: item.property_code,
+        location: item.location_info.name,
+      };
+      this.qr_data = JSON.stringify(data);
+      console.log(item);
+      this.qr_dialog = true;
+    },
+    closeQr() {
+      this.qr_dialog = false;
+    },
     edit(item) {
       this.$emit("edit_data", item);
     },

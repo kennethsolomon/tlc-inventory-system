@@ -21,17 +21,6 @@
               : 'd-flex align-center'
           "
         >
-          <v-btn
-            :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
-            @click="add_property_dialog = true"
-            tile
-            color="primary"
-            :width="$vuetify.breakpoint.xs ? '100%' : ''"
-          >
-            <v-icon left>mdi-plus</v-icon>
-            Add Property
-          </v-btn>
-
           <v-select
             :style="
               $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
@@ -108,7 +97,6 @@ import PropertyTemplate from "../components/property/dialog.template.property.vu
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
 import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
-  middleware: "admin",
   components: {
     AddProperty,
     EditProperty,
@@ -149,9 +137,6 @@ export default {
       { text: "Cost", value: "cost" },
       { text: "Date Acquired", value: "date_acquired" },
       { text: "Date Received", value: "date_received" },
-      // { text: "Stocks", value: "stocks" },
-      { text: "Actions", value: "actions" },
-      // { text: "Template", value: "template" },
       { text: "QR Code", value: "qr" },
     ],
     table_data: [

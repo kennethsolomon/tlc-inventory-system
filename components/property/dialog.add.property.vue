@@ -53,15 +53,31 @@
                     @model="model($event, 'purchaser')"
                   />
                 </v-col>
-                <v-col class="my-0 py-0" cols="12">
-                  <Input
-                    :valid="valid"
-                    title="Property Code"
-                    name="property_code"
-                    type="text"
-                    rules="required"
-                    @model="model($event, 'property_code')"
-                  />
+                <v-col cols="12">
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :rules="
+                      form.purchaser === 'Regional Office'
+                        ? {
+                            required: true,
+                            regional_format: '^(ABCD - )[A-Za-z0-9]',
+                          }
+                        : { required: true }
+                    "
+                    name="Property Code"
+                  >
+                    <v-text-field
+                      :disabled="!show_property_code"
+                      class="pa-0 ma-0"
+                      v-model="form.property_code"
+                      name="property_code"
+                      label="Property Code"
+                      placeholder="Property Code"
+                      type="text"
+                      :error-messages="errors"
+                      :success="valid"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="6" sm="12" xs="12">
                   <Input
@@ -91,18 +107,7 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    :rules="
-                      form.purchaser === 'Regional Office'
-                        ? {
-                            required: true,
-                            regional_format: '^(ABCD - )[A-Za-z0-9]',
-                          }
-                        : { required: true }
-                    "
-                    name="Serial Number"
-                  >
+                  <ValidationProvider v-slot="{ errors }" name="Serial Number">
                     <v-text-field
                       class="pa-0 ma-0"
                       v-model="form.serial_number"
@@ -174,11 +179,11 @@
                 </v-col>
                 <v-col cols="12" lg="4" sm="12" xs="12">
                   <Input
+                    :disabled="show_type"
                     :valid="valid"
                     title="Status"
                     name="status"
                     type="autocomplete"
-                    rules="required"
                     item_text="name"
                     item_value="id"
                     :options="status.options"
@@ -216,16 +221,25 @@
                   />
                 </v-col>
                 <v-col cols="12" lg="6" sm="12" xs="12">
-                  <Input
-                    :valid="valid"
-                    title="Quantity"
-                    name="quantity"
-                    type="number"
+                  <ValidationProvider
+                    v-slot="{ errors }"
                     rules="required"
-                    @model="model($event, 'quantity')"
-                  />
+                    name="Quantity"
+                  >
+                    <v-text-field
+                      :disabled="!show_quantity"
+                      class="pa-0 ma-0"
+                      v-model="form.quantity"
+                      name="quantity"
+                      label="Quantity"
+                      placeholder="Quantity"
+                      type="number"
+                      :error-messages="errors"
+                      :success="valid"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
-                <v-col v-if="computeCost > 0" cols="12">
+                <v-col if="computeCost > 0" cols="12">
                   <v-alert type="success">
                     {{ $convertToCurrency(computeCost) }}
                   </v-alert>
@@ -254,11 +268,16 @@ export default {
     add_property_dialog: Boolean,
   },
   data: () => ({
+    show_type: false,
+    show_quantity: true,
+    show_property_code: false,
     form: {
+      type: null,
       serial_number: null,
       purchaser: null,
       cost: 0,
-      quantity: 0,
+      quantity: 1,
+      property_code: null,
     },
     item: {
       options: [],
@@ -425,7 +444,6 @@ export default {
 
     // Received By API
     addEmployee(form) {
-      console.log(form);
       this.$store
         .dispatch("postEmployee", form)
         .then((result) => {
@@ -477,11 +495,25 @@ export default {
     },
   },
   watch: {
+    "form.type": function (val) {
+      console.log(val);
+      if (val === "Consumable") {
+        this.show_type = false;
+      } else {
+        this.form.status = "";
+        this.show_type = true;
+      }
+    },
     "form.purchaser": function (val) {
       if (val === "Regional Office") {
-        this.form.serial_number = "ABCD - ";
+        this.form.quantity = 1;
+        this.show_quantity = false;
+        this.show_property_code = true;
+        this.form.property_code = "ABCD - ";
       } else {
-        this.form.serial_number = null;
+        this.show_quantity = true;
+        this.show_property_code = false;
+        this.form.property_code = "PO-" + new Date().getFullYear() + "-";
       }
     },
   },

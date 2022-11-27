@@ -3,12 +3,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
-  items: [],
-  transactions: [],
-  loans: [],
-  item_trash: [],
-  transaction_trash: [],
-  loan_trash: [],
+  item_list: []
 }
 
 const inBrowser = typeof window !== 'undefined';

@@ -14,88 +14,26 @@
       @template="propertyTemplateData"
     >
       <template v-slot:add_dialog>
-        <div
-          :class="
-            $vuetify.breakpoint.xs
-              ? 'd-flex flex-column'
-              : 'd-flex align-center'
-          "
-        >
-          <v-btn
-            :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
-            @click="add_property_dialog = true"
-            tile
-            color="primary"
-            :width="$vuetify.breakpoint.xs ? '100%' : ''"
-          >
-            <v-icon left>mdi-plus</v-icon>
-            Add Property
-          </v-btn>
-
-          <v-select
-            :style="
-              $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
-            "
-            @change="selected"
-            v-model="select"
-            :items="items"
-            hint="Filter by"
-            item-text="text"
-            item-value="name"
-            label="Select"
-            persistent-hint
-            return-object
-            single-line
-            prepend-inner-icon="mdi-filter"
-          ></v-select>
-
-          <v-checkbox
-            v-model="group_by_description"
-            label="Group By Description"
-          ></v-checkbox>
-          <AddProperty
-            v-if="add_property_dialog === true"
-            :add_property_dialog="add_property_dialog"
-            @form="formSave"
-            @closeModal="add_property_dialog = false"
-          />
-
-          <EditProperty
-            v-if="edit_property_dialog === true"
-            :edit_property_dialog="edit_property_dialog"
-            :edit_data="edit_data"
-            @form="formSave"
-            @closeModal="edit_property_dialog = false"
-          />
-
-          <PropertyTemplate
-            v-if="property_template_dialog === true"
-            :property_template_dialog="property_template_dialog"
-            :property_template_data="property_template_data"
-            @form="formSave"
-            @closeModal="property_template_dialog = false"
-          />
-
-          <DeleteProperty
-            v-if="delete_property_dialog === true"
-            :dialog="delete_property_dialog"
-            title="Delete Property"
-            end_point="delete_item"
-            :delete_data="delete_data"
-            @closeModal="delete_property_dialog = false"
-            @confirmDelete="confirmDelete"
-          />
-
-          <StocksProperty
-            v-if="stocks_property_dialog === true"
-            :dialog="stocks_property_dialog"
-            title="Stocks Property"
-            end_point="update_or_create_item"
-            :stocks_data="stocks_data"
-            @closeModal="stocks_property_dialog = false"
-            @confirmStocks="confirmStocks"
-          />
-        </div>
+        <StocksProperty
+          v-if="stocks_property_dialog === true"
+          :dialog="stocks_property_dialog"
+          title="Stocks Property"
+          end_point="update_or_create_item"
+          :stocks_data="stocks_data"
+          @closeModal="stocks_property_dialog = false"
+          @manageStocks="manageStocks"
+        />
+        <UpdateStocks
+          v-if="update_stocks_dialog === true"
+          :dialog="update_stocks_dialog"
+          action="postItemList"
+          title="Minus Stocks"
+          :id="stocks_data"
+          @closeModal="update_stocks_dialog = false"
+          @callBack="minusStock()"
+          :fields="minus_stock_fields"
+          :button="minus_stock_button"
+        />
       </template>
     </Tab>
   </div>
@@ -103,7 +41,7 @@
 
 <script>
 import AddProperty from "../components/property/dialog.add.property.vue";
-import EditProperty from "../components/property/dialog.edit.property.vue";
+import UpdateStocks from "../components/dialog/dialog.update.vue";
 import PropertyTemplate from "../components/property/dialog.template.property.vue";
 import DeleteProperty from "../components/dialog/dialog.delete.vue";
 import StocksProperty from "../components/property/dialog.stocks.property.vue";
@@ -111,12 +49,13 @@ export default {
   middleware: "admin",
   components: {
     AddProperty,
-    EditProperty,
+    UpdateStocks,
     PropertyTemplate,
     DeleteProperty,
     StocksProperty,
   },
   data: () => ({
+    update_stocks_dialog: false,
     group_by_description: false,
     edit_data: null,
     property_template_data: null,
@@ -124,6 +63,20 @@ export default {
     stocks_data: null,
     group_by: "",
     select: { name: "", text: "" },
+    minus_stock_button: {
+      color: "primary",
+      btn_name: "Save",
+      icon: "mdi-content-save",
+    },
+    minus_stock_fields: [
+      {
+        cols: 1,
+        name: "quantity",
+        title: "Quantity",
+        rules: "required",
+        type: "text",
+      },
+    ],
     items: [
       { name: "", text: "" },
       { name: "property_name", text: "Property Name" },
@@ -143,16 +96,9 @@ export default {
       { text: "Property Name", align: "start", value: "property_name" },
       { text: "Description", value: "description" },
       { text: "Purchaser", value: "purchaser" },
-      { text: "Property Number", value: "property_code" },
-      { text: "Serial Number", value: "serial_number" },
       { text: "Quantity", value: "quantity" },
       { text: "Cost", value: "cost" },
-      { text: "Date Acquired", value: "date_acquired" },
-      { text: "Date Received", value: "date_received" },
-      // { text: "Stocks", value: "stocks" },
-      { text: "Actions", value: "actions" },
-      // { text: "Template", value: "template" },
-      { text: "QR Code", value: "qr" },
+      { text: "Manage Stocks", value: "stocks" },
     ],
     table_data: [
       [
@@ -181,12 +127,12 @@ export default {
       return this.table_data;
     },
     consumable() {
-      return this.$store.state.items.items.data.filter(
+      return this.$store.getters.getItemList.data.filter(
         (item) => item.type === "Consumable"
       );
     },
     nonConsumable() {
-      return this.$store.state.items.items.data.filter(
+      return this.$store.getters.getItemList.data.filter(
         (item) => item.type === "Non-Consumable"
       );
     },
@@ -225,6 +171,11 @@ export default {
     },
   },
   methods: {
+    async minusStock() {
+      this.update_stocks_dialog = false;
+      await this.$store.dispatch("getItemList");
+      this.getItemList();
+    },
     propertyTemplateData(data) {
       let form_data = { ...data };
       let property_template = {
@@ -254,22 +205,23 @@ export default {
     },
     stocks(data) {
       this.stocks_data = data;
-      this.stocks_property_dialog = true;
+      if (data.type === "add") {
+        this.stocks_data = data;
+        this.stocks_property_dialog = true;
+      } else if (data.type === "deduct") {
+        this.update_stocks_dialog = true;
+        this.stocks_data = Number(data.item.id);
+      }
     },
-    confirmStocks(data) {
-      let index = this.getIndex(
-        this.$store.state.items.items.data,
-        data.data.id
-      );
+    manageStocks(data, action) {
+      this.$store.dispatch("postItem", data).then(async (result) => {
+        await this.$store.dispatch("getItemList");
+        if (action === "add") {
+          this.getItemList();
+        }
 
-      this.table_data[0][0].data.splice(index, 1, data.data);
-
-      this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-      this.getItem();
-      // this.getItemList();
-
-      this.$toast.success("Stocks updated successfully.");
+        this.stocks_property_dialog = false;
+      });
     },
     deleteData(data) {
       this.delete_data = data;
@@ -287,46 +239,6 @@ export default {
     },
     selected(selected) {
       this.group_by = selected.name;
-    },
-    formSave(data, action) {
-      this.$store.dispatch("postItem", data).then((result) => {
-        this.$store.dispatch("getItems");
-
-        if (action === "add") {
-          this.$toast.success(
-            "Add New Property " + data.type + " successfully!"
-          );
-
-          if (data.type === "Consumable") {
-            this.table_data[1][0].data.push(data);
-          } else if (data.type === "Non-Consumable") {
-            this.table_data[2][0].data.push(data);
-          }
-
-          // All Property
-          this.table_data[0][0].data.push(data);
-
-          this.add_property_dialog = false;
-          this.property_template_dialog = false;
-        } else if (action === "edit") {
-          this.$toast.success("Edit Property " + data.type + " successfully!");
-
-          let index = this.getIndex(
-            this.$store.state.items.items.data,
-            result.data.id
-          );
-
-          this.table_data[0][0].data.splice(index, 1, data);
-
-          this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-          this.edit_property_dialog = false;
-
-          this.getItem();
-          this.$store.dispatch("getItemList");
-          // this.getItemList();
-        }
-      });
     },
     getItem() {
       this.overlay = true;
@@ -354,9 +266,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getItemList");
-    this.$store.dispatch("getItems").then(() => {
-      this.getItem();
+    this.$store.dispatch("getItemList").then(() => {
+      this.getItemList();
     });
   },
 };

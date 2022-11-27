@@ -119,6 +119,16 @@
       <v-icon class="mr-2">mdi-chart-bar-stacked</v-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
+      <v-btn icon @click.stop="camera()">
+        <v-icon>mdi-camera</v-icon>
+      </v-btn>
+
+      <Camera
+        v-if="camera_dialog === true"
+        :camera_dialog="camera_dialog"
+        @closeCamera="closeCamera"
+      ></Camera>
+
       <v-btn icon @click.stop="logOut()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -150,13 +160,16 @@
 
 <script>
 import UpdateAccount from "../components/dialog/dialog.update.vue";
+import Camera from "../components/dialog/dialog.camera.vue";
 export default {
   name: "InitializePage",
   components: {
     UpdateAccount,
+    Camera,
   },
   data() {
     return {
+      camera_dialog: false,
       update_account_dialog: false,
       update_account_id: null,
       isLoggedIn: false,
@@ -166,18 +179,7 @@ export default {
       // Update Account
       fields: [],
       // Update Account
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Dashboard",
-          to: "/",
-        },
-        {
-          icon: "mdi-application-cog",
-          title: "Property",
-          to: "/property",
-        },
-      ],
+      items: [],
       miniVariant: false,
       right: true,
       rightDrawer: false,
@@ -186,6 +188,12 @@ export default {
     };
   },
   methods: {
+    camera() {
+      this.camera_dialog = true;
+    },
+    closeCamera() {
+      this.camera_dialog = false;
+    },
     updateAccount() {
       const { id, firstname, middlename, lastname, position, email } =
         this.$store.state.user.user;
@@ -261,6 +269,68 @@ export default {
         console.log(error);
       }
     },
+
+    adminSidebar() {
+      this.items = [
+        {
+          icon: "mdi-apps",
+          title: "Dashboard",
+          to: "/",
+        },
+        {
+          icon: "mdi-file-cabinet",
+          title: "Property",
+          to: "/property",
+        },
+        {
+          icon: "mdi-chart-line",
+          title: "Manage Stocks",
+          to: "/stocks",
+        },
+        {
+          icon: "mdi-transfer",
+          title: "Transfer Property",
+          to: "/transfer",
+        },
+        {
+          icon: "mdi-camera-metering-partial",
+          title: "Loan Property",
+          to: "/loan",
+        },
+        {
+          icon: "mdi-math-log",
+          title: "Logs",
+          to: "/logs",
+        },
+        {
+          icon: "mdi-delete",
+          title: "Trash",
+          to: "/trash",
+        },
+      ];
+    },
+
+    staffSidebar() {
+      this.items = [
+        {
+          icon: "mdi-apps",
+          title: "Dashboard",
+          to: "/",
+        },
+        {
+          icon: "mdi-file-cabinet",
+          title: "Property",
+          to: "/staff-property",
+        },
+      ];
+    },
+  },
+  mounted() {
+    if (this.$store.getters.getUser.role === "Admin") {
+      this.adminSidebar();
+    } else {
+      this.staffSidebar();
+    }
   },
 };
 </script>
