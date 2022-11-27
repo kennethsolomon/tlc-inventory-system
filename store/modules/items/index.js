@@ -6,6 +6,9 @@ const defaultState = {
   items: [],
   transactions: [],
   loans: [],
+  item_trash: [],
+  transaction_trash: [],
+  loan_trash: [],
 }
 
 const inBrowser = typeof window !== 'undefined';

@@ -4,6 +4,11 @@ export default{
 		commit('SET_ITEMS', items)
 	},
 
+	async getItemTrash ({ commit }) {
+		const item_trash = await this.$axios.$get(`item_trash`)
+		commit('SET_ITEM_TRASH', item_trash)
+	},
+
 	async postItem ({}, form) {
 		const item = await this.$axios.$post(`update_or_create_item`, form)
 		return item
@@ -27,6 +32,12 @@ export default{
 		return transactions
 	},
 
+	async getTransactionTrash ({ commit }) {
+		const transaction_trash = await this.$axios.$get(`transaction_trash`)
+		commit('SET_TRANSACTION_TRASH', transaction_trash)
+
+		return transaction_trash.data
+	},
 	// Loan
 
 	async postLoanProperty ({}, form) {
@@ -43,6 +54,13 @@ export default{
 	async destroyLoans ({}, id) {
 		const loans = await this.$axios.$delete(`delete_loan/${id}`)
 		return loans
+	},
+
+	async getLoanTrash ({ commit }) {
+		const loan_trash = await this.$axios.$get(`loan_trash`)
+		commit('SET_LOAN_TRASH', loan_trash)
+
+		return loan_trash.data
 	},
 
 }

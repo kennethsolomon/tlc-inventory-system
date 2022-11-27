@@ -1,5 +1,8 @@
 export default {
   getItems: state => state.items,
+  getItemTrash: state => state.item_trash,
   getTransactions: state => state.transactions,
-  getLoans: state => state.loans
+  getTransactionTrash: state => state.transaction_trash,
+  getLoans: state => state.loans,
+  getLoanTrash: state => state.loan_trash,
 }

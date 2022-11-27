@@ -210,6 +210,11 @@ export default {
           title: "Logs",
           to: "/logs",
         },
+        {
+          icon: "mdi-delete",
+          title: "Trash",
+          to: "/trash",
+        },
       ],
       miniVariant: false,
       right: true,
