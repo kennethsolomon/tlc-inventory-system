@@ -41,7 +41,7 @@
 export default {
   data: () => ({
     table: ["Transaction", "Loan", "Property"],
-    value: "Transaction",
+    value: "",
     search: "",
     items: [],
     headers: [],
@@ -68,21 +68,18 @@ export default {
       switch (this.value) {
         case "Transaction":
           this.$store.dispatch("restoreTransaction", id).then((result) => {
-            this.$store.dispatch("getTransactionTrash");
             this.transferData();
             this.$toast.success("Successfully Restored!");
           });
           break;
         case "Loan":
           this.$store.dispatch("restoreLoan", id).then((result) => {
-            this.$store.dispatch("getLoanTrash");
             this.loanData();
             this.$toast.success("Successfully Restored!");
           });
           break;
         case "Property":
           this.$store.dispatch("restoreItem", id).then((result) => {
-            this.$store.dispatch("getItemTrash");
             this.itemData();
             this.$toast.success("Successfully Restored!");
           });
@@ -108,7 +105,9 @@ export default {
         { text: "Actions", value: "actions" },
       ];
 
-      this.items = this.$store.getters.getItemTrash.data;
+      this.$store.dispatch("getItemTrash").then(() => {
+        this.items = this.$store.getters.getItemTrash.data;
+      });
     },
     transferData() {
       this.headers = [
@@ -123,7 +122,9 @@ export default {
         { text: "Actions", value: "actions" },
       ];
 
-      this.items = this.$store.getters.getTransactionTrash.data;
+      this.$store.dispatch("getTransactionTrash").then(() => {
+        this.items = this.$store.getters.getTransactionTrash.data;
+      });
     },
     loanData() {
       this.headers = [
@@ -137,15 +138,15 @@ export default {
         { text: "Actions", value: "actions" },
       ];
 
-      this.items = this.$store.getters.getLoanTrash.data;
+      this.$store.dispatch("getLoanTrash").then(() => {
+        this.items = this.$store.getters.getLoanTrash.data;
+      });
     },
   },
   mounted() {
     this.$store.dispatch("getItemTrash");
     this.$store.dispatch("getLoanTrash");
     this.$store.dispatch("getTransactionTrash");
-
-    this.transferData();
   },
 };
 </script>

@@ -353,7 +353,10 @@ export default {
     },
   },
   mounted() {
-    this.getItem();
+    this.$store.dispatch("getItemList");
+    this.$store.dispatch("getItems").then(() => {
+      this.getItem();
+    });
   },
 };
 </script>
