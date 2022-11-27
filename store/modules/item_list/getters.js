@@ -1,3 +1,3 @@
 export default {
-  getItemItemList: state => state.item_list
+  getItemList: state => state.item_list
 }

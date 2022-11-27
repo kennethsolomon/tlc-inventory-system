@@ -25,3 +25,20 @@
   @ End Date
   @ Purpose of Loan
   @ Condition of PPE
+
+### Dashboard
+
+- Count:
+
+  - Consumable
+  - Non Consumable
+  - Total
+
+- Consumable Property
+
+  - Graph by Category (Count ang group by category)
+  - List View Design of Cateogry and Count
+
+- Non Consumable Property
+  - Graph by Category (Count ang group by category)
+  - List View Design of Cateogry and Count
