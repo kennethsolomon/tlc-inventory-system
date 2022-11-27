@@ -65,7 +65,32 @@ export default {
   },
   methods: {
     restore(id) {
-      console.log(id);
+      switch (this.value) {
+        case "Transaction":
+          this.$store.dispatch("restoreTransaction", id).then((result) => {
+            this.$store.dispatch("getTransactionTrash");
+            this.transferData();
+            this.$toast.success("Successfully Restored!");
+          });
+          break;
+        case "Loan":
+          this.$store.dispatch("restoreLoan", id).then((result) => {
+            this.$store.dispatch("getLoanTrash");
+            this.loanData();
+            this.$toast.success("Successfully Restored!");
+          });
+          break;
+        case "Property":
+          this.$store.dispatch("restoreItem", id).then((result) => {
+            this.$store.dispatch("getItemTrash");
+            this.itemData();
+            this.$toast.success("Successfully Restored!");
+          });
+          break;
+
+        default:
+          break;
+      }
     },
     itemData() {
       this.headers = [
