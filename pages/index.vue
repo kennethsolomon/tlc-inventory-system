@@ -213,6 +213,9 @@ export default {
     this.$store.dispatch("getItemCategories");
     this.$store.dispatch("getItemList");
     this.$store.dispatch("getItems");
+    this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getLocations");
+    this.$store.dispatch("getItemStatus");
     let item_categories = this.$store.getters.getItemCategories.data;
 
     item_categories.map((item_category) => {
