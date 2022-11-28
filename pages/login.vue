@@ -119,6 +119,7 @@ export default {
         })
         .then((response) => {
           this.$store.commit("SET_USER", response.data);
+          this.$router.push({ path: "/" });
         })
         .catch((error) => (this.error = "Invalid Username or Password"));
     },
