@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
 
   server: {
-    // host: '0' // default: localhost ; uncomment this if your using ip address instead of localhost
+    host: '0' // default: localhost ; uncomment this if your using ip address instead of localhost
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -80,7 +80,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'http://192.168.1.2:8000/api/', // change ip address if using mobile phone
     credentials: true,
   },
 
@@ -100,7 +100,7 @@ export default {
       },
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8000',
+        url: 'http://192.168.1.2:8000',  // change to ip address if using mobile phone
         endpoints: {
           csrf: {
             url: '/sanctum/csrf-cookie',
