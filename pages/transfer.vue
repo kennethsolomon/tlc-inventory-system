@@ -1,6 +1,6 @@
 <template>
   <v-row class="container fluid">
-    <v-col cols="8" md="12" sm="12">
+    <v-col cols="12" lg="8" md="12" sm="12" xs="12">
       <v-card>
         <v-card-title>
           Transaction List
@@ -78,7 +78,7 @@
         </v-data-table>
       </v-card>
     </v-col>
-    <v-col cols="4" md="12" sm="12">
+    <v-col cols="12" lg="4" md="12" sm="12" xs="12">
       <v-card class="pa-3">
         <ValidationObserver ref="observer" v-slot="{ valid, invalid }">
           <form class="d-flex flex-column" @submit.prevent="onSubmit">

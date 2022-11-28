@@ -14,7 +14,7 @@
     </v-alert>
     <div class="container">
       <v-row>
-        <v-col cols="4" lg="4" md="12" sm="12">
+        <v-col cols="12" lg="4" md="12" sm="12" xs="12">
           <v-card class="mx-auto" color="primary" dark>
             <v-card-title>
               <v-icon large left>mdi-chart-line</v-icon>
@@ -27,7 +27,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="4" lg="4" md="12" sm="12">
+        <v-col cols="12" lg="4" md="12" sm="12">
           <v-card class="mx-auto" color="primary" dark>
             <v-card-title>
               <v-icon large left>mdi-cart-arrow-right</v-icon>
@@ -38,7 +38,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="4" lg="4" md="12" sm="12">
+        <v-col cols="12" lg="4" md="12" sm="12">
           <v-card class="mx-auto" color="primary" dark>
             <v-card-title>
               <v-icon large left>mdi-cart-off</v-icon>
@@ -64,7 +64,7 @@
     />
     <div class="container">
       <v-row>
-        <v-col xl="6" lg="12" md="12" sm="12">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
           <v-card color="primary" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div class="mb-5">
@@ -83,7 +83,7 @@
             </div>
           </v-card>
         </v-col>
-        <v-col xl="6" lg="12" md="12" sm="12">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
           <v-card color="primary" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div class="mb-5">
