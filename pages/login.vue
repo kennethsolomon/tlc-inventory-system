@@ -119,7 +119,7 @@ export default {
         })
         .then((response) => {
           this.$store.commit("SET_USER", response.data);
-          this.$router.push({ path: "/" });
+          this.$router.push({ name: "index" });
         })
         .catch((error) => (this.error = "Invalid Username or Password"));
     },
