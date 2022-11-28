@@ -97,7 +97,6 @@ export default {
         { text: "Purchaser", value: "purchaser" },
         { text: "Property Number", value: "property_code" },
         { text: "Serial Number", value: "serial_number" },
-        { text: "Quantity", value: "quantity" },
         { text: "Cost", value: "cost" },
         { text: "Date Acquired", value: "date_acquired" },
         { text: "Date Received", value: "date_received" },
