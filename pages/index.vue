@@ -64,7 +64,7 @@
     />
     <div class="container">
       <v-row>
-        <v-col cols="6" lg="6" md="12" sm="12">
+        <v-col xl="6" lg="6" md="12" sm="12">
           <v-card color="primary" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div class="mb-5">
@@ -83,7 +83,7 @@
             </div>
           </v-card>
         </v-col>
-        <v-col cols="6" lg="6" md="12" sm="12">
+        <v-col xl="6" lg="6" md="12" sm="12">
           <v-card color="primary" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div class="mb-5">
