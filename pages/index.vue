@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-alert
-      v-if="reStock.length > 0"
+      v-if="reStock?.length > 0"
       border="right"
       colored-border
       type="error"
@@ -34,7 +34,7 @@
               <span class="text-h6 font-weight-light">Consumable</span>
             </v-card-title>
             <v-card-text class="text-h5 font-weight-bold">
-              {{ consumableCount.length }}
+              {{ consumableCount?.length }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -45,7 +45,7 @@
               <span class="text-h6 font-weight-light">Non-Consumable</span>
             </v-card-title>
             <v-card-text class="text-h5 font-weight-bold">
-              {{ nonConsumableCount.length }}
+              {{ nonConsumableCount?.length }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -188,22 +188,22 @@ export default {
 
   computed: {
     consumableCount() {
-      return this.$store.getters.getItems.data.filter(
+      return this.$store.getters?.getItems?.data?.filter(
         (item) => item.type === "Consumable"
       );
     },
     nonConsumableCount() {
-      return this.$store.getters.getItems.data.filter(
+      return this.$store.getters?.getItems?.data?.filter(
         (item) => item.type === "Non-Consumable"
       );
     },
 
     propertyCount() {
-      return this.$store.getters.getItems.data.length;
+      return this.$store.getters?.getItems?.data?.length;
     },
 
     reStock() {
-      return this.$store.getters.getItemList.data.filter(
+      return this.$store.getters?.getItemList?.data?.filter(
         (item_list) => item_list.quantity <= 5
       );
     },
@@ -218,7 +218,7 @@ export default {
     this.$store.dispatch("getItemStatus");
     let item_categories = this.$store.getters.getItemCategories.data;
 
-    item_categories.map((item_category) => {
+    item_categories?.map((item_category) => {
       this.chartData.labels.push(item_category.name);
       this.chartData.datasets[0].data.push(item_category.consumable_count);
       this.chartData.datasets[1].data.push(item_category.non_consumable_count);
