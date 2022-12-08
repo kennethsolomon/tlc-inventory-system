@@ -35,16 +35,16 @@
                     @click="updateAccount"
                   >
                     <span class="align-self-center">{{
-                      $store.state.user.user.firstname +
+                      $store.state.user.user?.firstname +
                       " " +
-                      ($store.state.user.user.middlename
-                        ? $store.state.user.user.middlename
+                      ($store.state.user.user?.middlename
+                        ? $store.state.user.user?.middlename
                         : "") +
                       " " +
-                      $store.state.user.user.lastname
+                      $store.state.user.user?.lastname
                     }}</span>
                     <span class="align-self-center font-weight-bold mb-1">{{
-                      $store.state.user.user.position
+                      $store.state.user.user?.position
                     }}</span>
                     <span class="align-self-center">
                       <v-chip color="primary" text-color="white">
@@ -52,7 +52,7 @@
                           <v-icon>mdi-account-circle</v-icon>
                         </v-avatar>
 
-                        {{ $store.state.user.user.role }}
+                        {{ $store.state.user.user?.role }}
                       </v-chip></span
                     >
                   </div>
@@ -255,7 +255,7 @@ export default {
         this.$store.commit("SET_USER", result);
 
         this.$toast.success(
-          `${result.firstname} ${result?.middlename} ${result.lastname} info has updated successfully.`
+          `${result?.firstname} ${result?.middlename} ${result?.lastname} info has updated successfully.`
         );
 
         this.update_account_dialog = false;
@@ -326,7 +326,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$store.getters.getUser.role === "Admin") {
+    if (this.$store.getters.getUser?.role === "Admin") {
       this.adminSidebar();
     } else {
       this.staffSidebar();
