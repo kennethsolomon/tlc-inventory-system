@@ -122,12 +122,11 @@
                 </template>
 
                 <template v-slot:[`item.qr`]="{ item }">
-                  <div class="d-flex">
+                  <div class="d-flex" v-if="item.type === 'Non-Consumable'">
                     <v-btn class="primary mr-2" fab x-small @click="qr(item)">
                       <v-icon dark>mdi-qrcode</v-icon></v-btn
                     >
                   </div>
-
                   <!-- <v-btn class="warning">Template</v-btn> -->
                 </template>
               </v-data-table>
