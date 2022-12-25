@@ -60,7 +60,7 @@
                       form.purchaser === 'Regional Office'
                         ? {
                             required: true,
-                            regional_format: '^(SRC-W-2022-)[A-Za-z0-9]',
+                            regional_format: '^(SRC-W-)[A-Za-z0-9]',
                           }
                         : { required: true }
                     "
@@ -508,7 +508,7 @@ export default {
         this.form.quantity = 1;
         this.show_quantity = false;
         this.show_property_code = true;
-        this.form.property_code = "SRC-W-2022-";
+        this.form.property_code = "SRC-W-" + new Date().getFullYear() + "-";
       } else {
         this.show_quantity = true;
         this.show_property_code = false;

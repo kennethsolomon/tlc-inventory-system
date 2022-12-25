@@ -39,6 +39,7 @@
               />
               <Input
                 :valid="valid"
+                disabled="disabled"
                 title="Category"
                 name="category"
                 type="autocomplete"
@@ -47,6 +48,7 @@
                 item_value="id"
                 :hasIcon="category.hasIcon"
                 :options="category.options"
+                :value="stocks_data.item.item_category_info"
                 @model="model($event, 'category')"
                 @modalInput="addCategory"
               />
@@ -65,7 +67,7 @@
                   stocks_data.property_code === 'Regional Office'
                     ? {
                         required: true,
-                        regional_format: '^(ABCD - )[A-Za-z0-9]',
+                        regional_format: '^(SRC-W-)[A-Za-z0-9]',
                       }
                     : { required: true }
                 "
@@ -469,10 +471,10 @@ export default {
     "form.type": function (val) {
       console.log(val);
       if (val === "Consumable") {
-        this.show_type = false;
+        this.show_type = true;
       } else {
         console.log(val);
-        this.show_type = true;
+        this.show_type = false;
       }
     },
     "form.purchaser": function (val) {
@@ -480,7 +482,7 @@ export default {
         this.form.quantity = 1;
         this.show_quantity = false;
         this.show_property_code = true;
-        this.form.property_code = "ABCD - ";
+        this.form.property_code = "SRC-W-" + new Date().getFullYear() + "-";
       } else {
         this.show_quantity = true;
         this.show_property_code = false;
@@ -497,6 +499,7 @@ export default {
     this.getEmployee();
     this.getLocation();
     this.getStatus();
+    console.log(this.stocks_data.item.item_category_id);
   },
 };
 </script>
