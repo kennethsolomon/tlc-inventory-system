@@ -359,10 +359,8 @@ export default {
   }),
   methods: {
     onSubmit() {
-      // this.form.property_name =
-      //   this.form.property_name.property_name ?? this.form.property_name;
       this.form.assigned_person_id = Number(this.form.assigned_person);
-      this.form.item_category_id = Number(this.form.category);
+      this.form.item_category_id = Number(this.form.category.id);
       this.form.received_by_id = Number(this.form.received_by);
       this.form.received_from_id = Number(this.form.received_from);
       this.stocks_data.item.type === "Consumable"
