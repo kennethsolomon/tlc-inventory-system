@@ -65,6 +65,7 @@
                       btn_name: 'Save',
                       icon: 'mdi-content-save',
                     }"
+                    action="updateUser"
                     :id="update_account_id"
                     :fields="fields"
                     className="update_account"

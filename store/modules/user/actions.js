@@ -8,4 +8,10 @@ export default{
 		commit('SET_LOGS', logs)
 		return logs
 	},
+
+	async updateUser ({}, form) {
+		const user = await this.$axios.$post(`update_account`, form)
+		return user
+	},
+
 }
