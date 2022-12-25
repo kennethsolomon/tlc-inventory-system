@@ -213,6 +213,9 @@ export default {
         description: item.description,
         property_code: item.property_code,
         location: item.location_info.name,
+        received_by:
+          item.received_by_info.fname + " " + item.received_by_info.lname,
+        received_by_office: item.received_by_info.office,
       };
       this.qr_data = JSON.stringify(data);
       console.log(item);

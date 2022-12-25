@@ -43,6 +43,20 @@
             label="Location"
             :value="data.location"
           ></v-text-field>
+
+          <v-text-field
+            readonly
+            dense
+            label="Received By"
+            :value="data.received_by"
+          ></v-text-field>
+
+          <v-text-field
+            readonly
+            dense
+            label="Office"
+            :value="data.received_by_office"
+          ></v-text-field>
         </v-card-text>
         <!-- <v-divider></v-divider> -->
 
