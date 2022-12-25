@@ -67,6 +67,9 @@
                     </span>
                   </th>
                 </template>
+                <template v-slot:[`item.cost`]="{ item }">
+                  {{ $convertToCurrency(item.cost) }}
+                </template>
                 <template v-slot:[`item.date_received`]="{ item }">
                   {{ new Date(item.date_received).toISOString().split("T")[0] }}
                 </template>
