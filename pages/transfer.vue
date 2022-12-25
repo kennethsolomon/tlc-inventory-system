@@ -265,7 +265,7 @@
               name="Received from"
             >
               <v-text-field
-                label="Agency"
+                label="Received From"
                 hide-details="auto"
                 v-model="form.received_from"
                 name="received_from"
