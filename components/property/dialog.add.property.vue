@@ -60,7 +60,7 @@
                       form.purchaser === 'Regional Office'
                         ? {
                             required: true,
-                            regional_format: '^(ABCD - )[A-Za-z0-9]',
+                            regional_format: '^(SRC-W-2022-)[A-Za-z0-9]',
                           }
                         : { required: true }
                     "
@@ -496,12 +496,11 @@ export default {
   },
   watch: {
     "form.type": function (val) {
-      console.log(val);
       if (val === "Consumable") {
-        this.show_type = false;
+        this.show_type = true;
       } else {
         this.form.status = "";
-        this.show_type = true;
+        this.show_type = false;
       }
     },
     "form.purchaser": function (val) {
@@ -509,7 +508,7 @@ export default {
         this.form.quantity = 1;
         this.show_quantity = false;
         this.show_property_code = true;
-        this.form.property_code = "ABCD - ";
+        this.form.property_code = "SRC-W-2022-";
       } else {
         this.show_quantity = true;
         this.show_property_code = false;
