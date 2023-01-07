@@ -319,11 +319,12 @@ export default {
           this.$store.commit("SET_ITEMS", this.table_data[0][0]);
 
           this.edit_property_dialog = false;
-
-          this.getItem();
-          this.$store.dispatch("getItemList");
-          // this.getItemList();
         }
+      });
+
+      this.$store.dispatch("getItemList");
+      this.$store.dispatch("getItems").then(() => {
+        this.getItem();
       });
     },
     getItem() {

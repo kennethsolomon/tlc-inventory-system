@@ -451,6 +451,10 @@ export default {
             ? (this.data.quantity -= this.form.quantity)
             : (this.data.quantity += this.form.quantity);
 
+        this.stocks_data.type === "deduct"
+          ? (this.data.action = "deduct")
+          : null;
+
         await this.$axios
           .$post(`update_or_create_item`, this.data)
           .then((result) => {
