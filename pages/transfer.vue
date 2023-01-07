@@ -441,6 +441,7 @@ export default {
     },
     getTransactions() {
       this.$store.dispatch("getTransactions").then((result) => {
+        console.log(result, "resutls");
         this.transactions = result;
       });
     },
@@ -448,8 +449,12 @@ export default {
   mounted() {
     this.getTransactions();
     this.items = this.$store.state.items.items.data.filter(
-      (item) => item.transaction_status == null
+      (item) => item.transaction_status == null && item.type == "Non-Consumable"
     );
+
+    // this.items = this.$store.state.items.items.data.filter((item) => {
+    //   item.transaction_status == null;
+    // });
 
     // console.log(this.$store.state.items.items.data);
 
