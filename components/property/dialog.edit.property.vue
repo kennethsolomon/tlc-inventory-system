@@ -21,6 +21,7 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Type"
                     name="type"
                     type="radio"
@@ -33,6 +34,7 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Property Name"
                     name="property_name"
                     type="combobox"
@@ -46,6 +48,7 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Purchaser"
                     name="purchaser"
                     type="radio"
@@ -58,6 +61,7 @@
                 <v-col class="my-0 py-0" cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Property Code"
                     name="property_code"
                     type="text"
@@ -69,6 +73,7 @@
                 <v-col cols="12" md="6" sm="12" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Category"
                     name="category"
                     type="autocomplete"
@@ -85,6 +90,7 @@
                 <v-col cols="12" md="6" sm="12" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Description"
                     row="1"
                     name="description"
@@ -109,6 +115,7 @@
                     name="Serial Number"
                   >
                     <v-text-field
+                      disabled="disabled"
                       class="pa-0 ma-0"
                       v-model="serial_number_edit"
                       name="serial_number"
@@ -157,6 +164,7 @@
                 <v-col cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Received From"
                     name="received_from"
                     type="autocomplete"
@@ -171,6 +179,7 @@
                 <v-col cols="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Assigned Person"
                     name="assigned_person"
                     type="autocomplete"
@@ -185,6 +194,7 @@
                 <v-col cols="12" lg="4" sm="12" xs="12">
                   <Input
                     :valid="valid"
+                    :disabled="form.type === 'Consumable' ? 'disabled' : null"
                     title="Status"
                     name="status"
                     type="autocomplete"
@@ -199,6 +209,7 @@
                 <v-col cols="12" lg="4" md="4" sm="6" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Date Acquired"
                     name="date_acquired"
                     type="date"
@@ -210,6 +221,7 @@
                 <v-col cols="12" lg="4" md="4" sm="6" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Date Received"
                     name="date_received"
                     type="date"
@@ -221,6 +233,7 @@
                 <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Cost"
                     name="cost"
                     type="number"
@@ -232,6 +245,7 @@
                 <v-col cols="12" lg="6" sm="12" xs="12">
                   <Input
                     :valid="valid"
+                    disabled="disabled"
                     title="Quantity"
                     name="quantity"
                     type="number"
