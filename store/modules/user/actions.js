@@ -9,6 +9,12 @@ export default{
 		return logs
 	},
 
+	async getMaintenances ({ commit }) {
+		const maintenance = await this.$axios.$get(`maintenance`)
+		commit('SET_MAINTENANCE', maintenance)
+		return maintenance
+	},
+
 	async updateUser ({}, form) {
 		const user = await this.$axios.$post(`update_account`, form)
 		return user

@@ -4,7 +4,8 @@ import mutations from './mutations';
 
 const defaultState = {
   user: null,
-  logs: []
+  logs: [],
+  maintenance: [],
 }
 
 const inBrowser = typeof window !== 'undefined';

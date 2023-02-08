@@ -308,6 +308,12 @@ export default {
           title: "Trash",
           to: "/trash",
         },
+
+        {
+          icon: "mdi-delete",
+          title: "Maintenance",
+          to: "/maintenance",
+        },
       ];
     },
 
