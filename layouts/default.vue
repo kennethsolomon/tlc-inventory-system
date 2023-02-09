@@ -310,7 +310,7 @@ export default {
         },
 
         {
-          icon: "mdi-delete",
+          icon: "mdi-calendar",
           title: "Maintenance",
           to: "/maintenance",
         },

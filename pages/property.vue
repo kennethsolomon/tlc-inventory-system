@@ -1,364 +1,243 @@
 <template>
-  <div>
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
-    <Tab
-      :tab_name="tab_name"
-      :table_data="table"
-      :table_headers="table_headers"
-      :group_by="group_by"
-      @edit_data="editData"
-      @destroy_data="deleteData"
-      @stocks="stocks"
-      @template="propertyTemplateData"
-    >
-      <template v-slot:add_dialog>
-        <div
-          :class="
-            $vuetify.breakpoint.xs
-              ? 'd-flex flex-column'
-              : 'd-flex align-center'
-          "
-        >
-          <v-btn
-            :class="$vuetify.breakpoint.xs ? 'mr-0' : 'mr-3'"
-            @click="add_property_dialog = true"
-            tile
-            color="primary"
-            :width="$vuetify.breakpoint.xs ? '100%' : ''"
-          >
-            <v-icon left>mdi-plus</v-icon>
-            Add Property
-          </v-btn>
+  <v-card>
+    <v-card-title class="text-center justify-center py-6">
+      <h1 class="font-weight-bold text-h2">{{ items[tab] }}</h1>
+    </v-card-title>
 
-          <v-select
-            :style="
-              $vuetify.breakpoint.xs ? 'max-width: 100%' : 'max-width: 7vw'
-            "
-            @change="selected"
-            v-model="select"
-            :items="items"
-            hint="Filter by"
-            item-text="text"
-            item-value="name"
-            label="Select"
-            persistent-hint
-            return-object
-            single-line
-            prepend-inner-icon="mdi-filter"
-          ></v-select>
+    <v-tabs v-model="tab" background-color="transparent" grow>
+      <v-tab> Consumable </v-tab>
+      <v-tab> Non-Consumable </v-tab>
+    </v-tabs>
 
-          <v-checkbox
-            v-model="group_by_description"
-            label="Group By Description"
-          ></v-checkbox>
-          <AddProperty
-            v-if="add_property_dialog === true"
-            :add_property_dialog="add_property_dialog"
-            @form="formSave"
-            @closeModal="add_property_dialog = false"
-          />
+    <v-tabs-items v-model="tab">
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <!-- Consumable -->
+            <template>
+              <v-data-table
+                :headers="headers"
+                :items="consumables"
+                sort-by="property_code"
+                class="elevation-1"
+              >
+                <template v-slot:top>
+                  <v-toolbar flat>
+                    <!-- <v-toolbar-title>Consumable</v-toolbar-title> -->
+                    <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
+                    <v-spacer></v-spacer>
+                    <!-- <v-dialog v-model="dialog" max-width="500px">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="primary"
+                          dark
+                          class="mb-2"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          New Item
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">{{ formTitle }}</span>
+                        </v-card-title>
 
-          <EditProperty
-            v-if="edit_property_dialog === true"
-            :edit_property_dialog="edit_property_dialog"
-            :edit_data="edit_data"
-            @form="formSave"
-            @closeModal="edit_property_dialog = false"
-          />
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field
+                                  v-model="editedItem.property_code"
+                                  label="Property Code"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
 
-          <PropertyTemplate
-            v-if="property_template_dialog === true"
-            :property_template_dialog="property_template_dialog"
-            :property_template_data="property_template_data"
-            @form="formSave"
-            @closeModal="property_template_dialog = false"
-          />
-
-          <DeleteProperty
-            v-if="delete_property_dialog === true"
-            :dialog="delete_property_dialog"
-            title="Delete Property"
-            end_point="delete_item"
-            :delete_data="delete_data"
-            @closeModal="delete_property_dialog = false"
-            @confirmDelete="confirmDelete"
-          />
-
-          <StocksProperty
-            v-if="stocks_property_dialog === true"
-            :dialog="stocks_property_dialog"
-            title="Stocks Property"
-            end_point="update_or_create_item"
-            :stocks_data="stocks_data"
-            @closeModal="stocks_property_dialog = false"
-            @confirmStocks="confirmStocks"
-          />
-        </div>
-      </template>
-    </Tab>
-  </div>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="blue darken-1" text @click="close">
+                            Cancel
+                          </v-btn>
+                          <v-btn color="blue darken-1" text @click="save">
+                            Save
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog> -->
+                    <!-- <v-dialog v-model="dialogDelete" max-width="500px">
+                      <v-card>
+                        <v-card-title class="text-h5"
+                          >Are you sure you want to delete this
+                          item?</v-card-title
+                        >
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="blue darken-1" text @click="closeDelete"
+                            >Cancel</v-btn
+                          >
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="deleteItemConfirm"
+                            >OK</v-btn
+                          >
+                          <v-spacer></v-spacer>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog> -->
+                  </v-toolbar>
+                </template>
+                <!-- <template v-slot:item.actions="{ item }">
+                  <v-icon small class="mr-2" @click="editItem(item)">
+                    mdi-pencil
+                  </v-icon>
+                  <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+                </template> -->
+                <!-- <template v-slot:no-data>
+                  <v-btn color="primary" @click="initialize"> Reset </v-btn>
+                </template> -->
+              </v-data-table>
+            </template>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <!-- Non Consumable -->
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-card>
 </template>
 
 <script>
-import AddProperty from "../components/property/dialog.add.property.vue";
-import EditProperty from "../components/property/dialog.edit.property.vue";
-import PropertyTemplate from "../components/property/dialog.template.property.vue";
-import DeleteProperty from "../components/dialog/dialog.delete.vue";
-import StocksProperty from "../components/property/dialog.stocks.property.vue";
 export default {
-  middleware: "admin",
-  components: {
-    AddProperty,
-    EditProperty,
-    PropertyTemplate,
-    DeleteProperty,
-    StocksProperty,
+  data() {
+    return {
+      tab: null,
+      items: ["Consumable", "Non-Consumable"],
+      consumables: [],
+
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        {
+          text: "Property Code",
+          align: "start",
+          sortable: false,
+          value: "property_code",
+        },
+        {
+          text: "Property Name",
+          value: "property_name",
+        },
+        {
+          text: "Description",
+          value: "description",
+        },
+        {
+          text: "Cost",
+          value: "cost",
+        },
+        {
+          text: "Quantity",
+          value: "quantity",
+        },
+        {
+          text: "Unit of Measure",
+          value: "unit_of_measure",
+        },
+        { text: "Actions", value: "actions", sortable: false },
+      ],
+      editedIndex: -1,
+      editedItem: {
+        name: "",
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+      defaultItem: {
+        name: "",
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+    };
   },
-  data: () => ({
-    group_by_description: false,
-    edit_data: null,
-    property_template_data: null,
-    delete_data: null,
-    stocks_data: null,
-    group_by: "",
-    select: { name: "", text: "" },
-    items: [
-      { name: "", text: "" },
-      { name: "property_name", text: "Property Name" },
-      { name: "purchaser", text: "Purchaser" },
-      { name: "property_code", text: "Property Code" },
-      { name: "description", text: "Description" },
-    ],
-    overlay: false,
-    // TAB
-    add_property_dialog: false,
-    edit_property_dialog: false,
-    property_template_dialog: false,
-    delete_property_dialog: false,
-    stocks_property_dialog: false,
-    tab_name: ["All Property", "Consumable", "Non-Consumable"],
-    table_headers: [
-      { text: "Property Name", align: "start", value: "property_name" },
-      { text: "Description", value: "description" },
-      { text: "Purchaser", value: "purchaser" },
-      { text: "Property Number", value: "property_code" },
-      { text: "Serial Number", value: "serial_number" },
-      { text: "Cost", value: "cost" },
-      { text: "Date Acquired", value: "date_acquired" },
-      { text: "Date Received", value: "date_received" },
-      // { text: "Stocks", value: "stocks" },
-      { text: "Actions", value: "actions" },
-      // { text: "Template", value: "template" },
-      { text: "QR Code", value: "qr" },
-    ],
-    table_data: [
-      [
-        {
-          tab_name: "All Property",
-          data: [],
-        },
-      ],
-      [
-        {
-          tab_name: "Consumable",
-          data: [],
-        },
-      ],
-      [
-        {
-          tab_name: "Non-Consumable",
-          data: [],
-        },
-      ],
-    ],
-    // END TAB
-  }),
   computed: {
-    table() {
-      return this.table_data;
-    },
-    consumable() {
-      return this.$store.state.items.items.data.filter(
-        (item) => item.type === "Consumable"
-      );
-    },
-    nonConsumable() {
-      return this.$store.state.items.items.data.filter(
-        (item) => item.type === "Non-Consumable"
-      );
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
   },
+
   watch: {
-    group_by_description: function (val) {
-      let items = [
-        { text: "Property Name", align: "start", value: "property_name" },
-        { text: "Description", value: "description" },
-        { text: "Purchaser", value: "purchaser" },
-        { text: "Property Number", value: "property_code" },
-        { text: "Serial Number", value: "serial_number" },
-        { text: "Cost", value: "cost" },
-        { text: "Date Acquired", value: "date_acquired" },
-        { text: "Date Received", value: "date_received" },
-        { text: "Actions", value: "actions" },
-        { text: "Template", value: "template" },
-        { text: "QR Code", value: "qr" },
-      ];
-
-      let item_list = [
-        { text: "Property Name", align: "start", value: "property_name" },
-        { text: "Description", value: "description" },
-        { text: "Purchaser", value: "purchaser" },
-        { text: "Quantity", value: "quantity" },
-        { text: "Cost", value: "cost" },
-      ];
-      if (val) {
-        this.table_headers = item_list;
-        this.getItemList();
-      } else {
-        this.table_headers = items;
-        this.getItem();
-      }
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
     },
   },
+
   methods: {
-    propertyTemplateData(data) {
-      let form_data = { ...data };
-      let property_template = {
-        type: form_data.type,
-        property_name: form_data.property_name,
-        purchaser: form_data.purchaser,
-        property_code: form_data.property_code,
-        assigned_person_id: form_data.assigned_person_id,
-        item_category_id: form_data.item_category_id,
-        item_status_id: form_data.item_status_id,
-        location_id: form_data.location_id,
-        received_by_id: form_data.received_by_id,
-        received_from_id: form_data.received_from_id,
-        item_category_info: form_data.item_category_info,
-        description: form_data.description,
-        quantity: 0,
-        cost: 0,
-      };
-      this.property_template_data = property_template;
-      this.property_template_dialog = true;
-    },
-    editData(data) {
-      let form_data = { ...data };
-      this.edit_data = form_data;
-      console.log(form_data);
-      this.edit_property_dialog = true;
-    },
-    stocks(data) {
-      this.stocks_data = data;
-      this.stocks_property_dialog = true;
-    },
-    confirmStocks(data) {
-      let index = this.getIndex(
-        this.$store.state.items.items.data,
-        data.data.id
-      );
-
-      this.table_data[0][0].data.splice(index, 1, data.data);
-
-      this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-      this.getItem();
-      // this.getItemList();
-
-      this.$toast.success("Stocks updated successfully.");
-    },
-    deleteData(data) {
-      this.delete_data = data;
-      this.delete_property_dialog = true;
-    },
-    confirmDelete(data) {
-      let index = this.getIndex(this.$store.state.items.items.data, data.id);
-
-      this.table_data[0][0].data.splice(index, 1);
-
-      this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-      this.getItem();
-      // this.getItemList();
-    },
-    selected(selected) {
-      this.group_by = selected.name;
-    },
-    formSave(data, action) {
-      this.$store.dispatch("postItem", data).then((result) => {
-        this.$store.dispatch("getItems");
-
-        if (action === "add") {
-          this.$toast.success(
-            "Add New Property " + data.type + " successfully!"
-          );
-
-          if (data.type === "Consumable") {
-            this.table_data[1][0].data.push(data);
-          } else if (data.type === "Non-Consumable") {
-            this.table_data[2][0].data.push(data);
-          }
-
-          // All Property
-          this.table_data[0][0].data.push(data);
-
-          this.add_property_dialog = false;
-          this.property_template_dialog = false;
-        } else if (action === "edit") {
-          this.$toast.success("Edit Property " + data.type + " successfully!");
-
-          let index = this.getIndex(
-            this.$store.state.items.items.data,
-            result.data.id
-          );
-
-          this.table_data[0][0].data.splice(index, 1, data);
-
-          this.$store.commit("SET_ITEMS", this.table_data[0][0]);
-
-          this.edit_property_dialog = false;
-        }
-      });
-
-      this.$store.dispatch("getItemList");
-      this.$store.dispatch("getItems").then(() => {
-        this.getItem();
+    async getConsumables() {
+      const item = await this.$axios.$get(`consumables`).then((result) => {
+        console.log(result.data, "result");
+        this.consumables = result.data;
       });
     },
-    getItem() {
-      this.overlay = true;
 
-      this.table_data[0][0].data = this.$store.state.items.items.data;
-      this.table_data[1][0].data = this.consumable;
-      this.table_data[2][0].data = this.nonConsumable;
+    // editItem(item) {
+    //   this.editedIndex = this.consumables.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialog = true;
+    // },
 
-      this.overlay = false;
-    },
+    // deleteItem(item) {
+    //   this.editedIndex = this.consumables.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialogDelete = true;
+    // },
 
-    getItemList() {
-      this.overlay = true;
+    // deleteItemConfirm() {
+    //   this.consumables.splice(this.editedIndex, 1);
+    //   this.closeDelete();
+    // },
 
-      this.table_data[0][0].data = this.$store.state.item_list.item_list.data;
-      this.table_data[1][0].data = this.consumable;
-      this.table_data[2][0].data = this.nonConsumable;
+    // close() {
+    //   this.dialog = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
-      this.overlay = false;
-    },
-    getIndex(array, id) {
-      const index = array.map((e) => e.id).indexOf(id);
+    // closeDelete() {
+    //   this.dialogDelete = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
-      return index;
-    },
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.consumables[this.editedIndex], this.editedItem);
+    //   } else {
+    //     this.consumables.push(this.editedItem);
+    //   }
+    //   this.close();
+    // },
   },
   mounted() {
-    this.$store.dispatch("getItemList");
-    this.$store.dispatch("getItems").then(() => {
-      this.getItem();
-    });
+    this.getConsumables();
   },
 };
 </script>
-
-<style scoped></style>
