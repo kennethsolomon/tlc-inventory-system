@@ -56,12 +56,112 @@
                             <v-icon small class="mr-1">
                               mdi-content-save-check</v-icon
                             >
-                            Save
+                            Add
                           </v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
                     <!-- End Add Dialog -->
+
+                    <!-- Checkout Dialog -->
+                    <v-dialog v-model="check_out_dialog" max-width="500px">
+                      <v-card>
+                        <v-card-title
+                          class="d-flex justify-space-between text-h5 primary white--text"
+                        >
+                          Checkout Property
+                          <v-icon
+                            @click="check_out_dialog = false"
+                            color="white"
+                            >mdi-close</v-icon
+                          >
+                        </v-card-title>
+                        <v-card-text class="d-flex flex-column justify-center">
+                          <div>
+                            <v-select
+                              v-model="check_out_data.received_by_id"
+                              :items="employees"
+                              item-text="fullname"
+                              item-value="id"
+                              label="Received by"
+                              persistent-hint
+                              hide-details
+                              single-line
+                            ></v-select>
+
+                            <v-select
+                              v-model="check_out_data.agency"
+                              hide-details
+                              :items="agency_list"
+                              label="Agency"
+                              persistent-hint
+                              single-line
+                            ></v-select>
+
+                            <v-dialog
+                              ref="check_out_dialog"
+                              v-model="date_modal"
+                              :return-value.sync="check_out_data.date"
+                              persistent
+                              width="290px"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  hide-details
+                                  v-model="check_out_date"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                v-model="check_out_date"
+                                scrollable
+                              >
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  text
+                                  color="primary"
+                                  @click="date_modal = false"
+                                >
+                                  Cancel
+                                </v-btn>
+                                <v-btn
+                                  text
+                                  color="primary"
+                                  @click="
+                                    $refs.check_out_dialog.save(check_out_date)
+                                  "
+                                >
+                                  OK
+                                </v-btn>
+                              </v-date-picker>
+                            </v-dialog>
+
+                            <v-text-field
+                              hide-details
+                              type="number"
+                              v-model="check_out_data.quantity"
+                              label="Stock Quantity"
+                              placeholder="Stock Quantity"
+                              required
+                            ></v-text-field>
+                          </div>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn @click="checkOut()" color="primary">
+                            <v-icon small class="mr-1"> mdi-cart-minus</v-icon>
+                            Checkout
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                    <!-- End Checkout Dialog -->
                   </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
@@ -73,7 +173,12 @@
                   >
                     <v-icon dark> mdi-plus </v-icon></v-btn
                   >
-                  <v-btn class="primary mr-2" fab x-small @click="item;">
+                  <v-btn
+                    class="primary mr-2"
+                    fab
+                    x-small
+                    @click="checkOutDialog(item)"
+                  >
                     <v-icon dark> mdi-minus </v-icon></v-btn
                   >
                 </template>
@@ -104,10 +209,22 @@ export default {
       tab: null,
       items: ["Consumable", "Non-Consumable"],
       consumables: [],
+      employees: [],
+      check_out_date: null,
       property_data: null,
       stock_quantity: 0, // add stock
       add_dialog: false,
 
+      //Checkout Dialog
+      date_modal: false,
+      agency_list: ["DICT", "Sample 1"],
+      check_out_dialog: false,
+      check_out_data: {
+        received_by_id: null,
+        agency: null,
+        quantity: null,
+        date: null,
+      },
       headers: [
         {
           text: "Property Code",
@@ -160,15 +277,72 @@ export default {
           );
         });
     },
+
+    // Checkout
+    async checkOutDialog(item) {
+      this.property_data = item;
+      this.check_out_dialog = true;
+    },
+    async checkOut() {
+      const checkout = await this.$axios
+        .$post(
+          `check_out/${Number(this.property_data.id)}`,
+          this.check_out_data
+        )
+        .then((result) => {
+          this.check_out_dialog = false;
+
+          this.check_out_data = {
+            received_by_id: null,
+            agency: null,
+            quantity: null,
+            date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+              .toISOString()
+              .substr(0, 10),
+          };
+
+          this.check_out_date = new Date(
+            Date.now() - new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(0, 10);
+
+          this.getConsumables();
+          this.$toast.success(
+            `Checkout of ${this.property_data.property_name} has been successfully saved.`
+          );
+        });
+    },
+
+    // Datas
     async getConsumables() {
-      const item = await this.$axios.$get(`consumables`).then((result) => {
-        console.log(result.data, "result");
-        this.consumables = result.data;
+      const consumables = await this.$axios
+        .$get(`consumables`)
+        .then((result) => {
+          this.consumables = result.data;
+        });
+    },
+    async getEmployees() {
+      const employees = await this.$axios.$get(`employees`).then((result) => {
+        this.employees = result.data;
       });
     },
   },
   mounted() {
     this.getConsumables();
+    this.getEmployees();
+
+    this.check_out_date = new Date(
+      Date.now() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .substr(0, 10);
+
+    this.check_out_data.date = new Date(
+      Date.now() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .substr(0, 10);
   },
 };
 </script>
