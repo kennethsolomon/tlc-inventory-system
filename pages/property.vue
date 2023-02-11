@@ -23,82 +23,64 @@
               >
                 <template v-slot:top>
                   <v-toolbar flat>
-                    <!-- <v-toolbar-title>Consumable</v-toolbar-title> -->
-                    <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
                     <v-spacer></v-spacer>
-                    <!-- <v-dialog v-model="dialog" max-width="500px">
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="primary"
-                          dark
-                          class="mb-2"
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          New Item
-                        </v-btn>
-                      </template>
+                    <!-- Add Dialog -->
+                    <v-dialog v-model="add_dialog" max-width="500px">
                       <v-card>
-                        <v-card-title>
-                          <span class="text-h5">{{ formTitle }}</span>
+                        <v-card-title
+                          class="d-flex justify-space-between text-h5 primary white--text"
+                        >
+                          Add Stocks
+                          <v-icon @click="add_dialog = false" color="white"
+                            >mdi-close</v-icon
+                          >
                         </v-card-title>
-
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" sm="6" md="4">
-                                <v-text-field
-                                  v-model="editedItem.property_code"
-                                  label="Property Code"
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-container>
+                        <v-card-text class="d-flex flex-column justify-center">
+                          <div>
+                            <v-text-field
+                              hide-details
+                              type="number"
+                              v-model="stock_quantity"
+                              label="Stock Quantity"
+                              placeholder="Stock Quantity"
+                              required
+                            ></v-text-field>
+                          </div>
                         </v-card-text>
+
+                        <v-divider></v-divider>
 
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="close">
-                            Cancel
-                          </v-btn>
-                          <v-btn color="blue darken-1" text @click="save">
+                          <v-btn @click="addStock()" color="primary">
+                            <v-icon small class="mr-1">
+                              mdi-content-save-check</v-icon
+                            >
                             Save
                           </v-btn>
                         </v-card-actions>
                       </v-card>
-                    </v-dialog> -->
-                    <!-- <v-dialog v-model="dialogDelete" max-width="500px">
-                      <v-card>
-                        <v-card-title class="text-h5"
-                          >Are you sure you want to delete this
-                          item?</v-card-title
-                        >
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="closeDelete"
-                            >Cancel</v-btn
-                          >
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="deleteItemConfirm"
-                            >OK</v-btn
-                          >
-                          <v-spacer></v-spacer>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog> -->
+                    </v-dialog>
+                    <!-- End Add Dialog -->
                   </v-toolbar>
                 </template>
-                <!-- <template v-slot:item.actions="{ item }">
-                  <v-icon small class="mr-2" @click="editItem(item)">
-                    mdi-pencil
-                  </v-icon>
-                  <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-                </template> -->
-                <!-- <template v-slot:no-data>
-                  <v-btn color="primary" @click="initialize"> Reset </v-btn>
-                </template> -->
+                <template v-slot:item.actions="{ item }">
+                  <v-btn
+                    class="primary mr-2"
+                    fab
+                    x-small
+                    @click="addDialog(item)"
+                  >
+                    <v-icon dark> mdi-plus </v-icon></v-btn
+                  >
+                  <v-btn class="primary mr-2" fab x-small @click="item;">
+                    <v-icon dark> mdi-minus </v-icon></v-btn
+                  >
+                </template>
+
+                <template v-slot:no-data>
+                  <h1>No Data found...</h1>
+                </template>
               </v-data-table>
             </template>
           </v-card-text>
@@ -122,9 +104,10 @@ export default {
       tab: null,
       items: ["Consumable", "Non-Consumable"],
       consumables: [],
+      property_data: null,
+      stock_quantity: 0, // add stock
+      add_dialog: false,
 
-      dialog: false,
-      dialogDelete: false,
       headers: [
         {
           text: "Property Code",
@@ -154,87 +137,35 @@ export default {
         },
         { text: "Actions", value: "actions", sortable: false },
       ],
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
     };
-  },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
-  },
-
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
   },
 
   methods: {
+    async addDialog(item) {
+      this.property_data = item;
+      this.add_dialog = true;
+    },
+    async addStock() {
+      let data = {
+        quantity: this.stock_quantity,
+      };
+      const consumable = await this.$axios
+        .$post(`add_stock/${Number(this.property_data.id)}`, data)
+        .then((result) => {
+          this.add_dialog = false;
+          this.stock_quantity = 0;
+          this.getConsumables();
+          this.$toast.success(
+            `Quantity of ${this.property_data.property_name} has been successfully adusted.`
+          );
+        });
+    },
     async getConsumables() {
       const item = await this.$axios.$get(`consumables`).then((result) => {
         console.log(result.data, "result");
         this.consumables = result.data;
       });
     },
-
-    // editItem(item) {
-    //   this.editedIndex = this.consumables.indexOf(item);
-    //   this.editedItem = Object.assign({}, item);
-    //   this.dialog = true;
-    // },
-
-    // deleteItem(item) {
-    //   this.editedIndex = this.consumables.indexOf(item);
-    //   this.editedItem = Object.assign({}, item);
-    //   this.dialogDelete = true;
-    // },
-
-    // deleteItemConfirm() {
-    //   this.consumables.splice(this.editedIndex, 1);
-    //   this.closeDelete();
-    // },
-
-    // close() {
-    //   this.dialog = false;
-    //   this.$nextTick(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem);
-    //     this.editedIndex = -1;
-    //   });
-    // },
-
-    // closeDelete() {
-    //   this.dialogDelete = false;
-    //   this.$nextTick(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem);
-    //     this.editedIndex = -1;
-    //   });
-    // },
-
-    // save() {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.consumables[this.editedIndex], this.editedItem);
-    //   } else {
-    //     this.consumables.push(this.editedItem);
-    //   }
-    //   this.close();
-    // },
   },
   mounted() {
     this.getConsumables();
