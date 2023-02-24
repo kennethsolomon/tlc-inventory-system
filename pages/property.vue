@@ -275,6 +275,9 @@ export default {
           this.$toast.success(
             `Quantity of ${this.property_data.property_name} has been successfully adusted.`
           );
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
         });
     },
 
@@ -311,6 +314,9 @@ export default {
           this.$toast.success(
             `Checkout of ${this.property_data.property_name} has been successfully saved.`
           );
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
         });
     },
 
