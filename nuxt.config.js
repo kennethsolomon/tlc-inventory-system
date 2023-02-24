@@ -1,9 +1,9 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from "vuetify/es5/util/colors";
 
 export default {
-
   server: {
-    host: '172.30.192.1' // default: localhost ; uncomment this if your using ip address instead of localhost
+    // host: '172.30.128.22' // default: localhost ; uncomment this if your using ip address instead of localhost
+    // host: '0.0.0.0' // default: localhost ; uncomment this if your using ip address instead of localhost
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -11,22 +11,19 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - dict_inventory_system',
-    title: 'dict_inventory_system',
+    titleTemplate: "%s - dict_inventory_system",
+    title: "dict_inventory_system",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -38,7 +35,7 @@ export default {
 
   // Global Middleware
   router: {
-    middleware: ['auth', 'pre-load-data'],
+    middleware: ["auth", "pre-load-data"],
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,92 +44,91 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    "@nuxtjs/vuetify",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://auth.nuxtjs.org/guide/setup/
-    '@nuxtjs/auth-next',
+    "@nuxtjs/auth-next",
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
-    '@nuxtjs/toast',
+    "@nuxtjs/pwa",
+    "@nuxtjs/toast",
   ],
 
   toast: {
-    position: 'bottom-center',
+    position: "bottom-center",
     duration: 3000,
-    register: [ // Register custom toasts
+    register: [
+      // Register custom toasts
       {
         // To call u need to call
         // this.$toast.global.custom-toast("message");
-        name: 'test',
-        message: 'Oops...Something went wrong',
+        name: "test",
+        message: "Oops...Something went wrong",
         options: {
-          type: 'error'
-        }
-      }
-    ]
+          type: "error",
+        },
+      },
+    ],
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://172.30.192.1:8000/api/', // change ip address if using mobile phone
+    baseURL: "http://localhost:8000/api/v3", // change ip address if using mobile phone
     credentials: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
-    }
+      lang: "en",
+    },
   },
 
   auth: {
     strategies: {
       cookie: {
         cookie: {
-          name: 'XSRF-TOKEN',
-        }
+          name: "XSRF-TOKEN",
+        },
       },
       laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: 'http://172.30.192.1:8000',  // change to ip address if using mobile phone
+        provider: "laravel/sanctum",
+        url: "http://localhost:8000", // change to ip address if using mobile phone
         endpoints: {
           csrf: {
-            url: '/sanctum/csrf-cookie',
+            url: "/sanctum/csrf-cookie",
           },
           login: {
-            url: '/api/login',
+            url: "/api/login",
           },
           logout: {
-            url: '/api/logout',
+            url: "/api/logout",
           },
           user: {
-            url: '/api/user',
+            url: "/api/user",
           },
         },
         user: {
-          property: 'id',
+          property: "id",
         },
       },
     },
 
     redirect: {
-      login: '/login',
-      logout: '/login',
-      home: '/',
+      login: "/login",
+      logout: "/login",
+      home: "/",
     },
-
   },
-
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
@@ -143,17 +139,17 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
         },
         light: {
-          primary: '#0E2A47'
-        }
-      }
-    }
+          primary: "#0E2A47",
+        },
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vee-validate/dist/rules"],
-  }
-}
+  },
+};
