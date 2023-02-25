@@ -12,7 +12,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="d-flex justify-center">
-                <img src="/DICT_Logo.png" width="200vw" alt="DICT Logo" />
+                <img src="/TLC_LOGO.png" width="200vw" alt="DICT Logo" />
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>

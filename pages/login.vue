@@ -5,7 +5,7 @@
       <div
         class="d-flex flex-column fill-height justify-center align-center ma-2"
       >
-        <img class="mb-15" src="/DICT_Logo.png" width="250vw" alt="DICT Logo" />
+        <img class="mb-15" src="/TLC_LOGO.png" width="250vw" alt="TLC Logo" />
 
         <v-alert v-if="error" dense outlined type="error">
           {{ error }}
@@ -45,9 +45,9 @@
           >
             <img
               class="mb-15"
-              src="/DICT_Logo.png"
+              src="/TLC_LOGO.png"
               width="250vw"
-              alt="DICT Logo"
+              alt="TLC Logo"
             />
 
             <v-alert v-if="error" dense outlined type="error">
