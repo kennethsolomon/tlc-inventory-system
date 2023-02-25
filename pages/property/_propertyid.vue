@@ -10,7 +10,11 @@
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               @click="showLendDialog()"
-              :disabled="property.status != 'In Custody'"
+              :disabled="
+                !property.pending_lend
+                  ? property.status != 'In Custody'
+                  : property.status != ''
+              "
               v-bind="attrs"
               v-on="on"
               color="primary"
@@ -26,6 +30,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-chip
+              @click="showTransferDialog()"
               :disabled="
                 property.init_transfer
                   ? property.status != 'In Custody'
@@ -97,13 +102,13 @@
                           <v-chip
                             v-bind="attrs"
                             v-on="on"
-                            :color="propertyStatus?.color"
+                            :color="propertyStatus.color"
                             text-color="white"
                           >
                             <v-icon class="mr-1" start>
-                              {{ propertyStatus?.icon }}
+                              {{ propertyStatus.icon }}
                             </v-icon>
-                            {{ property?.status }}
+                            {{ property.status }}
                           </v-chip>
                         </template>
                         <span>Status</span>
@@ -160,7 +165,7 @@
 
                   <v-divider class="mx-4"></v-divider>
 
-                  <div v-if="property.init">
+                  <div v-if="property.init_transfer">
                     <v-card-title>Additional Details</v-card-title>
                     <v-chip-group class="px-4">
                       <v-tooltip bottom>
@@ -197,6 +202,8 @@
           <v-data-table
             :headers="history_headers"
             :items="property.property_histories"
+            sort-by="created_at"
+            :sort-desc="true"
             :items-per-page="10"
             class="elevation-1"
           ></v-data-table>
@@ -204,6 +211,7 @@
       </v-tab-item>
     </v-tabs-items>
 
+    <!-- NOTE: Lend Property Dialog -->
     <v-dialog v-model="lend_property.dialog" persistent max-width="500px">
       <v-card>
         <v-card-title
@@ -287,6 +295,87 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- NOTE: Transfer Property Dialog -->
+    <v-dialog v-model="transfer_property.dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title
+          class="d-flex justify-space-between text-h5 primary white--text"
+        >
+          Transfer Property
+          <v-icon @click="transfer_property.dialog = false" color="white"
+            >mdi-close</v-icon
+          >
+        </v-card-title>
+        <v-card-text class="d-flex flex-column justify-center">
+          <!-- Transfer Date -->
+          <!-- Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
+          <v-dialog
+            ref="transfer_dialog"
+            :return-value.sync="transfer_property.transfer_date"
+            persistent
+            width="290px"
+            v-model="transfer_property.date_modal"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                class="mt-3"
+                label="Date of Transfer"
+                hide-details
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                v-model="transfer_property.transfer_date_date"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              scrollable
+              v-model="transfer_property.transfer_date_date"
+            >
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="transfer_property.date_modal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  $refs.transfer_dialog.save(
+                    transfer_property.transfer_date_date
+                  )
+                "
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
+          <v-text-field
+            v-model="transfer_property.assigned_to"
+            label="Assigned To"
+            hide-details
+            class="py-3"
+          ></v-text-field>
+          <v-text-field
+            v-model="transfer_property.location"
+            label="Location"
+            hide-details
+            class="py-3"
+          ></v-text-field>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="transferProperty()" color="primary">
+            <v-icon start small class="mr-1"> mdi-transit-transfer</v-icon>
+            Transfer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -307,26 +396,29 @@ export default {
       { text: "Assigned To", value: "assigned_to" },
       { text: "Location", value: "location" },
       { text: "Status", value: "status" },
+      { text: "created_at", value: "created_at" },
     ],
     lend_property: {
       dialog: false,
       date_modal: false,
       date_of_lending_date: null,
-      date_of_lending: null,
 
       // Form
-      property_id: null,
-      property_code: null,
-      category: null,
       date_of_lending: null,
       borrower_name: null,
       location: null,
       reason_for_lending: null,
     },
-    // transaction_dialog_data: {
-    //   transaction_dialog: false,
-    //   customer: null,
-    // },
+    transfer_property: {
+      dialog: false,
+      date_modal: false,
+      transfer_date_date: null,
+
+      // Form
+      transfer_date: null,
+      assigned_to: null,
+      location: null,
+    },
   }),
   async asyncData({ params, $axios }) {
     const [property_history] = await Promise.all([
@@ -342,7 +434,7 @@ export default {
       switch (this.property.status) {
         case "Unavailable":
           return { icon: "mdi-close-circle-outline", color: "red" };
-        case "In Custo?dy":
+        case "In Custody":
           return { icon: "mdi-check-circle-outline", color: "green" };
         case "Disposed":
           return { icon: "mdi-delete-outline", color: "grey" };
@@ -360,8 +452,19 @@ export default {
         .then(async (result) => {
           await this.$nuxt.refresh();
           this.$toast.success(
-            `Property ${this.property.property_code} has been successfully lend.`
+            `Property ${this.property.property_code} has been added to pending lend list.`
           );
+          this.lend_property = {
+            dialog: false,
+            date_modal: false,
+            date_of_lending_date: null,
+
+            // Form
+            date_of_lending: null,
+            borrower_name: null,
+            location: null,
+            reason_for_lending: null,
+          };
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message);
@@ -369,9 +472,35 @@ export default {
 
       this.lend_property.dialog = false;
     },
-
     showLendDialog() {
       this.lend_property.dialog = true;
+    },
+
+    async transferProperty() {
+      await this.$axios
+        .$post(`transfer_property/${this.property_id}`, this.transfer_property)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Property ${this.property.property_code} has successfully been transfer.`
+          );
+          this.transfer_property = {
+            dialog: false,
+            date_modal: false,
+            transfer_date_date: null,
+            transfer_date: null,
+            assigned_to: null,
+            location: null,
+          };
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
+
+      this.transfer_property.dialog = false;
+    },
+    showTransferDialog() {
+      this.transfer_property.dialog = true;
     },
     // async closeReturnDialog() {
     //   await this.$nuxt.refresh();

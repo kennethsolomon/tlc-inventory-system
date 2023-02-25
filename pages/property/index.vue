@@ -12,11 +12,20 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search ..."
+              single-line
+              hide-details
+              class="mb-2"
+            ></v-text-field>
             <!-- Consumable -->
             <template>
               <v-data-table
                 :headers="headers"
                 :items="properties"
+                :search="search"
                 sort-by="property_code"
                 class="elevation-1"
               >
@@ -61,106 +70,6 @@
                       </v-card>
                     </v-dialog> -->
                     <!-- End Add Dialog -->
-
-                    <!-- Checkout Dialog -->
-                    <!-- <v-dialog v-model="check_out_dialog" max-width="500px">
-                      <v-card>
-                        <v-card-title
-                          class="d-flex justify-space-between text-h5 primary white--text"
-                        >
-                          Checkout Property
-                          <v-icon
-                            @click="check_out_dialog = false"
-                            color="white"
-                            >mdi-close</v-icon
-                          >
-                        </v-card-title>
-                        <v-card-text class="d-flex flex-column justify-center">
-                          <div>
-                            <v-select
-                              v-model="check_out_data.received_by_id"
-                              :items="employees"
-                              item-text="fullname"
-                              item-value="id"
-                              label="Received by"
-                              persistent-hint
-                              hide-details
-                              single-line
-                            ></v-select>
-
-                            <v-select
-                              v-model="check_out_data.agency"
-                              hide-details
-                              :items="agency_list"
-                              label="Agency"
-                              persistent-hint
-                              single-line
-                            ></v-select>
-
-                            <v-dialog
-                              ref="check_out_dialog"
-                              v-model="date_modal"
-                              :return-value.sync="check_out_data.date"
-                              persistent
-                              width="290px"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                  hide-details
-                                  v-model="check_out_date"
-                                  prepend-icon="mdi-calendar"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="check_out_date"
-                                scrollable
-                              >
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                  text
-                                  color="primary"
-                                  @click="date_modal = false"
-                                >
-                                  Cancel
-                                </v-btn>
-                                <v-btn
-                                  text
-                                  color="primary"
-                                  @click="
-                                    $refs.check_out_dialog.save(check_out_date)
-                                  "
-                                >
-                                  OK
-                                </v-btn>
-                              </v-date-picker>
-                            </v-dialog>
-
-                            <v-text-field
-                              hide-details
-                              type="number"
-                              v-model="check_out_data.quantity"
-                              label="Stock Quantity"
-                              placeholder="Stock Quantity"
-                              required
-                            ></v-text-field>
-                          </div>
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn @click="checkOut()" color="primary">
-                            <v-icon small class="mr-1"> mdi-cart-minus</v-icon>
-                            Checkout
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog> -->
-                    <!-- End Checkout Dialog -->
                   </v-toolbar>
                 </template>
                 <template v-slot:item.view_more="{ item }">
@@ -206,6 +115,7 @@ export default {
       property_data: null,
       // stock_quantity: 0, // add stock
       add_dialog: false,
+      search: null,
 
       //Checkout Dialog
       // date_modal: false,
