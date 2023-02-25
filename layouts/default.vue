@@ -120,7 +120,7 @@
       <v-icon class="mr-2">mdi-chart-bar-stacked</v-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click.stop="camera()">
+      <!-- <v-btn icon @click.stop="camera()">
         <v-icon>mdi-camera</v-icon>
       </v-btn>
 
@@ -128,7 +128,7 @@
         v-if="camera_dialog === true"
         :camera_dialog="camera_dialog"
         @closeCamera="closeCamera"
-      ></Camera>
+      ></Camera> -->
 
       <v-btn icon @click.stop="logOut()">
         <v-icon>mdi-logout</v-icon>
