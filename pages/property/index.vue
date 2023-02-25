@@ -183,7 +183,7 @@
                 </template>
 
                 <template v-slot:no-data>
-                  <h1>No Data found...</h1>
+                  <h1>No Data Found ...</h1>
                 </template>
               </v-data-table>
             </template>

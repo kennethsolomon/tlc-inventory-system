@@ -4,6 +4,63 @@
       <h1 class="font-weight-bold text-h2">{{ items[tab] }}</h1>
     </v-card-title>
 
+    <div class="d-flex justify-end">
+      <v-chip-group>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              @click="showLendDialog()"
+              :disabled="property.status != 'In Custody'"
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              label
+            >
+              <v-icon class="mr-1" start> mdi-transfer-right </v-icon>
+              Lend
+            </v-chip>
+          </template>
+          <span>Lend Property</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              :disabled="
+                property.init_transfer
+                  ? property.status != 'In Custody'
+                  : property.status != ''
+              "
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              label
+            >
+              <v-icon class="mr-1" start> mdi-transit-transfer </v-icon>
+              Transfer Property
+            </v-chip>
+          </template>
+          <span>Transfer Property</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              :disabled="property.status != 'In Custody'"
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              label
+            >
+              <v-icon class="mr-1" start> mdi-tools </v-icon>
+              In Repair
+            </v-chip>
+          </template>
+          <span>In Repair</span>
+        </v-tooltip>
+      </v-chip-group>
+    </div>
+
     <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab>Details</v-tab>
       <v-tab>Histories</v-tab>
@@ -20,88 +77,80 @@
                 <v-text-field value="test" label="Name" required></v-text-field>
               </v-sheet> -->
               <template>
-                <v-card
-                  :loading="loading"
-                  class="mx-auto my-12"
-                  max-width="400"
-                >
-                  <v-card-item>
-                    <div class="d-flex justify-space-between">
-                      <div>
-                        <v-card-title>{{
-                          properties.property_code
-                        }}</v-card-title>
-                        <v-card-subtitle>
-                          <span>{{ properties.serial_number }}</span>
+                <v-card class="mx-auto my-12" max-width="400">
+                  <div class="d-flex justify-space-between">
+                    <div>
+                      <v-card-title>{{ property.property_code }}</v-card-title>
+                      <v-card-subtitle>
+                        <span>{{ property.serial_number }}</span>
 
-                          <v-icon
-                            color="error"
-                            icon="mdi-fire-circle"
-                            size="small"
-                          ></v-icon>
-                        </v-card-subtitle>
-                      </div>
-                      <div class="ma-5">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-chip
-                              v-bind="attrs"
-                              v-on="on"
-                              :color="propertyStatus.color"
-                              text-color="white"
-                            >
-                              <v-icon class="mr-1" start>
-                                {{ propertyStatus.icon }}
-                              </v-icon>
-                              {{ properties.status }}
-                            </v-chip>
-                          </template>
-                          <span>Status</span>
-                        </v-tooltip>
-                      </div>
+                        <v-icon
+                          color="error"
+                          icon="mdi-fire-circle"
+                          size="small"
+                        ></v-icon>
+                      </v-card-subtitle>
                     </div>
-                  </v-card-item>
+                    <div class="ma-5" v-if="property.init_transfer">
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-chip
+                            v-bind="attrs"
+                            v-on="on"
+                            :color="propertyStatus?.color"
+                            text-color="white"
+                          >
+                            <v-icon class="mr-1" start>
+                              {{ propertyStatus?.icon }}
+                            </v-icon>
+                            {{ property?.status }}
+                          </v-chip>
+                        </template>
+                        <span>Status</span>
+                      </v-tooltip>
+                    </div>
+                  </div>
 
                   <v-divider class="mx-4 mb-1"></v-divider>
 
                   <v-card-text>
                     <v-text-field
-                      :value="properties.category"
+                      :value="property.category"
                       label="Category"
                       hide-details
                       readonly
                       class="py-3"
                     ></v-text-field>
                     <v-text-field
-                      :value="properties.description"
+                      :value="property.description"
                       label="Descriptiopn"
                       hide-details
                       readonly
                       class="py-3"
                     ></v-text-field>
                     <v-text-field
-                      :value="properties.brand"
+                      :value="property.brand"
                       label="Brand"
                       hide-details
                       readonly
                       class="py-3"
                     ></v-text-field>
                     <v-text-field
-                      :value="properties.model"
+                      :value="property.model"
                       label="Model"
                       hide-details
                       readonly
                       class="py-3"
                     ></v-text-field>
                     <v-text-field
-                      :value="properties.purchase_date"
+                      :value="property.purchase_date"
                       label="Purchased Date"
                       hide-details
                       readonly
                       class="py-3"
                     ></v-text-field>
                     <v-text-field
-                      :value="properties.warranty_period"
+                      :value="property.warranty_period"
                       label="Warranty Period"
                       hide-details
                       readonly
@@ -111,17 +160,16 @@
 
                   <v-divider class="mx-4"></v-divider>
 
-                  <v-card-title>Additional Details</v-card-title>
-
-                  <div class="px-4">
-                    <v-chip-group>
+                  <div v-if="property.init">
+                    <v-card-title>Additional Details</v-card-title>
+                    <v-chip-group class="px-4">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
                           <v-chip v-bind="attrs" v-on="on" color="primary">
                             <v-icon class="mr-1" start>
                               mdi-account-circle-outline
                             </v-icon>
-                            {{ properties.assigned_to }}
+                            {{ property.assigned_to }}
                           </v-chip>
                         </template>
                         <span>Assigned To</span>
@@ -131,7 +179,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-chip v-bind="attrs" v-on="on" color="primary">
                             <v-icon class="mr-1" start> mdi-map-marker </v-icon>
-                            {{ properties.location }}
+                            {{ property.location }}
                           </v-chip>
                         </template>
                         <span>Location</span>
@@ -145,13 +193,100 @@
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <!-- Histories -->
-          </v-card-text>
-        </v-card>
+        <template>
+          <v-data-table
+            :headers="history_headers"
+            :items="property.property_histories"
+            :items-per-page="10"
+            class="elevation-1"
+          ></v-data-table>
+        </template>
       </v-tab-item>
     </v-tabs-items>
+
+    <v-dialog v-model="lend_property.dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title
+          class="d-flex justify-space-between text-h5 primary white--text"
+        >
+          Lend Property
+          <v-icon @click="lend_property.dialog = false" color="white"
+            >mdi-close</v-icon
+          >
+        </v-card-title>
+        <v-card-text class="d-flex flex-column justify-center">
+          <!-- Lend Date -->
+          <!-- Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
+          <v-dialog
+            ref="lend_dialog"
+            :return-value.sync="lend_property.date_of_lending"
+            persistent
+            width="290px"
+            v-model="lend_property.date_modal"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                class="mt-3"
+                label="Date of Lending"
+                hide-details
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                v-model="lend_property.date_of_lending_date"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              scrollable
+              v-model="lend_property.date_of_lending_date"
+            >
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="lend_property.date_modal = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  $refs.lend_dialog.save(lend_property.date_of_lending_date)
+                "
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
+          <v-text-field
+            v-model="lend_property.location"
+            label="Location"
+            hide-details
+            class="py-3"
+          ></v-text-field>
+          <v-text-field
+            v-model="lend_property.borrower_name"
+            label="Borrower Name"
+            hide-details
+            class="py-3"
+          ></v-text-field>
+          <v-textarea
+            v-model="lend_property.reason_for_lending"
+            outlined
+            name="input-7-4"
+            label="Reason for lending ..."
+          ></v-textarea>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="lendProperty()" color="primary">
+            <v-icon start small class="mr-1"> mdi-transfer-right</v-icon>
+            Lend
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -161,7 +296,33 @@ export default {
   data: () => ({
     tab: null,
     tab: 0,
-    items: ["Property", "Histories"],
+    items: ["Property", "Property"],
+    history_headers: [
+      {
+        text: "Transfer Date",
+        align: "start",
+        sortable: true,
+        value: "transfer_date",
+      },
+      { text: "Assigned To", value: "assigned_to" },
+      { text: "Location", value: "location" },
+      { text: "Status", value: "status" },
+    ],
+    lend_property: {
+      dialog: false,
+      date_modal: false,
+      date_of_lending_date: null,
+      date_of_lending: null,
+
+      // Form
+      property_id: null,
+      property_code: null,
+      category: null,
+      date_of_lending: null,
+      borrower_name: null,
+      location: null,
+      reason_for_lending: null,
+    },
     // transaction_dialog_data: {
     //   transaction_dialog: false,
     //   customer: null,
@@ -172,15 +333,16 @@ export default {
       $axios.get(`property_history/${params.propertyid}`),
     ]);
     return {
-      properties: property_history.data.data[0],
+      property: property_history.data.data[0],
+      property_id: params.propertyid,
     };
   },
   computed: {
     propertyStatus() {
-      switch (this.properties.status) {
+      switch (this.property.status) {
         case "Unavailable":
           return { icon: "mdi-close-circle-outline", color: "red" };
-        case "In Custody":
+        case "In Custo?dy":
           return { icon: "mdi-check-circle-outline", color: "green" };
         case "Disposed":
           return { icon: "mdi-delete-outline", color: "grey" };
@@ -191,10 +353,29 @@ export default {
       }
     },
   },
-  // methods: {
-  //   async closeReturnDialog() {
-  //     await this.$nuxt.refresh();
-  //   },
-  // },
+  methods: {
+    async lendProperty() {
+      await this.$axios
+        .$post(`lend_property/${this.property_id}`, this.lend_property)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Property ${this.property.property_code} has been successfully lend.`
+          );
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
+
+      this.lend_property.dialog = false;
+    },
+
+    showLendDialog() {
+      this.lend_property.dialog = true;
+    },
+    // async closeReturnDialog() {
+    //   await this.$nuxt.refresh();
+    // },
+  },
 };
 </script>
