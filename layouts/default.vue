@@ -284,30 +284,35 @@ export default {
           to: "/property",
         },
         {
-          icon: "mdi-chart-line",
-          title: "Manage Stocks",
-          to: "/stocks",
+          icon: "mdi-transfer-right",
+          title: "Lend",
+          to: "/lend",
         },
-        {
-          icon: "mdi-transfer",
-          title: "Transfer Property",
-          to: "/transfer",
-        },
-        {
-          icon: "mdi-camera-metering-partial",
-          title: "Loan Property",
-          to: "/loan",
-        },
-        {
-          icon: "mdi-math-log",
-          title: "Logs",
-          to: "/logs",
-        },
-        {
-          icon: "mdi-delete",
-          title: "Trash",
-          to: "/trash",
-        },
+        // {
+        //   icon: "mdi-chart-line",
+        //   title: "Manage Stocks",
+        //   to: "/stocks",
+        // },
+        // {
+        //   icon: "mdi-transfer",
+        //   title: "Transfer Property",
+        //   to: "/transfer",
+        // },
+        // {
+        //   icon: "mdi-camera-metering-partial",
+        //   title: "Loan Property",
+        //   to: "/loan",
+        // },
+        // {
+        //   icon: "mdi-math-log",
+        //   title: "Logs",
+        //   to: "/logs",
+        // },
+        // {
+        //   icon: "mdi-delete",
+        //   title: "Trash",
+        //   to: "/trash",
+        // },
 
         {
           icon: "mdi-calendar",

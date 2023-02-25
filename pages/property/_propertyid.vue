@@ -51,6 +51,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-chip
+              @click="onMaintenance()"
               :disabled="property.status != 'In Custody'"
               v-bind="attrs"
               v-on="on"
@@ -501,6 +502,19 @@ export default {
     },
     showTransferDialog() {
       this.transfer_property.dialog = true;
+    },
+    async onMaintenance() {
+      await this.$axios
+        .$post(`on_maintenance/${this.property_id}`, {})
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Property ${this.property.property_code} has been added to maintenance list.`
+          );
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
     },
     // async closeReturnDialog() {
     //   await this.$nuxt.refresh();

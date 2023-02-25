@@ -413,10 +413,10 @@ export default {
           this.$toast.error(error);
         });
     },
-    getCategory() {
-      this.category.options =
-        this.$store.state.item_categories.item_categories.data;
-    },
+    // getCategory() {
+    //   this.category.options =
+    //     this.$store.state.item_categories.item_categories.data;
+    // },
 
     addEmployee(form) {
       this.$store
