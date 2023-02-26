@@ -1,44 +1,15 @@
-- [x] Transfer Property Table
-  - [x] Save Transfer Property Data
-  - [x] Change Quantity of an item to Zero
-- [x] Loan Fields Property
-  - [x] Loan Table Property
-  - [x] Loan Save Data
-- [ ] Dashboard: Charts, Notification if Stocks is below 10
-- [ ] Staff user can only view the data
-- [x] LOGs
+- Property Add Dialog
 
-### Loan Property Table
+- Maintenance Tab
 
-@ Transaction No.
+  - Repair
+    <!-- - Change to Fixed
+    - Run Function to API -->
+  - Dispose
+    <!-- -Check if created_at is more than a year from created at -->
+    <!-- - change disabled to false -->
 
-- Lender Information
-  @ Name
-  @ Agency
-  @ Designation
-- Borrower Information
-  @ Name
-  @ Agency
-  @ Designation
-- Inclusive Date of Loan
-  @ Start Date
-  @ End Date
-  @ Purpose of Loan
-  @ Condition of PPE
+- Property Location
+  - must show base on the current stage - if returned show the original location else show lend location
 
-### Dashboard
-
-- Count:
-
-  - Consumable
-  - Non Consumable
-  - Total
-
-- Consumable Property
-
-  - Graph by Category (Count ang group by category)
-  - List View Design of Cateogry and Count
-
-- Non Consumable Property
-  - Graph by Category (Count ang group by category)
-  - List View Design of Cateogry and Count
+- Dashboard
