@@ -322,7 +322,7 @@ export default {
       ];
     },
 
-    staffSidebar() {
+    maintenanceSidebar() {
       this.items = [
         {
           icon: "mdi-apps",
@@ -332,16 +332,43 @@ export default {
         {
           icon: "mdi-file-cabinet",
           title: "Property",
-          to: "/staff-property",
+          to: "/property",
+        },
+        {
+          icon: "mdi-calendar",
+          title: "Maintenance",
+          to: "/maintenance",
+        },
+      ];
+    },
+
+    custodianSidebar() {
+      this.items = [
+        {
+          icon: "mdi-apps",
+          title: "Dashboard",
+          to: "/",
+        },
+        {
+          icon: "mdi-file-cabinet",
+          title: "Property",
+          to: "/property",
+        },
+        {
+          icon: "mdi-transfer-right",
+          title: "Lend",
+          to: "/lend",
         },
       ];
     },
   },
   mounted() {
-    if (this.$store.getters.getUser?.role === "Admin") {
-      this.adminSidebar();
+    if (this.$store.getters.getUser?.role === "Property Custodian") {
+      this.custodianSidebar();
+    } else if (this.$store.getters.getUser?.role === "Maintenance") {
+      this.maintenanceSidebar();
     } else {
-      this.staffSidebar();
+      this.adminSidebar();
     }
   },
 };
