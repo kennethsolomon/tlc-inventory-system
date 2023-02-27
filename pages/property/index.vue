@@ -292,7 +292,7 @@
           <v-spacer></v-spacer>
           <v-btn @click="addProperty()" color="primary">
             <v-icon start small class="mr-1"> mdi-plus</v-icon>
-            {{ checkMode }}
+            Save Property
           </v-btn>
         </v-card-actions>
       </v-card>
