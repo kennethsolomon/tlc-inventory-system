@@ -166,6 +166,7 @@
             <v-col cols="6">
               <v-text-field
                 v-model="add_property.property_code"
+                disabled
                 label="Property Code"
                 hide-details
                 class="py-3"
@@ -226,16 +227,52 @@
               </v-dialog>
             </v-col>
             <v-col cols="6">
-              <v-text-field
-                v-model="add_property.warranty_period"
-                label="Warranty Period"
-                hide-details
-                class="py-3"
-              ></v-text-field>
+              <v-dialog
+                ref="warranty_period_date"
+                :return-value.sync="add_property.warranty_period"
+                persistent
+                width="290px"
+                v-model="add_property.date_modal2"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    label="Warranty Period"
+                    hide-details
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    v-model="add_property.warranty_period_date"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  scrollable
+                  v-model="add_property.warranty_period_date"
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="add_property.date_modal2 = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="
+                      $refs.warranty_period_date.save(
+                        add_property.warranty_period_date
+                      )
+                    "
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
             </v-col>
           </v-row>
           <!-- Transfer Date
-          <!-- Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
+          Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
           <!-- <v-dialog
             ref="add_property"
             :return-value.sync="add_property.transfer_date"
@@ -316,7 +353,9 @@ export default {
         mode: null,
         dialog: false,
         date_modal: false,
+        date_modal2: false,
         purchase_date_date: null,
+        warranty_period_date: null,
 
         // Form
         brand: null,
@@ -531,15 +570,26 @@ export default {
       const properties = await this.$axios.$get(`properties`).then((result) => {
         this.properties = result.data;
       });
+
+      this.generatePropertyCode();
     },
-    // async getEmployees() {
-    //   const employees = await this.$axios.$get(`employees`).then((result) => {
-    //     this.employees = result.data;
-    //   });
-    // },
+    generatePropertyCode() {
+      let formatted_property_code =
+        "TLC-" +
+        new Date().getFullYear() +
+        "-" +
+        this.zeroPad(this.properties.at(-1).id, 3);
+
+      this.add_property.property_code = formatted_property_code;
+      return formatted_property_code;
+    },
+    zeroPad(num, places) {
+      return String(num).padStart(places, "0");
+    },
   },
   mounted() {
     this.getProperties();
+
     // this.check_out_date = new Date(
     //   Date.now() - new Date().getTimezoneOffset() * 60000
     // )
