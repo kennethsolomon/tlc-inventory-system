@@ -207,7 +207,11 @@
             :sort-desc="true"
             :items-per-page="10"
             class="elevation-1"
-          ></v-data-table>
+          >
+            <template v-slot:item.created_at="{ item }">
+              {{ item.created_at.split("T")[0] }}
+            </template>
+          </v-data-table>
         </template>
       </v-tab-item>
     </v-tabs-items>
@@ -397,7 +401,7 @@ export default {
       { text: "Assigned To", value: "assigned_to" },
       { text: "Location", value: "location" },
       { text: "Status", value: "status" },
-      { text: "created_at", value: "created_at" },
+      { text: "Created At", value: "created_at" },
     ],
     lend_property: {
       dialog: false,
