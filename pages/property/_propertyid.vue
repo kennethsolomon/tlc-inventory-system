@@ -359,18 +359,32 @@
               </v-btn>
             </v-date-picker>
           </v-dialog>
-          <v-text-field
+          <v-autocomplete
             v-model="transfer_property.assigned_to"
+            :items="users"
+            text-value="fullname"
+            item-text="fullname"
             label="Assigned To"
-            hide-details
-            class="py-3"
-          ></v-text-field>
-          <v-text-field
+            name="Assigned To"
+          ></v-autocomplete>
+          <v-autocomplete
             v-model="transfer_property.location"
+            :items="locations"
+            text-value="name"
+            item-text="name"
             label="Location"
-            hide-details
-            class="py-3"
-          ></v-text-field>
+            name="Location"
+            append-icon="mdi-folder-multiple-outline"
+            @click:append="location_dialog = true"
+          >
+            <template v-slot:item="{ index, item }">
+              {{ item.name }}
+              <v-spacer></v-spacer>
+              <v-list-item-action @click.stop>
+                <v-icon @click="deleteLocation(item.id)">mdi-close</v-icon>
+              </v-list-item-action>
+            </template>
+          </v-autocomplete>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -382,6 +396,42 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <template>
+      <div class="text-center">
+        <v-dialog v-model="location_dialog" width="350" class="primary">
+          <v-card>
+            <v-card-title
+              class="d-flex justify-space-between text-h5 primary white--text"
+            >
+              Location
+              <v-icon @click="location_dialog = false" color="white"
+                >mdi-close</v-icon
+              >
+            </v-card-title>
+
+            <v-card-text>
+              <v-text-field
+                v-model="location_name"
+                label="Location Name"
+                single-line
+                hide-details
+                class="mb-2"
+              ></v-text-field>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary" color="white" text @click="addLocation()">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
   </v-card>
 </template>
 
@@ -389,6 +439,13 @@
 export default {
   name: "PropertyInfo",
   data: () => ({
+    locations: [],
+    location_dialog: false,
+    location_name: "",
+
+    users: [],
+    user_name: "",
+
     tab: null,
     tab: 0,
     items: ["Property", "Property"],
@@ -521,9 +578,61 @@ export default {
           this.$toast.error(error.response.data.message);
         });
     },
-    // async closeReturnDialog() {
-    //   await this.$nuxt.refresh();
-    // },
+
+    // NOTE: WIP
+    async addLocation() {
+      await this.$axios
+        .$post(`add_location`, { name: this.location_name })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Location ${this.location_name} has been successfully added.`
+          );
+
+          this.location_name = "";
+
+          this.location_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getLocations();
+    },
+    async deleteLocation(id) {
+      await this.$axios
+        .$post(`delete_location/${id}`)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Location ${this.location_name} has been successfully deleted.`
+          );
+
+          this.location_name = "";
+
+          this.location_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getLocations();
+    },
+    async getLocations() {
+      const locations = await this.$axios.$get(`locations`).then((result) => {
+        this.locations = result.data;
+      });
+    },
+
+    async getUsers() {
+      const users = await this.$axios.$get(`users`).then((result) => {
+        this.users = result;
+      });
+    },
+  },
+  mounted() {
+    this.getLocations();
+    this.getUsers();
   },
 };
 </script>
