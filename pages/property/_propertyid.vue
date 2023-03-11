@@ -272,14 +272,15 @@
             </v-date-picker>
           </v-dialog>
           <v-text-field
-            v-model="lend_property.location"
-            label="Location"
+            v-model="lend_property.borrower_name"
+            label="Borrower Name"
             hide-details
             class="py-3"
           ></v-text-field>
+
           <v-text-field
-            v-model="lend_property.borrower_name"
-            label="Borrower Name"
+            v-model="lend_property.location"
+            label="Location"
             hide-details
             class="py-3"
           ></v-text-field>

@@ -3,11 +3,6 @@
     <v-card-title class="text-center justify-center py-6">
       <h1 class="font-weight-bold text-h2">{{ items[tab] }}</h1>
     </v-card-title>
-
-    <!-- <v-tabs v-model="tab" background-color="transparent" grow>
-      <v-tab> Consumable </v-tab>
-    </v-tabs> -->
-
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <v-card flat>
@@ -31,7 +26,6 @@
                 <template v-slot:top>
                   <v-toolbar flat>
                     <v-spacer></v-spacer>
-
                     <v-btn
                       @click="showTransferDialog({}, 'add')"
                       class="primary mr-2"
@@ -40,44 +34,6 @@
                       <v-icon class="mr-2" dark> mdi-plus </v-icon>Add
                       Property</v-btn
                     >
-                    <!-- Add Dialog -->
-                    <!-- <v-dialog v-model="add_dialog" max-width="500px">
-                      <v-card>
-                        <v-card-title
-                          class="d-flex justify-space-between text-h5 primary white--text"
-                        >
-                          Add Stocks
-                          <v-icon @click="add_dialog = false" color="white"
-                            >mdi-close</v-icon
-                          >
-                        </v-card-title>
-                        <v-card-text class="d-flex flex-column justify-center">
-                          <div>
-                            <v-text-field
-                              hide-details
-                              type="number"
-                              v-model="stock_quantity"
-                              label="Stock Quantity"
-                              placeholder="Stock Quantity"
-                              required
-                            ></v-text-field>
-                          </div>
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn @click="addStock()" color="primary">
-                            <v-icon small class="mr-1">
-                              mdi-content-save-check</v-icon
-                            >
-                            Add
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog> -->
-                    <!-- End Add Dialog -->
                   </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
@@ -97,14 +53,6 @@
                   >
                     <v-icon dark> mdi-eye-outline </v-icon></v-btn
                   >
-                  <!-- <v-btn
-                    class="primary mr-2"
-                    fab
-                    x-small
-                    @click="checkOutDialog(item)"
-                  >
-                    <v-icon dark> mdi-minus </v-icon></v-btn
-                  > -->
                 </template>
 
                 <template v-slot:no-data>
@@ -128,38 +76,88 @@
         <v-card-text class="d-flex flex-column justify-center">
           <v-row>
             <v-col cols="6">
-              <v-text-field
+              <v-autocomplete
                 v-model="add_property.brand"
+                :items="brands"
+                text-value="name"
+                item-text="name"
                 label="Brand"
-                hide-details
-                class="py-3"
-              ></v-text-field>
+                name="Brand"
+                append-icon="mdi-folder-multiple-outline"
+                @click:append="brand_dialog = true"
+              >
+                <template v-slot:item="{ index, item }">
+                  {{ item.name }}
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-icon @click="deleteBrand(item.id)">mdi-close</v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-autocomplete>
             </v-col>
             <v-col cols="6">
-              <v-text-field
+              <v-autocomplete
                 v-model="add_property.model"
+                :items="models"
+                text-value="name"
+                item-text="name"
                 label="Model"
-                hide-details
-                class="py-3"
-              ></v-text-field>
+                name="Model"
+                append-icon="mdi-folder-multiple-outline"
+                @click:append="model_dialog = true"
+              >
+                <template v-slot:item="{ index, item }">
+                  {{ item.name }}
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-icon @click="deleteModel(item.id)">mdi-close</v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-autocomplete>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="6">
-              <v-text-field
+              <v-autocomplete
                 v-model="add_property.category"
+                :items="categories"
+                text-value="name"
+                item-text="name"
                 label="Category"
-                hide-details
-                class="py-3"
-              ></v-text-field>
+                name="Category"
+                append-icon="mdi-folder-multiple-outline"
+                @click:append="category_dialog = true"
+              >
+                <template v-slot:item="{ index, item }">
+                  {{ item.name }}
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-icon @click="deleteCategory(item.id)">mdi-close</v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-autocomplete>
             </v-col>
             <v-col cols="6">
-              <v-text-field
+              <v-autocomplete
                 v-model="add_property.description"
+                :items="descriptions"
+                text-value="name"
+                item-text="name"
                 label="Description"
-                hide-details
-                class="py-3"
-              ></v-text-field>
+                name="Description"
+                append-icon="mdi-folder-multiple-outline"
+                @click:append="description_dialog = true"
+              >
+                <template v-slot:item="{ index, item }">
+                  {{ item.name }}
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-icon @click="deleteDescription(item.id)"
+                      >mdi-close</v-icon
+                    >
+                  </v-list-item-action>
+                </template>
+              </v-autocomplete>
             </v-col>
           </v-row>
           <v-row>
@@ -271,58 +269,6 @@
               </v-dialog>
             </v-col>
           </v-row>
-          <!-- Transfer Date
-          Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
-          <!-- <v-dialog
-            ref="add_property"
-            :return-value.sync="add_property.transfer_date"
-            persistent
-            width="290px"
-            v-model="add_property.date_modal"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                class="mt-3"
-                label="Date of Transfer"
-                hide-details
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                v-model="add_property.transfer_date_date"
-              ></v-text-field>
-            </template>
-            <v-date-picker scrollable v-model="add_property.transfer_date_date">
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="add_property.date_modal = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="
-                  $refs.add_property.save(add_property.transfer_date_date)
-                "
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-dialog> -->
-          <!-- <v-text-field
-            v-model="add_property.assigned_to"
-            label="Assigned To"
-            hide-details
-            class="py-3"
-          ></v-text-field>
-          <v-text-field
-            v-model="add_property.location"
-            label="Location"
-            hide-details
-            class="py-3"
-          ></v-text-field> -->
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -334,6 +280,158 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- NOTE: Category Dialog -->
+    <template>
+      <div class="text-center">
+        <v-dialog v-model="category_dialog" width="350" class="primary">
+          <v-card>
+            <v-card-title
+              class="d-flex justify-space-between text-h5 primary white--text"
+            >
+              Category
+              <v-icon @click="category_dialog = false" color="white"
+                >mdi-close</v-icon
+              >
+            </v-card-title>
+
+            <v-card-text>
+              <v-text-field
+                v-model="category_name"
+                label="Category Name"
+                single-line
+                hide-details
+                class="mb-2"
+              ></v-text-field>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary" color="white" text @click="addCategory()">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
+
+    <!-- NOTE: Brand Dialog -->
+    <template>
+      <div class="text-center">
+        <v-dialog v-model="brand_dialog" width="350" class="primary">
+          <v-card>
+            <v-card-title
+              class="d-flex justify-space-between text-h5 primary white--text"
+            >
+              Brand
+              <v-icon @click="brand_dialog = false" color="white"
+                >mdi-close</v-icon
+              >
+            </v-card-title>
+
+            <v-card-text>
+              <v-text-field
+                v-model="brand_name"
+                label="Brand Name"
+                single-line
+                hide-details
+                class="mb-2"
+              ></v-text-field>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary" color="white" text @click="addBrand()">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
+
+    <!-- NOTE: Model Dialog -->
+    <template>
+      <div class="text-center">
+        <v-dialog v-model="model_dialog" width="350" class="primary">
+          <v-card>
+            <v-card-title
+              class="d-flex justify-space-between text-h5 primary white--text"
+            >
+              Model
+              <v-icon @click="model_dialog = false" color="white"
+                >mdi-close</v-icon
+              >
+            </v-card-title>
+
+            <v-card-text>
+              <v-text-field
+                v-model="model_name"
+                label="Model Name"
+                single-line
+                hide-details
+                class="mb-2"
+              ></v-text-field>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary" color="white" text @click="addModel()">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
+
+    <!-- NOTE: Description Dialog -->
+    <template>
+      <div class="text-center">
+        <v-dialog v-model="description_dialog" width="350" class="primary">
+          <v-card>
+            <v-card-title
+              class="d-flex justify-space-between text-h5 primary white--text"
+            >
+              Description
+              <v-icon @click="description_dialog = false" color="white"
+                >mdi-close</v-icon
+              >
+            </v-card-title>
+
+            <v-card-text>
+              <v-text-field
+                v-model="description_name"
+                label="Description Name"
+                single-line
+                hide-details
+                class="mb-2"
+              ></v-text-field>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="primary"
+                color="white"
+                text
+                @click="addDescription()"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
   </v-card>
 </template>
 
@@ -344,9 +442,26 @@ export default {
       tab: 0,
       items: ["Property"],
       properties: [],
+      categories: [],
+      models: [],
+      descriptions: [],
+      brands: [],
+
       property_data: null,
       // stock_quantity: 0, // add stock
       search: null,
+
+      category_dialog: false,
+      category_name: "",
+
+      brand_dialog: false,
+      brand_name: "",
+
+      model_dialog: false,
+      model_name: "",
+
+      description_dialog: false,
+      description_name: "",
 
       add_property: {
         id: null,
@@ -503,69 +618,184 @@ export default {
 
       this.getProperties();
     },
-    // async addDialog(item) {
-    //   this.property_data = item;
-    //   this.add_dialog = true;
-    // },
-    // async addStock() {
-    //   let data = {
-    //     quantity: this.stock_quantity,
-    //   };
-    //   const consumable = await this.$axios
-    //     .$post(`add_stock/${Number(this.property_data.id)}`, data)
-    //     .then((result) => {
-    //       this.add_dialog = false;
-    //       this.stock_quantity = 0;
-    //       this.getConsumables();
-    //       this.$toast.success(
-    //         `Quantity of ${this.property_data.property_name} has been successfully adusted.`
-    //       );
-    //     })
-    //     .catch((error) => {
-    //       this.$toast.error(error.response.data.message);
-    //     });
-    // },
+    async addCategory() {
+      await this.$axios
+        .$post(`add_category`, { name: this.category_name })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Category ${this.category_name} has been successfully added.`
+          );
 
-    // Checkout
-    // async checkOutDialog(item) {
-    //   this.property_data = item;
-    //   this.check_out_dialog = true;
-    // },
-    // async checkOut() {
-    //   const checkout = await this.$axios
-    //     .$post(
-    //       `check_out/${Number(this.property_data.id)}`,
-    //       this.check_out_data
-    //     )
-    //     .then((result) => {
-    //       this.check_out_dialog = false;
+          this.category_name = "";
 
-    //       this.check_out_data = {
-    //         received_by_id: null,
-    //         agency: null,
-    //         quantity: null,
-    //         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //           .toISOString()
-    //           .substr(0, 10),
-    //       };
+          this.category_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
 
-    //       this.check_out_date = new Date(
-    //         Date.now() - new Date().getTimezoneOffset() * 60000
-    //       )
-    //         .toISOString()
-    //         .substr(0, 10);
+      this.getCategories();
+    },
+    async deleteCategory(id) {
+      await this.$axios
+        .$post(`delete_category/${id}`)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Category ${this.category_name} has been successfully deleted.`
+          );
 
-    //       this.getConsumables();
-    //       this.$toast.success(
-    //         `Checkout of ${this.property_data.property_name} has been successfully saved.`
-    //       );
-    //     })
-    //     .catch((error) => {
-    //       this.$toast.error(error.response.data.message);
-    //     });
-    // },
+          this.category_name = "";
 
-    // Datas
+          this.category_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getCategories();
+    },
+
+    async addModel() {
+      await this.$axios
+        .$post(`add_model`, { name: this.model_name })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Model ${this.model_name} has been successfully added.`
+          );
+
+          this.model_name = "";
+
+          this.model_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getModels();
+    },
+    async deleteModel(id) {
+      await this.$axios
+        .$post(`delete_model/${id}`)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Model ${this.model_name} has been successfully deleted.`
+          );
+
+          this.model_name = "";
+
+          this.model_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getModels();
+    },
+
+    async addBrand() {
+      await this.$axios
+        .$post(`add_brand`, { name: this.brand_name })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Brand ${this.brand_name} has been successfully added.`
+          );
+
+          this.brand_name = "";
+
+          this.brand_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getBrands();
+    },
+    async deleteBrand(id) {
+      await this.$axios
+        .$post(`delete_brand/${id}`)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Brand ${this.brand_name} has been successfully deleted.`
+          );
+
+          this.brand_name = "";
+
+          this.brand_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getBrands();
+    },
+
+    async addDescription() {
+      await this.$axios
+        .$post(`add_description`, { name: this.description_name })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Description ${this.description_name} has been successfully added.`
+          );
+
+          this.description_name = "";
+
+          this.description_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getDescriptions();
+    },
+    async deleteDescription(id) {
+      await this.$axios
+        .$post(`delete_description/${id}`)
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Description ${this.description_name} has been successfully deleted.`
+          );
+
+          this.description_name = "";
+
+          this.description_dialog = false;
+        })
+        .catch((error) => {
+          this.$toast.error(error);
+        });
+
+      this.getDescriptions();
+    },
+
+    async getModels() {
+      const models = await this.$axios.$get(`models`).then((result) => {
+        this.models = result.data;
+      });
+    },
+    async getBrands() {
+      const brands = await this.$axios.$get(`brands`).then((result) => {
+        this.brands = result.data;
+      });
+    },
+    async getDescriptions() {
+      const descriptions = await this.$axios
+        .$get(`descriptions`)
+        .then((result) => {
+          this.descriptions = result.data;
+        });
+    },
+    async getCategories() {
+      const categories = await this.$axios.$get(`categories`).then((result) => {
+        this.categories = result.data;
+      });
+    },
     async getProperties() {
       const properties = await this.$axios.$get(`properties`).then((result) => {
         this.properties = result.data;
@@ -574,11 +804,13 @@ export default {
       this.generatePropertyCode();
     },
     generatePropertyCode() {
+      console.log(this.properties[0].id, "test");
       let formatted_property_code =
         "TLC-" +
-        new Date().getFullYear() +
-        "-" +
-        this.zeroPad(this.properties.at(-1).id, 3);
+          new Date().getFullYear() +
+          "-" +
+          this.zeroPad(this.properties.at(-1).id + 1, 3) ??
+        this.zeroPad(this.properties[0].id + 1, 3);
 
       this.add_property.property_code = formatted_property_code;
       return formatted_property_code;
@@ -589,6 +821,10 @@ export default {
   },
   mounted() {
     this.getProperties();
+    this.getCategories();
+    this.getBrands();
+    this.getModels();
+    this.getDescriptions();
 
     // this.check_out_date = new Date(
     //   Date.now() - new Date().getTimezoneOffset() * 60000
