@@ -28,7 +28,11 @@
                     :disabled="checkStatus(item).disabled"
                     class="primary mr-2"
                     medium
-                    @click="fixProperty(item)"
+                    @click="
+                      item.is_approved == true
+                        ? fixProperty(item)
+                        : approveProperty(item)
+                    "
                   >
                     <v-icon class="mr-2" dark>
                       {{ checkStatus(item).icon }} </v-icon
@@ -44,9 +48,10 @@
                     @click="disposedProperty(item)"
                   >
                     <v-icon class="mr-2" dark>
-                      {{ checkDisposed(item).icon }} </v-icon
-                    >{{ checkDisposed(item).value }}</v-btn
-                  >
+                      {{ checkDisposed(item).icon }}
+                    </v-icon>
+                    {{ checkDisposed(item).value }}
+                  </v-btn>
                 </template>
 
                 <template v-slot:no-data>
@@ -82,16 +87,16 @@ export default {
           value: "category",
         },
         {
-          text: "Purchase Date",
+          text: "Warranty Date",
           value: "purchase_date",
         },
         {
-          text: "Assigned To",
-          value: "assigned_to",
+          text: "Custodian",
+          value: "custodian",
         },
         {
-          text: "Location",
-          value: "location",
+          text: "Notes",
+          value: "notes",
         },
         { text: "Need Repair", value: "has_been_fixed", sortable: false },
         { text: "Disposed", value: "has_been_disposed", sortable: false },
@@ -113,10 +118,24 @@ export default {
       return result;
     },
     checkStatus(item) {
-      if (item.has_been_fixed == 1) {
-        return { icon: "mdi-check", value: "Fixed", disabled: true };
+      if (item.is_approved == 0 && item.has_been_fixed == 0) {
+        return {
+          icon: "mdi-check",
+          value: "Approve",
+          disabled: false,
+        };
+      } else if (item.has_been_fixed == 1) {
+        return {
+          icon: "mdi-check",
+          value: "Fixed",
+          disabled: true,
+        };
       } else if (item.has_been_fixed == 0) {
-        return { icon: "mdi-tools", value: "Repair", disabled: false };
+        return {
+          icon: "mdi-tools",
+          value: "Repair",
+          disabled: false,
+        };
       }
     },
     checkDisposed(item) {
@@ -133,11 +152,17 @@ export default {
 
       if (item.has_been_disposed == 1) {
         return { icon: "mdi-close", value: "Disposed", disabled: true };
-      } else if (currentDate > oneYear) {
-        return { icon: "mdi-delete", value: "Dispose", disabled: false };
       } else {
-        return { icon: "mdi-delete", value: "Dispose", disabled: true };
+        return { icon: "mdi-delete", value: "Dispose", disabled: false };
       }
+
+      // if (item.has_been_disposed == 1) {
+      //   return { icon: "mdi-close", value: "Disposed", disabled: true };
+      // } else if (currentDate > oneYear) {
+      //   return { icon: "mdi-delete", value: "Dispose", disabled: false };
+      // } else {
+      //   return { icon: "mdi-delete", value: "Dispose", disabled: true };
+      // }
     },
     async disposedProperty(item) {
       await this.$axios
@@ -173,6 +198,25 @@ export default {
         .then(async (result) => {
           await this.$nuxt.refresh();
           this.$toast.success(`Property has been fixed.`);
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
+    },
+
+    async approveProperty(item) {
+      await this.$axios
+        .$post(`approve/${item.id}`, {
+          custodian:
+            this.$store.state.user.user?.firstname +
+            " " +
+            this.$store.state.user.user?.middlename +
+            " " +
+            this.$store.state.user.user?.lastname,
+        })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(`Property has been approved.`);
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message);

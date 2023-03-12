@@ -51,7 +51,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-chip
-              @click="onMaintenance()"
+              @click="maintenances.dialog = true"
               :disabled="property.status != 'In Custody'"
               v-bind="attrs"
               v-on="on"
@@ -271,19 +271,34 @@
               </v-btn>
             </v-date-picker>
           </v-dialog>
-          <v-text-field
-            v-model="lend_property.borrower_name"
-            label="Borrower Name"
-            hide-details
-            class="py-3"
-          ></v-text-field>
 
-          <v-text-field
+          <v-autocomplete
+            v-model="lend_property.borrower_name"
+            :items="users"
+            text-value="fullname"
+            item-text="fullname"
+            label="Borrower Name"
+            name="Borrower Name"
+          ></v-autocomplete>
+
+          <v-autocomplete
             v-model="lend_property.location"
+            :items="locations"
+            text-value="name"
+            item-text="name"
             label="Location"
-            hide-details
-            class="py-3"
-          ></v-text-field>
+            name="Location"
+            append-icon="mdi-folder-multiple-outline"
+            @click:append="location_dialog = true"
+          >
+            <template v-slot:item="{ index, item }">
+              {{ item.name }}
+              <v-spacer></v-spacer>
+              <v-list-item-action @click.stop>
+                <v-icon @click="deleteLocation(item.id)">mdi-close</v-icon>
+              </v-list-item-action>
+            </template>
+          </v-autocomplete>
           <v-textarea
             v-model="lend_property.reason_for_lending"
             outlined
@@ -297,6 +312,36 @@
           <v-btn @click="lendProperty()" color="primary">
             <v-icon start small class="mr-1"> mdi-transfer-right</v-icon>
             Lend
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Repair Dialog -->
+    <v-dialog v-model="maintenances.dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title
+          class="d-flex justify-space-between text-h5 primary white--text"
+        >
+          Repair
+          <v-icon @click="maintenances.dialog = false" color="white"
+            >mdi-close</v-icon
+          >
+        </v-card-title>
+        <v-card-text class="d-flex justify-center mt-5">
+          <v-textarea
+            v-model="maintenances.notes"
+            outlined
+            name="input-7-4"
+            label="Notes"
+          ></v-textarea>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="onMaintenance()" color="primary">
+            <v-icon start small class="mr-1"> mdi-check</v-icon>
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -461,6 +506,11 @@ export default {
       { text: "Status", value: "status" },
       { text: "Created At", value: "created_at" },
     ],
+    maintenances: {
+      dialog: false,
+      custodian: null,
+      notes: "",
+    },
     lend_property: {
       dialog: false,
       date_modal: false,
@@ -567,7 +617,9 @@ export default {
     },
     async onMaintenance() {
       await this.$axios
-        .$post(`on_maintenance/${this.property_id}`, {})
+        .$post(`on_maintenance/${this.property_id}`, {
+          notes: this.maintenances.notes,
+        })
         .then(async (result) => {
           await this.$nuxt.refresh();
           this.$toast.success(
@@ -577,9 +629,10 @@ export default {
         .catch((error) => {
           this.$toast.error(error.response.data.message);
         });
+
+      this.maintenances.dialog = false;
     },
 
-    // NOTE: WIP
     async addLocation() {
       await this.$axios
         .$post(`add_location`, { name: this.location_name })
@@ -633,6 +686,12 @@ export default {
   mounted() {
     this.getLocations();
     this.getUsers();
+    this.maintenances.custodian =
+      this.$store.state.user.user?.firstname +
+      " " +
+      this.$store.state.user.user?.middlename +
+      " " +
+      this.$store.state.user.user?.lastname;
   },
 };
 </script>
