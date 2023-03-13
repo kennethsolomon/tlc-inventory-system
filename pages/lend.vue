@@ -98,7 +98,7 @@ export default {
           text: "Returned Date",
           value: "returned_date",
         },
-        { text: "View More", value: "view_more", sortable: false },
+        { text: "Actions", value: "view_more", sortable: false },
       ],
     };
   },

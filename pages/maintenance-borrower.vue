@@ -24,34 +24,11 @@
                 class="elevation-1"
               >
                 <template v-slot:item.has_been_fixed="{ item }">
-                  <v-btn
-                    :disabled="checkStatus(item).disabled"
-                    class="primary mr-2"
-                    medium
-                    @click="
-                      item.is_approved == true
-                        ? fixProperty(item)
-                        : approveProperty(item)
-                    "
-                  >
-                    <v-icon class="mr-2" dark>
-                      {{ checkStatus(item).icon }} </v-icon
-                    >{{ checkStatus(item).value }}</v-btn
-                  >
+                  {{ checkStatus(item).value }}
                 </template>
 
                 <template v-slot:item.has_been_disposed="{ item }">
-                  <v-btn
-                    :disabled="checkDisposed(item).disabled"
-                    class="primary mr-2"
-                    medium
-                    @click="disposedProperty(item)"
-                  >
-                    <v-icon class="mr-2" dark>
-                      {{ checkDisposed(item).icon }}
-                    </v-icon>
-                    {{ checkDisposed(item).value }}
-                  </v-btn>
+                  {{ checkDisposed(item).value }}
                 </template>
 
                 <template v-slot:no-data>
@@ -98,7 +75,7 @@ export default {
           text: "Notes",
           value: "notes",
         },
-        { text: "Need Repair", value: "has_been_fixed", sortable: false },
+        { text: "Status", value: "has_been_fixed", sortable: false },
         { text: "Disposed", value: "has_been_disposed", sortable: false },
       ],
     };
@@ -121,7 +98,7 @@ export default {
       if (item.is_approved == 0 && item.has_been_fixed == 0) {
         return {
           icon: "mdi-check",
-          value: "Approve",
+          value: "Pending",
           disabled: false,
         };
       } else if (item.has_been_fixed == 1) {
@@ -133,7 +110,7 @@ export default {
       } else if (item.has_been_fixed == 0) {
         return {
           icon: "mdi-tools",
-          value: "Repair",
+          value: "In-Repair",
           disabled: false,
         };
       }
@@ -153,7 +130,7 @@ export default {
       if (item.has_been_disposed == 1) {
         return { icon: "mdi-close", value: "Disposed", disabled: true };
       } else {
-        return { icon: "mdi-delete", value: "Dispose", disabled: false };
+        return { icon: "mdi-delete", value: "", disabled: false };
       }
 
       // if (item.has_been_disposed == 1) {

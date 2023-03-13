@@ -221,12 +221,11 @@ export default {
   data() {
     return {
       roles: [
+        "Property Custodian",
+        "Super Admin",
         "Administrator",
         "Technician",
-        "Property Custodian",
         "Borrower",
-        "Super Admin",
-        "Maintenance",
       ],
       edit_dialog: false,
       add_dialog: false,

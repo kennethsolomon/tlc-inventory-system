@@ -367,7 +367,7 @@ export default {
   mounted() {
     if (this.$store.getters.getUser?.role === "Property Custodian") {
       this.custodianSidebar();
-    } else if (this.$store.getters.getUser?.role === "Maintenance") {
+    } else if (this.$store.getters.getUser?.role === "Technician") {
       this.maintenanceSidebar();
     } else if (this.$store.getters.getUser?.role === "Borrower") {
       this.borrowerSidebar();

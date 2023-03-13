@@ -23,7 +23,12 @@
                 sort-by="property_code"
                 class="elevation-1"
               >
-                <template v-slot:top>
+                <template
+                  v-if="
+                    $store.getters.getUser?.role == 'Borrower' ? false : true
+                  "
+                  v-slot:top
+                >
                   <v-toolbar flat>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -38,6 +43,9 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                   <v-btn
+                    v-if="
+                      $store.getters.getUser?.role == 'Borrower' ? false : true
+                    "
                     class="primary mr-2"
                     fab
                     x-small

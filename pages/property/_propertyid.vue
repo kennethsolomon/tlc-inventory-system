@@ -27,7 +27,10 @@
           <span>Lend Property</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="$store.getters.getUser?.role == 'Borrower' ? false : true"
+          bottom
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               @click="showTransferDialog()"
@@ -52,7 +55,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               @click="maintenances.dialog = true"
-              :disabled="property.status != 'In Custody'"
+              :disabled="canRepair"
               v-bind="attrs"
               v-on="on"
               color="primary"
@@ -555,6 +558,29 @@ export default {
           return { icon: "mdi-tools", color: "orange" };
         default:
           break;
+      }
+    },
+    // cannot tag under maintenance if its under warranty
+    canRepair() {
+      const currentDate = new Date().getTime();
+      const warrantyDate = new Date(this.property.warranty_period).getTime();
+      let status = [];
+
+      if (currentDate < warrantyDate) {
+        status.push(true);
+      } else {
+        status.push(false);
+      }
+      if (this.property.status != "In Custody") {
+        status.push(true);
+      } else {
+        status.push(false);
+      }
+
+      if (status.includes(true)) {
+        return true;
+      } else {
+        return false;
       }
     },
   },
