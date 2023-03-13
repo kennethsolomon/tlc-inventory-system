@@ -578,6 +578,7 @@ export default {
         this.add_property.purchase_date = item.purchase_date;
         this.add_property.purchase_date_date = item.purchase_date;
         this.add_property.warranty_period = item.warranty_period;
+        this.add_property.warranty_period_date = item.warranty_period;
       } else if (mode == "add") {
         console.log("add");
         this.add_property.mode = "add";

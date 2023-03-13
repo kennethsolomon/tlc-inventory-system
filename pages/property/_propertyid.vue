@@ -273,9 +273,9 @@
           </v-dialog>
 
           <v-autocomplete
-            v-model="lend_property.borrower_name"
+            v-model="lend_property.borrower"
             :items="users"
-            text-value="fullname"
+            return-object
             item-text="fullname"
             label="Borrower Name"
             name="Borrower Name"
@@ -518,7 +518,7 @@ export default {
 
       // Form
       date_of_lending: null,
-      borrower_name: null,
+      borrower: null,
       location: null,
       reason_for_lending: null,
     },
@@ -574,7 +574,7 @@ export default {
 
             // Form
             date_of_lending: null,
-            borrower_name: null,
+            borrower: null,
             location: null,
             reason_for_lending: null,
           };

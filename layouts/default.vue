@@ -288,40 +288,19 @@ export default {
           title: "Lend",
           to: "/lend",
         },
-        // {
-        //   icon: "mdi-chart-line",
-        //   title: "Manage Stocks",
-        //   to: "/stocks",
-        // },
-        // {
-        //   icon: "mdi-transfer",
-        //   title: "Transfer Property",
-        //   to: "/transfer",
-        // },
-        // {
-        //   icon: "mdi-camera-metering-partial",
-        //   title: "Loan Property",
-        //   to: "/loan",
-        // },
-        // {
-        //   icon: "mdi-math-log",
-        //   title: "Logs",
-        //   to: "/logs",
-        // },
-        // {
-        //   icon: "mdi-delete",
-        //   title: "Trash",
-        //   to: "/trash",
-        // },
-
         {
           icon: "mdi-calendar",
           title: "Maintenance",
           to: "/maintenance",
         },
+
+        {
+          icon: "mdi-account",
+          title: "User Management",
+          to: "/user-management",
+        },
       ];
     },
-
     maintenanceSidebar() {
       this.items = [
         {
@@ -341,8 +320,26 @@ export default {
         },
       ];
     },
-
     custodianSidebar() {
+      this.items = [
+        {
+          icon: "mdi-apps",
+          title: "Dashboard",
+          to: "/",
+        },
+        {
+          icon: "mdi-file-cabinet",
+          title: "Property",
+          to: "/property",
+        },
+        {
+          icon: "mdi-transfer-right",
+          title: "Lend",
+          to: "/lend",
+        },
+      ];
+    },
+    borrowerSidebar() {
       this.items = [
         {
           icon: "mdi-apps",
@@ -367,6 +364,8 @@ export default {
       this.custodianSidebar();
     } else if (this.$store.getters.getUser?.role === "Maintenance") {
       this.maintenanceSidebar();
+    } else if (this.$store.getters.getUser?.role === "Borrower") {
+      this.borrowerSidebar();
     } else {
       this.adminSidebar();
     }
