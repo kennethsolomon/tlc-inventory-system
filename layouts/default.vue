@@ -353,8 +353,13 @@ export default {
         },
         {
           icon: "mdi-transfer-right",
-          title: "Lend",
-          to: "/lend",
+          title: "Borrow",
+          to: "/lend-borrower",
+        },
+        {
+          icon: "mdi-calendar",
+          title: "Maintenance",
+          to: "/maintenance-borrower",
         },
       ];
     },
