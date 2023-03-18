@@ -33,14 +33,6 @@ PERFORMANCE OF THIS SOFTWARE.
 
 
 /*!
- * qrcode.vue v1.7.0
- * A Vue component to generate QRCode.
- * © 2017-2019 @scopewu(https://github.com/scopewu)
- * MIT License.
- */
-
-
-/*!
  * Vue.js v2.7.10
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
@@ -57,4 +49,12 @@ PERFORMANCE OF THIS SOFTWARE.
  * vuex v3.4.0
  * (c) 2020 Evan You
  * @license MIT
+ */
+
+
+/*!
+ * qrcode.vue v1.7.0
+ * A Vue component to generate QRCode.
+ * © 2017-2019 @scopewu(https://github.com/scopewu)
+ * MIT License.
  */
