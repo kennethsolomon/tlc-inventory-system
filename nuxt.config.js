@@ -82,7 +82,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "http://localhost:8000/api/v3", // change ip address if using mobile phone
+    baseURL: "https://api.tlc-inventory.tech/api/v3", // change ip address if using mobile phone
+
     credentials: true,
   },
 
@@ -93,32 +94,71 @@ export default {
     },
   },
 
+  // auth: {
+  //   strategies: {
+  //     cookie: {
+  //       cookie: {
+  //         name: "XSRF-TOKEN",
+  //       },
+  //     },
+  //     laravelSanctum: {
+  //       provider: "laravel/sanctum",
+  //       url: "https://api.tlc-inventory.tech", // change to ip address if using mobile phone
+  //       endpoints: {
+  //         csrf: {
+  //           url: "/sanctum/csrf-cookie",
+  //         },
+  //         login: {
+  //           url: "/api/login",
+  //         },
+  //         logout: {
+  //           url: "/api/logout",
+  //         },
+  //         user: {
+  //           url: "/api/user",
+  //         },
+  //       },
+  //       user: {
+  //         property: "id",
+  //       },
+  //     },
+  //   },
+
+  //   redirect: {
+  //     login: "/login",
+  //     logout: "/login",
+  //     home: "/",
+  //   },
+  // },
+
   auth: {
     strategies: {
-      cookie: {
-        cookie: {
-          name: "XSRF-TOKEN",
-        },
-      },
-      laravelSanctum: {
-        provider: "laravel/sanctum",
-        url: "http://localhost:8000", // change to ip address if using mobile phone
+      laravelJWT: {
+        provider: "laravel/jwt",
+        url: "https://api.tlc-inventory.tech",
         endpoints: {
-          csrf: {
-            url: "/sanctum/csrf-cookie",
-          },
           login: {
-            url: "/api/login",
+            url: "/api/v3/auth/login",
           },
           logout: {
-            url: "/api/logout",
+            url: "/api/v3/auth/logout",
+          },
+          refresh: {
+            url: "/api/v3/auth/refresh",
           },
           user: {
-            url: "/api/user",
+            url: "/api/v3/auth/user",
           },
         },
         user: {
           property: "id",
+        },
+        token: {
+          property: "access_token",
+          maxAge: 60 * 60,
+        },
+        refreshToken: {
+          maxAge: 20160 * 60,
         },
       },
     },

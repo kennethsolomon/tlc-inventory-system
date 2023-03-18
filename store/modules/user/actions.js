@@ -9,6 +9,13 @@ export default{
 		return logs
 	},
 
+	async getIdToken ({ commit }) {
+		const logs = await this.$axios.$get(`logs`)
+		commit('SET_LOGS', logs)
+		return logs
+	},
+
+
 	async getMaintenances ({ commit }) {
 		const maintenance = await this.$axios.$get(`maintenance`)
 		commit('SET_MAINTENANCE', maintenance)

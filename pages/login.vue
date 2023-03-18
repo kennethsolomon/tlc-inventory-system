@@ -114,11 +114,18 @@ export default {
     },
     login() {
       this.$auth
-        .loginWith("laravelSanctum", {
+        .loginWith("laravelJWT", {
           data: this.form,
         })
-        .then((response) => {
-          this.$store.commit("SET_USER", response.data);
+        .then(async (response) => {
+          this.$store.commit("SET_TOKEN", response.data);
+
+          console.log(response.data, "set token");
+
+          const data = await this.$axios.$post(`auth/me`).then((result) => {
+            this.$store.commit("SET_USER", result);
+          });
+
           this.$router.push({ name: "index" });
         })
         .catch((error) => (this.error = "Invalid Username or Password"));
