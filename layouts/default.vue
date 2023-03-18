@@ -196,7 +196,7 @@ export default {
       this.camera_dialog = false;
     },
     updateAccount() {
-      const { id, firstname, middlename, lastname, position, email } =
+      const { id, firstname, middlename, lastname, position, email, role } =
         this.$store.state.user.user;
       this.update_account_id = id;
       this.fields = [
@@ -244,7 +244,17 @@ export default {
           name: "position",
           title: "Position",
           rules: "required",
+          disabled: true,
           value: position,
+          type: "text",
+        },
+        {
+          cols: 1,
+          name: "role",
+          title: "Role",
+          rules: "required",
+          disabled: true,
+          value: role,
           type: "text",
         },
       ];
