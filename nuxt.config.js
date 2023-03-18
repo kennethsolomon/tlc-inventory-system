@@ -1,6 +1,10 @@
 import colors from "vuetify/es5/util/colors";
 
 export default {
+  target: "static",
+  generate: {
+    fallback: true,
+  },
   server: {
     // host: '172.30.128.22' // default: localhost ; uncomment this if your using ip address instead of localhost
     // host: '0.0.0.0' // default: localhost ; uncomment this if your using ip address instead of localhost
