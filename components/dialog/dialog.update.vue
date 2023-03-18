@@ -43,6 +43,7 @@ export default {
     values(form) {
       this.form = form;
       this.form.id = this.id;
+      this.form.password_confirmation = form.password;
     },
     async update() {
       this.$store
