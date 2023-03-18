@@ -82,7 +82,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "https://3a9a-49-146-116-170.ngrok.io/api/v3", // change ip address if using mobile phone
+    baseURL: "https://tlc.kennethsolomon.cyou/api/v3", // change ip address if using mobile phone
 
     credentials: true,
   },
@@ -135,7 +135,7 @@ export default {
     strategies: {
       laravelJWT: {
         provider: "laravel/jwt",
-        url: "https://3a9a-49-146-116-170.ngrok.io",
+        url: "https://tlc.kennethsolomon.cyou",
         endpoints: {
           login: {
             url: "/api/v3/auth/login",
