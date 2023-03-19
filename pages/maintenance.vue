@@ -98,7 +98,7 @@ export default {
           text: "Notes",
           value: "notes",
         },
-        { text: "Need Repair", value: "has_been_fixed", sortable: false },
+        { text: "Acknowlegment", value: "has_been_fixed", sortable: false },
         { text: "Disposed", value: "has_been_disposed", sortable: false },
       ],
     };

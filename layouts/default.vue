@@ -26,8 +26,8 @@
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar> -->
                   <!-- <div class="d-flex flex-column">
-                    <span>Kenneth Solomon</span>
-                    <span>CHED - PTS III</span>
+                    <span>Marjorie Reblora</span>
+                    <span>Student</span>
                   </div> -->
                   <div
                     class="d-flex flex-column justify-center my-2"
