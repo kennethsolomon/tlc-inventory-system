@@ -282,6 +282,9 @@
             item-text="fullname"
             label="Borrower Name"
             name="Borrower Name"
+            :disabled="
+              $store.state.user.user.role === 'Borrower' ? true : false
+            "
           ></v-autocomplete>
 
           <v-autocomplete
@@ -351,7 +354,7 @@
     </v-dialog>
 
     <!-- NOTE: Transfer Property Dialog -->
-    <v-dialog v-model="transfer_property.dialog" persistent max-width="500px">
+    <v-dialog v-model="transfer_property.dialog" persistent max-width="501px">
       <v-card>
         <v-card-title
           class="d-flex justify-space-between text-h5 primary white--text"
@@ -612,6 +615,9 @@ export default {
       this.lend_property.dialog = false;
     },
     showLendDialog() {
+      if (this.$store.state.user.user.role === "Borrower") {
+        this.lend_property.borrower = this.$store.state.user.user;
+      }
       this.lend_property.dialog = true;
     },
 

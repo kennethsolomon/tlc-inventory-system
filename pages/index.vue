@@ -117,7 +117,11 @@ export default {
     },
     userMaintenances() {
       return this.user_maintenances.filter(
-        (property) => property.is_approved == 1 && property.has_been_fixed == 0
+        (property) =>
+          (property.is_approved == 1 && property.has_been_fixed == 0) ||
+          (property.is_approved == 1 &&
+            property.has_been_fixed == 0 &&
+            property.has_been_disposed === 0)
       );
     },
     needTransfer() {
