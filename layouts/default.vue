@@ -375,15 +375,11 @@ export default {
     },
   },
   mounted() {
-    const data = await this.$axios.$post(`auth/me`).then((result) => {
-      this.$store.commit("SET_USER", result);
-    });
-
-    if (this.$store.state.user?.user?.role === "Property Custodian") {
+    if (this.$store.getters.getUser?.role === "Property Custodian") {
       this.custodianSidebar();
-    } else if (this.$store.state.user?.user?.role === "Technician") {
+    } else if (this.$store.getters.getUser?.role === "Technician") {
       this.maintenanceSidebar();
-    } else if (this.$store.state.user?.user?.role === "Borrower") {
+    } else if (this.$store.getters.getUser?.role === "Borrower") {
       this.borrowerSidebar();
     } else {
       this.adminSidebar();
