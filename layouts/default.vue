@@ -375,6 +375,10 @@ export default {
     },
   },
   mounted() {
+    const data = await this.$axios.$post(`auth/me`).then((result) => {
+      this.$store.commit("SET_USER", result);
+    });
+
     if (this.$store.state.user?.user?.role === "Property Custodian") {
       this.custodianSidebar();
     } else if (this.$store.state.user?.user?.role === "Technician") {
