@@ -23,6 +23,16 @@
                 sort-by="property_code"
                 class="elevation-1"
               >
+                <template v-slot:item.returned_date="{ item }">
+                  {{ item.returned_date.split(" ")[0] }} |
+                  {{
+                    new Intl.DateTimeFormat("default", {
+                      hour12: true,
+                      hour: "numeric",
+                      minute: "numeric",
+                    }).format(new Date(item.returned_date))
+                  }}
+                </template>
                 <template v-slot:item.view_more="{ item }">
                   <v-btn
                     :disabled="checkStatus(item).disabled"
