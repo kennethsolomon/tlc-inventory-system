@@ -63,7 +63,7 @@
             <v-card-title
               class="d-flex justify-space-between text-h5 primary white--text"
             >
-              Add Dialog
+              Add User
               <v-icon @click="add_dialog = false" color="white"
                 >mdi-close</v-icon
               >

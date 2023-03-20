@@ -2,7 +2,7 @@
   <div class="container">
     <v-row>
       <v-col
-        v-if="userMaintenances.length > 0"
+        v-if="userMaintenances.length > 0 && showNotif"
         cols="12"
         xl="12"
         lg="12"
@@ -104,9 +104,20 @@ export default {
     };
   },
   computed: {
+    showNotif() {
+      if (
+        this.$store.state.user.user.role === "Super Admin" ||
+        this.$store.state.user.user.role === "Administrator" ||
+        this.$store.state.user.user.role === "Technician"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     userMaintenances() {
       return this.user_maintenances.filter(
-        (property) => property.is_approved == 1
+        (property) => property.is_approved == 1 && property.has_been_fixed == 0
       );
     },
     needTransfer() {
@@ -143,10 +154,9 @@ export default {
 
     async getUserMaintenances() {
       const properties = await this.$axios
-        .$get(`user-maintenance`)
+        .$get(`maintenance_list`)
         .then((result) => {
-          console.log(result.maintenances);
-          this.user_maintenances = result.maintenances;
+          this.user_maintenances = result.data;
         });
     },
   },

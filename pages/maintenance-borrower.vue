@@ -27,9 +27,9 @@
                   {{ checkStatus(item).value }}
                 </template>
 
-                <template v-slot:item.has_been_disposed="{ item }">
+                <!-- <template v-slot:item.has_been_disposed="{ item }">
                   {{ checkDisposed(item).value }}
-                </template>
+                </template> -->
 
                 <template v-slot:no-data>
                   <h1>No Data Found ...</h1>
@@ -76,7 +76,7 @@ export default {
           value: "notes",
         },
         { text: "Status", value: "has_been_fixed", sortable: false },
-        { text: "Disposed", value: "has_been_disposed", sortable: false },
+        // { text: "Disposed", value: "has_been_disposed", sortable: false },
       ],
     };
   },

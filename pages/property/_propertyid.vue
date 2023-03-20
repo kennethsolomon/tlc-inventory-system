@@ -62,10 +62,10 @@
               label
             >
               <v-icon class="mr-1" start> mdi-tools </v-icon>
-              In Repair
+              Repair
             </v-chip>
           </template>
-          <span>In Repair</span>
+          <span>Repair</span>
         </v-tooltip>
       </v-chip-group>
     </div>
