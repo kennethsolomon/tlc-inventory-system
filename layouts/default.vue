@@ -375,6 +375,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.$store.getters.getUser?.role);
     if (this.$store.getters.getUser?.role === "Property Custodian") {
       this.custodianSidebar();
     } else if (this.$store.getters.getUser?.role === "Technician") {

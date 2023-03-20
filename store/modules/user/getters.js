@@ -1,5 +1,5 @@
 export default {
-  getUser: state => state.user.user,
+  getUser: state => state.user,
   getLogs: state => state.logs,
   getMaintenance: state => state.maintenance
 }
