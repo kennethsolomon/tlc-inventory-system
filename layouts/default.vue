@@ -382,7 +382,9 @@ export default {
       this.maintenanceSidebar();
     } else if (this.$store.getters.getUser?.role === "Borrower") {
       this.borrowerSidebar();
-    } else {
+    } else if (this.$store.getters.getUser?.role === "Administrator") {
+      this.adminSidebar();
+    } else if (this.$store.getters.getUser?.role === "Super Admin") {
       this.adminSidebar();
     }
   },
