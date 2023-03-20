@@ -375,11 +375,11 @@ export default {
     },
   },
   mounted() {
-    if (this.$store.getters.getUser?.role === "Property Custodian") {
+    if (this.$store.state.user?.user?.role === "Property Custodian") {
       this.custodianSidebar();
-    } else if (this.$store.getters.getUser?.role === "Technician") {
+    } else if (this.$store.state.user?.user?.role === "Technician") {
       this.maintenanceSidebar();
-    } else if (this.$store.getters.getUser?.role === "Borrower") {
+    } else if (this.$store.state.user?.user?.role === "Borrower") {
       this.borrowerSidebar();
     } else {
       this.adminSidebar();
