@@ -122,6 +122,7 @@ export default {
           console.log(response.data, "set token");
 
           await this.$axios.$post(`auth/me`).then(async (result) => {
+            console.log(result);
             await this.$store.commit("SET_USER", result);
           });
 
