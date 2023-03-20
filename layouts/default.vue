@@ -80,7 +80,7 @@
           </v-list-item>
 
           <v-list-item
-            v-for="(item, i) in items"
+            v-for="(item, i) in sideBarList"
             :key="i"
             :to="item.to"
             router
@@ -170,6 +170,7 @@ export default {
   },
   data() {
     return {
+      show_side_bar: false,
       camera_dialog: false,
       update_account_dialog: false,
       update_account_id: null,
@@ -187,6 +188,21 @@ export default {
       title: "Inventory System",
       loading: true,
     };
+  },
+  computed: {
+    sideBarList() {
+      if (this.$store.state.user.user.role === "Property Custodian") {
+        return this.custodianSidebar();
+      } else if (this.$store.state.user.user.role === "Technician") {
+        return this.maintenanceSidebar();
+      } else if (this.$store.state.user.user.role === "Borrower") {
+        return this.borrowerSidebar();
+      } else if (this.$store.state.user.user.role === "Administrator") {
+        return this.adminSidebar();
+      } else if (this.$store.state.user.user.role === "Super Admin") {
+        return this.adminSidebar();
+      }
+    },
   },
   methods: {
     camera() {
@@ -282,7 +298,7 @@ export default {
     },
 
     adminSidebar() {
-      this.items = [
+      return [
         {
           icon: "mdi-apps",
           title: "Dashboard",
@@ -312,7 +328,7 @@ export default {
       ];
     },
     maintenanceSidebar() {
-      this.items = [
+      return [
         {
           icon: "mdi-apps",
           title: "Dashboard",
@@ -331,7 +347,7 @@ export default {
       ];
     },
     custodianSidebar() {
-      this.items = [
+      return [
         {
           icon: "mdi-apps",
           title: "Dashboard",
@@ -350,7 +366,7 @@ export default {
       ];
     },
     borrowerSidebar() {
-      this.items = [
+      return [
         {
           icon: "mdi-apps",
           title: "Dashboard",
@@ -373,20 +389,6 @@ export default {
         },
       ];
     },
-  },
-  created() {
-    console.log(this.$store.state.user.user.role, "role");
-    if (this.$store.state.user.user.role === "Property Custodian") {
-      this.custodianSidebar();
-    } else if (this.$store.state.user.user.role === "Technician") {
-      this.maintenanceSidebar();
-    } else if (this.$store.state.user.user.role === "Borrower") {
-      this.borrowerSidebar();
-    } else if (this.$store.state.user.user.role === "Administrator") {
-      this.adminSidebar();
-    } else if (this.$store.state.user.user.role === "Super Admin") {
-      this.adminSidebar();
-    }
   },
 };
 </script>

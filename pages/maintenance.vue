@@ -122,19 +122,19 @@ export default {
         return {
           icon: "mdi-check",
           value: "Approve",
-          disabled: false,
+          disabled: item.has_been_disposed == 1 ? true : false,
         };
       } else if (item.has_been_fixed == 1) {
         return {
           icon: "mdi-check",
           value: "Fixed",
-          disabled: true,
+          disabled: item.has_been_disposed == 1 ? true : true,
         };
       } else if (item.has_been_fixed == 0) {
         return {
           icon: "mdi-tools",
           value: "Repair",
-          disabled: false,
+          disabled: item.has_been_disposed == 1 ? true : false,
         };
       }
     },
@@ -151,9 +151,17 @@ export default {
       const currentDate = new Date().getTime();
 
       if (item.has_been_disposed == 1) {
-        return { icon: "mdi-close", value: "Disposed", disabled: true };
+        return {
+          icon: "mdi-close",
+          value: "Disposed",
+          disabled: item.has_been_fixed == 1 ? true : true,
+        };
       } else {
-        return { icon: "mdi-delete", value: "Dispose", disabled: false };
+        return {
+          icon: "mdi-delete",
+          value: "Dispose",
+          disabled: item.has_been_fixed == 1 ? true : false,
+        };
       }
 
       // if (item.has_been_disposed == 1) {
