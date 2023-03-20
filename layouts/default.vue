@@ -375,16 +375,16 @@ export default {
     },
   },
   created() {
-    console.log(this.$store.state, "role");
-    if (this.$store.getters.getUser?.role === "Property Custodian") {
+    console.log(this.$store.state.user.user.role, "role");
+    if (this.$store.state.user.user.role === "Property Custodian") {
       this.custodianSidebar();
-    } else if (this.$store.getters.getUser?.role === "Technician") {
+    } else if (this.$store.state.user.user.role === "Technician") {
       this.maintenanceSidebar();
-    } else if (this.$store.getters.getUser?.role === "Borrower") {
+    } else if (this.$store.state.user.user.role === "Borrower") {
       this.borrowerSidebar();
-    } else if (this.$store.getters.getUser?.role === "Administrator") {
+    } else if (this.$store.state.user.user.role === "Administrator") {
       this.adminSidebar();
-    } else if (this.$store.getters.getUser?.role === "Super Admin") {
+    } else if (this.$store.state.user.user.role === "Super Admin") {
       this.adminSidebar();
     }
   },
