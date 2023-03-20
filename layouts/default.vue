@@ -375,7 +375,7 @@ export default {
     },
   },
   created() {
-    console.log(this.$store.getters.getUser?.role, "role");
+    console.log(this.$store.state, "role");
     if (this.$store.getters.getUser?.role === "Property Custodian") {
       this.custodianSidebar();
     } else if (this.$store.getters.getUser?.role === "Technician") {
