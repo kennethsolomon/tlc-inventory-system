@@ -814,9 +814,10 @@ export default {
     },
     generatePropertyCode() {
       if (this.properties.length == 0) {
-        this.add_property.property_code =
+        let fomat =
           "TLC-" + new Date().getFullYear() + "-" + this.zeroPad(1, 3);
-        return;
+        this.add_property.property_code = fomat;
+        return fomat;
       }
       let formatted_property_code =
         "TLC-" +
