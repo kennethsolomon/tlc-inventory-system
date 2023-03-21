@@ -95,23 +95,29 @@ export default {
       return result;
     },
     checkStatus(item) {
-      if (item.is_approved == 0 && item.has_been_fixed == 0) {
+      if (item.item.has_been_disposed == 1 && item.has_been_fixed == 0) {
         return {
-          icon: "mdi-check",
-          value: "Pending",
-          disabled: false,
+          value: "Disposed",
         };
-      } else if (item.has_been_fixed == 1) {
+      } else if (item.item.has_been_disposed == 0 && item.has_been_fixed == 1) {
         return {
-          icon: "mdi-check",
           value: "Fixed",
-          disabled: true,
         };
-      } else if (item.has_been_fixed == 0) {
+      } else if (
+        item.item.has_been_disposed == 0 &&
+        item.has_been_fixed == 0 &&
+        item.is_approved == 1
+      ) {
         return {
-          icon: "mdi-tools",
           value: "In-Repair",
-          disabled: false,
+        };
+      } else if (
+        item.item.has_been_disposed == 0 &&
+        item.has_been_fixed == 0 &&
+        item.is_approved == 0
+      ) {
+        return {
+          value: "Pending",
         };
       }
     },
