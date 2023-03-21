@@ -95,16 +95,16 @@ export default {
       return result;
     },
     checkStatus(item) {
-      if (item.item.has_been_disposed == 1 && item.has_been_fixed == 0) {
+      if (item.has_been_disposed == 1 && item.has_been_fixed == 0) {
         return {
           value: "Disposed",
         };
-      } else if (item.item.has_been_disposed == 0 && item.has_been_fixed == 1) {
+      } else if (item.has_been_disposed == 0 && item.has_been_fixed == 1) {
         return {
           value: "Fixed",
         };
       } else if (
-        item.item.has_been_disposed == 0 &&
+        item.has_been_disposed == 0 &&
         item.has_been_fixed == 0 &&
         item.is_approved == 1
       ) {
@@ -112,7 +112,7 @@ export default {
           value: "In-Repair",
         };
       } else if (
-        item.item.has_been_disposed == 0 &&
+        item.has_been_disposed == 0 &&
         item.has_been_fixed == 0 &&
         item.is_approved == 0
       ) {
