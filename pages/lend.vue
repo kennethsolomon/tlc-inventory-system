@@ -24,16 +24,16 @@
                 class="elevation-1"
               >
                 <template v-slot:item.returned_date="{ item }">
-                  if(item.returned_date) {
-                  {{ item.returned_date?.split(" ")[0] }} |
-                  {{
-                    new Intl.DateTimeFormat("default", {
-                      hour12: true,
-                      hour: "numeric",
-                      minute: "numeric",
-                    }).format(new Date(item?.returned_date))
-                  }}
-                  }
+                  <div v-if="item.returned_date">
+                    {{ item.returned_date?.split(" ")[0] }} |
+                    {{
+                      new Intl.DateTimeFormat("default", {
+                        hour12: true,
+                        hour: "numeric",
+                        minute: "numeric",
+                      }).format(new Date(item?.returned_date))
+                    }}
+                  </div>
                 </template>
                 <template v-slot:item.view_more="{ item }">
                   <v-btn
