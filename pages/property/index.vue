@@ -813,8 +813,6 @@ export default {
       this.generatePropertyCode();
     },
     generatePropertyCode() {
-      console.log(this.properties[0].id, "test");
-
       if (this.properties.length == 0) {
         this.add_property.property_code =
           "TLC-" + new Date().getFullYear() + "-" + this.zeroPad(1, 3);
