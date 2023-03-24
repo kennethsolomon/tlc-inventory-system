@@ -7,18 +7,33 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search ..."
-              single-line
-              hide-details
-              class="mb-2"
-            ></v-text-field>
+            <div class="d-flex">
+              <v-row>
+                <v-col cols="9">
+                  <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search ..."
+                    single-line
+                    hide-details
+                    class="mb-2"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="3">
+                  <v-select
+                    v-model="filter_property_selected"
+                    :items="categories"
+                    item-text="name"
+                    prepend-icon="mdi-filter-variant"
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </div>
             <template>
               <v-data-table
                 :headers="headers"
-                :items="properties"
+                :items="filterProperties"
                 :search="search"
                 sort-by="property_code"
                 class="elevation-1"
@@ -450,6 +465,7 @@ export default {
       tab: 0,
       items: ["Property"],
       properties: [],
+      filter_property_selected: "",
       categories: [],
       models: [],
       descriptions: [],
@@ -548,6 +564,14 @@ export default {
       } else {
         return "Edit Property";
       }
+    },
+
+    filterProperties() {
+      return this.properties.filter((property) => {
+        if (property.category === this.filter_property_selected) {
+          return property;
+        }
+      });
     },
   },
 
@@ -803,6 +827,7 @@ export default {
     async getCategories() {
       const categories = await this.$axios.$get(`categories`).then((result) => {
         this.categories = result.data;
+        this.filter_property_selected = result?.data[0]?.name;
       });
     },
     async getProperties() {
