@@ -32,9 +32,12 @@
             </div>
             <template>
               <v-data-table
+                v-model="selected_properties"
                 :headers="headers"
                 :items="filterProperties"
                 :search="search"
+                show-select
+                :single-select="singleSelect"
                 sort-by="property_code"
                 class="elevation-1"
               >
@@ -45,6 +48,11 @@
                   v-slot:top
                 >
                   <v-toolbar flat>
+                    <v-switch
+                      v-model="singleSelect"
+                      label="Single select"
+                      class="mt-3"
+                    ></v-switch>
                     <v-spacer></v-spacer>
                     <v-btn
                       @click="showTransferDialog({}, 'add')"
@@ -465,6 +473,8 @@ export default {
       tab: 0,
       items: ["Property"],
       properties: [],
+      selected_properties: [],
+      singleSelect: false,
       filter_property_selected: "",
       categories: [],
       models: [],
@@ -533,6 +543,10 @@ export default {
           value: "model",
         },
         {
+          text: "Serial Number",
+          value: "serial_number",
+        },
+        {
           text: "Category",
           value: "category",
         },
@@ -543,6 +557,10 @@ export default {
         {
           text: "Location",
           value: "location",
+        },
+        {
+          text: "Purchase Date",
+          value: "purchase_date",
         },
         {
           text: "Assigned To",
