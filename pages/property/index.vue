@@ -55,12 +55,42 @@
                     ></v-switch>
                     <v-spacer></v-spacer>
                     <v-btn
-                      @click="showTransferDialog({}, 'add')"
+                      @click="showAddDialog({}, 'add')"
                       class="primary mr-2"
                       medium
                     >
                       <v-icon class="mr-2" dark> mdi-plus </v-icon>Add
                       Property</v-btn
+                    >
+
+                    <v-btn
+                      @click="dialogs.transfer_dialog = true"
+                      class="primary mr-2"
+                      medium
+                      :disabled="selected_properties.length == 0"
+                    >
+                      <v-icon class="mr-2" dark> mdi-transit-transfer </v-icon
+                      >Transfer</v-btn
+                    >
+
+                    <v-btn
+                      @click="showAddDialog({}, 'add')"
+                      class="primary mr-2"
+                      medium
+                      :disabled="selected_properties.length == 0"
+                    >
+                      <v-icon class="mr-2" dark> mdi-transfer-right </v-icon
+                      >Lend</v-btn
+                    >
+
+                    <v-btn
+                      @click="showAddDialog({}, 'add')"
+                      class="primary mr-2"
+                      medium
+                      :disabled="selected_properties.length == 0"
+                    >
+                      <v-icon class="mr-2" dark> mdi-image-broken </v-icon
+                      >Damage</v-btn
                     >
                   </v-toolbar>
                 </template>
@@ -72,7 +102,7 @@
                     class="primary mr-2"
                     fab
                     x-small
-                    @click="showTransferDialog(item, 'edit')"
+                    @click="showAddDialog(item, 'edit')"
                   >
                     <v-icon dark> mdi-pencil </v-icon></v-btn
                   >
@@ -95,6 +125,7 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
+
     <!-- NOTE: Add Dialog -->
     <v-dialog v-model="add_property.dialog" persistent max-width="500px">
       <v-card>
@@ -463,18 +494,34 @@
         </v-dialog>
       </div>
     </template>
+
+    <!-- Transfer Dialog -->
+    <TransferPropertyDialog
+      v-if="dialogs.transfer_dialog"
+      :selected-row="selected_properties"
+      :dialog="dialogs.transfer_dialog"
+      @closeModal="dialogs.transfer_dialog = false"
+      @getProperties="getProperties()"
+    />
   </v-card>
 </template>
 
 <script>
+import TransferPropertyDialog from "../../components/dialog/transfer.property.vue";
 export default {
+  components: {
+    TransferPropertyDialog,
+  },
   data() {
     return {
+      dialogs: {
+        transfer_dialog: false,
+      },
       tab: 0,
       items: ["Property"],
       properties: [],
       selected_properties: [],
-      singleSelect: false,
+      singleSelect: true,
       filter_property_selected: "",
       categories: [],
       models: [],
@@ -613,7 +660,7 @@ export default {
         warranty_period: null,
       };
     },
-    showTransferDialog(item, mode) {
+    showAddDialog(item, mode) {
       if (mode == "edit") {
         console.log("edit");
         this.add_property.mode = "edit";
