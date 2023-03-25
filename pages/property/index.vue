@@ -74,7 +74,7 @@
                     >
 
                     <v-btn
-                      @click="showAddDialog({}, 'add')"
+                      @click="dialogs.lend_dialog = true"
                       class="primary mr-2"
                       medium
                       :disabled="selected_properties.length == 0"
@@ -528,19 +528,29 @@
       @closeModal="dialogs.transfer_dialog = false"
       @getProperties="getProperties()"
     />
+
+    <LendPropertyDialog
+      v-if="dialogs.lend_dialog"
+      :selected-row="selected_properties"
+      :dialog="dialogs.lend_dialog"
+      @closeModal="dialogs.lend_dialog = false"
+    />
   </v-card>
 </template>
 
 <script>
 import TransferPropertyDialog from "../../components/dialog/transfer.property.vue";
+import LendPropertyDialog from "../../components/dialog/lend.property.vue";
 export default {
   components: {
     TransferPropertyDialog,
+    LendPropertyDialog,
   },
   data() {
     return {
       dialogs: {
         transfer_dialog: false,
+        lend_dialog: false,
       },
       tab: 0,
       items: ["Property"],

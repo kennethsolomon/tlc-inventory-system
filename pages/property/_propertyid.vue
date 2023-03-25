@@ -233,47 +233,91 @@
         <v-card-text class="d-flex flex-column justify-center">
           <!-- Lend Date -->
           <!-- Treat return-velue.sync as model because its the value choosen after you click save, while the v-model is reactive to what you click inside the calendar.  -->
-          <v-dialog
-            ref="lend_dialog"
-            :return-value.sync="lend_property.date_of_lending"
-            persistent
-            width="290px"
-            v-model="lend_property.date_modal"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                class="mt-3"
-                label="Date of Lending"
-                hide-details
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                v-model="lend_property.date_of_lending_date"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              scrollable
-              v-model="lend_property.date_of_lending_date"
+          <div class="d-flex">
+            <v-dialog
+              ref="lend_dialog"
+              :return-value.sync="lend_property.date_of_lending"
+              persistent
+              width="290px"
+              v-model="lend_property.date_modal"
             >
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="lend_property.date_modal = false"
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  class="mt-3 mr-3"
+                  label="Date of Lending"
+                  hide-details
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  v-model="lend_property.date_of_lending_date"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                scrollable
+                v-model="lend_property.date_of_lending_date"
               >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="
-                  $refs.lend_dialog.save(lend_property.date_of_lending_date)
-                "
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="lend_property.date_modal = false"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="
+                    $refs.lend_dialog.save(lend_property.date_of_lending_date)
+                  "
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-dialog>
+
+            <v-dialog
+              ref="return_dialog"
+              :return-value.sync="lend_property.return_date"
+              persistent
+              width="290px"
+              v-model="lend_property.return_date_modal"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  class="mt-3 ml-3"
+                  label="Return Date"
+                  hide-details
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  v-model="lend_property.return_date_date"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                scrollable
+                v-model="lend_property.return_date_date"
               >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="lend_property.return_date_modal = false"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="
+                    $refs.return_dialog.save(lend_property.return_date_date)
+                  "
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-dialog>
+          </div>
 
           <v-autocomplete
             v-model="lend_property.borrower"
@@ -521,9 +565,12 @@ export default {
       dialog: false,
       date_modal: false,
       date_of_lending_date: null,
+      return_date_date: null,
+      return_date_modal: false,
 
       // Form
       date_of_lending: null,
+      return_date: null,
       borrower: null,
       location: null,
       reason_for_lending: null,
@@ -601,8 +648,12 @@ export default {
             date_modal: false,
             date_of_lending_date: null,
 
+            return_date_modal: false,
+            return_date_date: null,
+
             // Form
             date_of_lending: null,
+            return_date: null,
             borrower: null,
             location: null,
             reason_for_lending: null,
