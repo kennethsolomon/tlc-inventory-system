@@ -286,7 +286,7 @@
                 </v-date-picker>
               </v-dialog>
             </v-col>
-            <v-col cols="6">
+            <!-- <v-col cols="6">
               <v-dialog
                 ref="warranty_period_date"
                 :return-value.sync="add_property.warranty_period"
@@ -329,6 +329,31 @@
                   </v-btn>
                 </v-date-picker>
               </v-dialog>
+            </v-col> -->
+          </v-row>
+
+          <div class="mt-5 primary">
+            <v-card-title class="text-center justify-center py-3">
+              <h2 style="color: white">Maintenance</h2>
+            </v-card-title>
+          </div>
+          <v-row class="mt-1">
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="add_property.maintenance"
+                :items="['Quarterly', 'Yearly', 'Biennial']"
+                label="Maintenance"
+                name="Maintenance"
+              >
+              </v-autocomplete>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="add_property.maintenance_description"
+                label="Description"
+                hide-details
+                class="py-3"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -551,9 +576,11 @@ export default {
         date_modal: false,
         date_modal2: false,
         purchase_date_date: null,
-        warranty_period_date: null,
+        // warranty_period_date: null,
 
         // Form
+        maintenance: null,
+        maintenance_description: null,
         brand: null,
         model: null,
         category: null,
@@ -561,7 +588,7 @@ export default {
         property_code: null,
         serial_number: null,
         purchase_date: null,
-        warranty_period: null,
+        // warranty_period: null,
       },
 
       //Checkout Dialog
@@ -650,6 +677,8 @@ export default {
 
         // Form
         id: null,
+        maintenance: null,
+        maintenance_description: null,
         brand: null,
         model: null,
         category: null,
@@ -657,7 +686,7 @@ export default {
         property_code: null,
         serial_number: null,
         purchase_date: null,
-        warranty_period: null,
+        // warranty_period: null,
       };
     },
     showAddDialog(item, mode) {
@@ -674,8 +703,12 @@ export default {
         this.add_property.serial_number = item.serial_number;
         this.add_property.purchase_date = item.purchase_date;
         this.add_property.purchase_date_date = item.purchase_date;
-        this.add_property.warranty_period = item.warranty_period;
-        this.add_property.warranty_period_date = item.warranty_period;
+
+        this.add_property.maintenance = item.maintenance;
+        this.add_property.maintenance_description =
+          item.maintenance_description;
+        // this.add_property.warranty_period = item.warranty_period;
+        // this.add_property.warranty_period_date = item.warranty_period;
       } else if (mode == "add") {
         console.log("add");
         this.add_property.mode = "add";
@@ -705,7 +738,9 @@ export default {
             property_code: null,
             serial_number: null,
             purchase_date: null,
-            warranty_period: null,
+            maintenance: null,
+            maintenance_description: null,
+            // warranty_period: null,
           };
 
           this.add_property.dialog = false;
