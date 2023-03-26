@@ -16,9 +16,10 @@ export default {
   },
 
   async getMaintenances({ commit }) {
-    const maintenance = await this.$axios.$get(`maintenance`);
+    const maintenance = await this.$axios.$get(`maintenance_list`);
     commit("SET_MAINTENANCE", maintenance);
-    return maintenance;
+    console.log(maintenance);
+    return maintenance.data;
   },
 
   async updateUser({}, form) {
