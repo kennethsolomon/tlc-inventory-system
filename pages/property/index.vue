@@ -34,7 +34,9 @@
               <v-data-table
                 v-model="selected_properties"
                 :headers="headers"
-                :items="filterProperties"
+                :items="
+                  filter_property_selected == '' ? properties : filterProperties
+                "
                 :search="search"
                 show-select
                 :single-select="singleSelect"
@@ -51,8 +53,14 @@
                     <v-switch
                       v-model="singleSelect"
                       label="Single select"
-                      class="mt-3"
+                      class="mt-3 mr-3"
                     ></v-switch>
+                    <v-checkbox
+                      v-model="show_damage"
+                      label="Show Damage"
+                      class="mt-3"
+                    ></v-checkbox>
+
                     <v-spacer></v-spacer>
                     <v-btn
                       @click="showAddDialog({}, 'add')"
@@ -84,13 +92,23 @@
                     >
 
                     <v-btn
-                      @click="showAddDialog({}, 'add')"
+                      @click="setDamageProperty()"
                       class="primary mr-2"
                       medium
                       :disabled="selected_properties.length == 0"
                     >
                       <v-icon class="mr-2" dark> mdi-image-broken </v-icon
                       >Damage</v-btn
+                    >
+
+                    <v-btn
+                      @click="dialogs.mr_dialog = true"
+                      class="primary mr-2"
+                      medium
+                      :disabled="selected_properties.length == 0"
+                    >
+                      <v-icon class="mr-2" dark> mdi-printer-pos </v-icon
+                      >M.R.</v-btn
                     >
                   </v-toolbar>
                 </template>
@@ -194,7 +212,9 @@
                   {{ item.name }}
                   <v-spacer></v-spacer>
                   <v-list-item-action @click.stop>
-                    <v-icon @click="deleteCategory(item.id)">mdi-close</v-icon>
+                    <v-icon v-if="item.id" @click="deleteCategory(item.id)"
+                      >mdi-close</v-icon
+                    >
                   </v-list-item-action>
                 </template>
               </v-autocomplete>
@@ -535,22 +555,33 @@
       :dialog="dialogs.lend_dialog"
       @closeModal="dialogs.lend_dialog = false"
     />
+
+    <MRDialog
+      v-if="dialogs.mr_dialog"
+      :selected-row="selected_properties"
+      :dialog="dialogs.mr_dialog"
+      @closeModal="dialogs.mr_dialog = false"
+    />
   </v-card>
 </template>
 
 <script>
 import TransferPropertyDialog from "../../components/dialog/transfer.property.vue";
 import LendPropertyDialog from "../../components/dialog/lend.property.vue";
+import MRDialog from "../../components/dialog/mr.dialog.vue";
 export default {
   components: {
     TransferPropertyDialog,
     LendPropertyDialog,
+    MRDialog,
   },
   data() {
     return {
+      show_damage: false,
       dialogs: {
         transfer_dialog: false,
         lend_dialog: false,
+        mr_dialog: false,
       },
       tab: 0,
       items: ["Property"],
@@ -670,7 +701,10 @@ export default {
 
     filterProperties() {
       return this.properties.filter((property) => {
-        if (property.category === this.filter_property_selected) {
+        if (
+          property.category === this.filter_property_selected &&
+          (!this.show_damage ? property.status != "Damaged" : true)
+        ) {
           return property;
         }
       });
@@ -678,6 +712,21 @@ export default {
   },
 
   methods: {
+    async setDamageProperty() {
+      await this.$axios
+        .$post(`set-damage-property`, {
+          selected: this.selected_properties,
+        })
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.getProperties();
+          this.selected_properties = [];
+          this.$toast.success(result);
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
+    },
     closeDialog() {
       this.add_property = {
         dialog: false,
@@ -936,7 +985,7 @@ export default {
     },
     async getCategories() {
       const categories = await this.$axios.$get(`categories`).then((result) => {
-        this.categories = result.data;
+        this.categories = [{ name: "" }, ...result.data];
         this.filter_property_selected = result?.data[0]?.name;
       });
     },
@@ -966,6 +1015,10 @@ export default {
     },
     zeroPad(num, places) {
       return String(num).padStart(places, "0");
+    },
+
+    printMR() {
+      console.log(this.selected_properties);
     },
   },
   mounted() {

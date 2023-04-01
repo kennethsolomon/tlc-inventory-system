@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       tab: 0,
-      items: ["Lend Property"],
+      items: ["Transfer History"],
       selected_category: { name: "Require Approval" },
       categories: [
         { name: "Require Approval" },
