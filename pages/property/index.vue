@@ -101,15 +101,15 @@
                       >Damage</v-btn
                     >
 
-                    <!-- <v-btn
-                      @click="dialogs.mr_dialog = true"
+                    <v-btn
+                      @click="printMR()"
                       class="primary mr-2"
                       medium
                       :disabled="selected_properties.length == 0"
                     >
                       <v-icon class="mr-2" dark> mdi-printer-pos </v-icon
                       >M.R.</v-btn
-                    > -->
+                    >
                   </v-toolbar>
                 </template>
                 <template v-slot:item.unit_cost="{ item }">

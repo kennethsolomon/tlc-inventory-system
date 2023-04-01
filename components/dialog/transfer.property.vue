@@ -83,6 +83,13 @@
               </v-list-item-action>
             </template>
           </v-autocomplete>
+
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Remarks"
+            hide-details
+            v-model="transfer_property.reason_for_lending"
+          ></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -151,6 +158,7 @@ export default {
       date_modal: false,
       assigned_to: null,
       location: null,
+      reason_for_lending: null,
     },
   }),
 
@@ -171,6 +179,7 @@ export default {
             transfer_date: null,
             assigned_to: null,
             location: null,
+            reason_for_lending: null,
           };
         })
         .catch((error) => {
@@ -237,6 +246,7 @@ export default {
         date_modal: false,
         assigned_to: null,
         location: null,
+        reason_for_lending: null,
       };
     },
 

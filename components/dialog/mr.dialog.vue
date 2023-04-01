@@ -276,9 +276,10 @@ export default {
             property.unit_cost,
             1,
             property.unit_cost,
-            "asdasd",
+            "",
           ]);
         });
+
         this.body = this.computeProperty(body_data);
         this.generate();
         body_data = [];
