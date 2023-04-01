@@ -6,7 +6,23 @@
 
     <div class="d-flex justify-end">
       <v-chip-group>
-        <v-tooltip bottom>
+        <v-tooltip v-if="property.location" bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              @click="resignOwner()"
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              label
+            >
+              <v-icon class="mr-1" start> mdi-transfer-right </v-icon>
+              Resign Owner
+            </v-chip>
+          </template>
+          <span>Resign Owner</span>
+        </v-tooltip>
+
+        <!-- <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               @click="showLendDialog()"
@@ -66,7 +82,7 @@
             </v-chip>
           </template>
           <span>Repair</span>
-        </v-tooltip>
+        </v-tooltip> -->
       </v-chip-group>
     </div>
 
@@ -100,7 +116,7 @@
                         ></v-icon>
                       </v-card-subtitle>
                     </div>
-                    <div class="ma-5" v-if="property.init_transfer">
+                    <!-- <div class="ma-5" v-if="property.init_transfer">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
                           <v-chip
@@ -117,7 +133,7 @@
                         </template>
                         <span>Status</span>
                       </v-tooltip>
-                    </div>
+                    </div> -->
                   </div>
 
                   <v-divider class="mx-4 mb-1"></v-divider>
@@ -158,13 +174,13 @@
                       readonly
                       class="py-3"
                     ></v-text-field>
-                    <v-text-field
+                    <!-- <v-text-field
                       :value="property.warranty_period"
                       label="Warranty Period"
                       hide-details
                       readonly
                       class="py-3"
-                    ></v-text-field>
+                    ></v-text-field> -->
                   </v-card-text>
 
                   <v-divider class="mx-4"></v-divider>
@@ -635,6 +651,21 @@ export default {
     },
   },
   methods: {
+    async resignOwner() {
+      await this.$axios
+        .$post(`resign-owner/${this.property_id}`, {})
+        .then(async (result) => {
+          await this.$nuxt.refresh();
+          this.$toast.success(
+            `Property ${this.property.property_code} has successfully been returned.`
+          );
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        });
+
+      this.transfer_property.dialog = false;
+    },
     async lendProperty() {
       await this.$axios
         .$post(`lend_property/${this.property_id}`, this.lend_property)

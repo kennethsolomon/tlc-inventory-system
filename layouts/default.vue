@@ -315,6 +315,11 @@ export default {
           to: "/lend",
         },
         {
+          icon: "mdi-printer-pos",
+          title: "Generate MR",
+          to: "/generate-mr",
+        },
+        {
           icon: "mdi-calendar",
           title: "Maintenance",
           to: "/maintenance",

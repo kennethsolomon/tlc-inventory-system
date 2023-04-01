@@ -24,18 +24,31 @@
                   v-model="selected_category"
                   :items="categories"
                   item-text="name"
+                  return-object
                   prepend-icon="mdi-filter-variant"
                 ></v-select>
               </v-col>
             </v-row>
             <template>
               <v-data-table
+                v-model="selected_properties"
                 :headers="headers"
                 :items="filterProperties"
                 :search="search"
+                show-select
+                :single-select="singleSelect"
                 sort-by="property_code"
                 class="elevation-1"
               >
+                <template v-slot:top>
+                  <v-toolbar flat>
+                    <v-switch
+                      v-model="singleSelect"
+                      label="Single select"
+                      class="mt-3 mr-3"
+                    ></v-switch>
+                  </v-toolbar>
+                </template>
                 <template v-slot:item.returned_date="{ item }">
                   <div v-if="item.returned_date">
                     {{ item.returned_date?.split(" ")[0] }} |
@@ -87,12 +100,14 @@
 export default {
   data() {
     return {
+      singleSelect: true,
+      selected_properties: [],
       tab: 0,
       items: ["Lend Property"],
       selected_category: { name: "Require Approval" },
       categories: [
         { name: "Require Approval" },
-        { name: "Returned" },
+        { name: "Return" },
         { name: "Overdue" },
       ],
       lend_list: [],
@@ -104,6 +119,10 @@ export default {
           align: "start",
           sortable: false,
           value: "property_code",
+        },
+        {
+          text: "Description",
+          value: "description",
         },
         {
           text: "Category",
@@ -143,18 +162,22 @@ export default {
   computed: {
     filterProperties() {
       return this.lends.filter((property) => {
+        console.log(this.selected_category.name);
         if (
-          (this.selected_category =
-            "Returned" && property.returned_date == null)
-        ) {
-          console.log("hahah");
-          return property;
-        } else if (
-          (this.selected_category = "Overdue" && property.is_overdue == 1)
+          this.selected_category.name == "Return" &&
+          property.returned_date == null &&
+          property.is_lend == 1 &&
+          property.is_overdue == 0
         ) {
           return property;
         } else if (
-          (this.selected_category = "Require Approval" && property.is_lend == 0)
+          this.selected_category.name == "Overdue" &&
+          property.is_overdue == 1
+        ) {
+          return property;
+        } else if (
+          this.selected_category.name == "Require Approval" &&
+          property.is_lend == 0
         ) {
           return property;
         }
@@ -180,24 +203,24 @@ export default {
     async approveProperty(item) {
       if (item.is_lend == 1) {
         await this.$axios
-          .$post(`return_property/${item.id}`, {})
+          .$post(`return_property`, {
+            selected: this.selected_properties,
+          })
           .then(async (result) => {
             await this.$nuxt.refresh();
-            this.$toast.success(
-              `Property ${item.property_code} has been returned.`
-            );
+            this.$toast.success(result);
           })
           .catch((error) => {
             this.$toast.error(error.response.data.message);
           });
       } else if (item.is_lend == 0) {
         await this.$axios
-          .$post(`lend_approved/${item.id}`, {})
+          .$post(`lend_approved`, {
+            selected: this.selected_properties,
+          })
           .then(async (result) => {
             await this.$nuxt.refresh();
-            this.$toast.success(
-              `Property ${item.property_code} has been approved.`
-            );
+            this.$toast.success(result);
           })
           .catch((error) => {
             this.$toast.error(error.response.data.message);
@@ -208,10 +231,12 @@ export default {
     async cancelProperty(item) {
       if (item.is_lend == 0) {
         await this.$axios
-          .$post(`lend_cancel/${item.id}`, {})
+          .$post(`lend_cancel`, {
+            selected: this.selected_properties,
+          })
           .then(async (result) => {
             await this.$nuxt.refresh();
-            this.$toast.success(`Property has been cancelled.`);
+            this.$toast.success(result);
           })
           .catch((error) => {
             this.$toast.error(error.response.data.message);

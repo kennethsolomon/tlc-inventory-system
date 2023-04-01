@@ -49,19 +49,23 @@
             v-model="school_year"
           ></v-text-field>
 
-          <v-text-field
+          <!-- <v-text-field
+            v-if="selectedRow.length == 1"
             class="mt-3 mr-3"
             label="M.R.No."
+            disabled
             hide-details
             v-model="mr_number"
           ></v-text-field>
 
           <v-text-field
+            v-if="selectedRow.length == 1"
             class="mt-3 mr-3"
             label="Date"
+            disabled
             hide-details
             v-model="date"
-          ></v-text-field>
+          ></v-text-field> -->
 
           <v-text-field
             class="mt-3 mr-3"
@@ -117,7 +121,7 @@ export default {
   }),
 
   methods: {
-    print() {
+    generate() {
       const imageData = "/header.png";
       const doc = new jsPDF();
 
@@ -168,6 +172,7 @@ export default {
           halign: "center",
         },
         bodyStyles: {
+          font: "times",
           lineWidth: 1,
           lineColor: 1,
           minCellWidth: 15,
@@ -198,7 +203,6 @@ export default {
       });
 
       doc.save("Memorandum Receipt.pdf");
-      this.resetField();
 
       this.$emit("closeModal");
 
@@ -217,25 +221,78 @@ export default {
       this.body = [];
     },
 
+    computeProperty(array) {
+      // Create an empty object to store merged rows
+      const mergedRows = {};
+
+      // Loop through each row in the original array
+      array.forEach((row) => {
+        const [category, description, price, quantity, subtotal, remarks] = row;
+        const key = `${category}-${description}-${price}`;
+
+        // Check if a row with the same category, description, and price has already been merged
+        if (mergedRows[key]) {
+          // If so, add the subtotal to the existing merged row and increment the quantity
+          mergedRows[key][4] += subtotal;
+          mergedRows[key][3]++;
+        } else {
+          // Otherwise, create a new merged row with the subtotal and quantity from the original row
+          mergedRows[key] = [
+            category,
+            description,
+            quantity,
+            price,
+            subtotal,
+            remarks,
+          ];
+        }
+      });
+
+      // Convert the merged rows object back to an array
+      const mergedArray = Object.values(mergedRows);
+
+      return mergedArray;
+    },
+
+    print() {
+      this.selectedRow.forEach((element) => {
+        this.mr_number = element.mr_number;
+        this.date = element.f_date;
+        let body_data = [];
+        element.selected.forEach((property) => {
+          // if (property.status == "On Stock") {
+          //   this.error = true;
+          //   this.$toast.error("Selected item/s not yet issued!");
+          // }
+          body_data.push([
+            property.category,
+            property.description,
+            // JSON.stringify(
+            //   property.unit_cost.toLocaleString("en-US", {
+            //     style: "currency",
+            //     currency: "PHP",
+            //   })
+            // ),
+            property.unit_cost,
+            1,
+            property.unit_cost,
+            "asdasd",
+          ]);
+        });
+        this.body = this.computeProperty(body_data);
+        this.generate();
+        body_data = [];
+      });
+
+      this.resetField();
+    },
     test() {
       console.log(this.selectedRow);
     },
   },
+
   mounted() {
-    this.selectedRow.forEach((element) => {
-      if (element.status == "On Stock") {
-        this.error = true;
-        this.$toast.error("Selected item/s not yet issued!");
-      }
-      this.body.push([
-        element.property_code,
-        element.description,
-        "",
-        "",
-        "",
-        "",
-      ]);
-    });
+    this.test();
   },
 };
 </script>

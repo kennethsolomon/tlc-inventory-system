@@ -101,7 +101,7 @@
                       >Damage</v-btn
                     >
 
-                    <v-btn
+                    <!-- <v-btn
                       @click="dialogs.mr_dialog = true"
                       class="primary mr-2"
                       medium
@@ -109,8 +109,16 @@
                     >
                       <v-icon class="mr-2" dark> mdi-printer-pos </v-icon
                       >M.R.</v-btn
-                    >
+                    > -->
                   </v-toolbar>
+                </template>
+                <template v-slot:item.unit_cost="{ item }">
+                  {{
+                    item.unit_cost.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "PHP",
+                    })
+                  }}
                 </template>
                 <template v-slot:item.actions="{ item }">
                   <v-btn
@@ -306,50 +314,15 @@
                 </v-date-picker>
               </v-dialog>
             </v-col>
-            <!-- <v-col cols="6">
-              <v-dialog
-                ref="warranty_period_date"
-                :return-value.sync="add_property.warranty_period"
-                persistent
-                width="290px"
-                v-model="add_property.date_modal2"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    label="Warranty Period"
-                    hide-details
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    v-model="add_property.warranty_period_date"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  scrollable
-                  v-model="add_property.warranty_period_date"
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="add_property.date_modal2 = false"
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="
-                      $refs.warranty_period_date.save(
-                        add_property.warranty_period_date
-                      )
-                    "
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
-            </v-col> -->
+            <v-col cols="6">
+              <v-text-field
+                v-model.number="add_property.unit_cost"
+                type="number"
+                label="Unit Cost"
+                hide-details
+                class="py-3"
+              ></v-text-field>
+            </v-col>
           </v-row>
 
           <div class="mt-5 primary">
@@ -556,24 +529,24 @@
       @closeModal="dialogs.lend_dialog = false"
     />
 
-    <MRDialog
+    <!-- <MRDialog
       v-if="dialogs.mr_dialog"
       :selected-row="selected_properties"
       :dialog="dialogs.mr_dialog"
       @closeModal="dialogs.mr_dialog = false"
-    />
+    /> -->
   </v-card>
 </template>
 
 <script>
 import TransferPropertyDialog from "../../components/dialog/transfer.property.vue";
 import LendPropertyDialog from "../../components/dialog/lend.property.vue";
-import MRDialog from "../../components/dialog/mr.dialog.vue";
+// import MRDialog from "../../components/dialog/mr.dialog.vue";
 export default {
   components: {
     TransferPropertyDialog,
     LendPropertyDialog,
-    MRDialog,
+    // MRDialog,
   },
   data() {
     return {
@@ -581,7 +554,7 @@ export default {
       dialogs: {
         transfer_dialog: false,
         lend_dialog: false,
-        mr_dialog: false,
+        // mr_dialog: false,
       },
       tab: 0,
       items: ["Property"],
@@ -672,6 +645,10 @@ export default {
         {
           text: "Location",
           value: "location",
+        },
+        {
+          text: "Unit Cost",
+          value: "unit_cost",
         },
         {
           text: "Purchase Date",
@@ -990,6 +967,7 @@ export default {
       });
     },
     async getProperties() {
+      this.selected_properties = [];
       const properties = await this.$axios.$get(`properties`).then((result) => {
         this.properties = result.data;
       });
