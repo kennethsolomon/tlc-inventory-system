@@ -16,18 +16,12 @@
             >mdi-close</v-icon
           >
         </v-card-title>
-        <v-card-text class="d-flex flex-column justify-center"> </v-card-text>
+        <!-- <v-card-text class="d-flex flex-column justify-center"> </v-card-text> -->
 
         <div v-if="error" class="d-flex flex-column pa-5">
           Property selected needs to be transfer/lend first.
         </div>
-        <div v-if="!error" class="d-flex flex-column pa-5">
-          <v-text-field
-            class="mt-3 mr-3"
-            label="Name"
-            hide-details
-            v-model="name"
-          ></v-text-field>
+        <div v-if="!error" class="d-flex flex-column pl-5 pr-5 pb-5">
           <v-text-field
             class="mt-3 mr-3"
             label="Department"
@@ -67,18 +61,62 @@
             v-model="date"
           ></v-text-field> -->
 
+          <div class="mt-5 primary">
+            <v-card-title class="text-center justify-center py-2">
+              <h4 style="color: white">Issued by</h4>
+            </v-card-title>
+          </div>
           <v-text-field
             class="mt-3 mr-3"
-            label="Issued by"
+            label="Name"
             hide-details
             v-model="issued_by"
           ></v-text-field>
 
           <v-text-field
             class="mt-3 mr-3"
-            label="Approved by"
+            label="Designation"
+            hide-details
+            v-model="issued_by_designation"
+          ></v-text-field>
+
+          <div class="mt-5 primary">
+            <v-card-title class="text-center justify-center py-2">
+              <h4 style="color: white">Approved by</h4>
+            </v-card-title>
+          </div>
+
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Name"
             hide-details
             v-model="approved_by"
+          ></v-text-field>
+
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Designation"
+            hide-details
+            v-model="approved_by_designation"
+          ></v-text-field>
+
+          <div class="mt-5 primary">
+            <v-card-title class="text-center justify-center py-2">
+              <h4 style="color: white">Registrar</h4>
+            </v-card-title>
+          </div>
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Name"
+            hide-details
+            v-model="name"
+          ></v-text-field>
+
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Designation"
+            hide-details
+            v-model="name_designation"
           ></v-text-field>
         </div>
         <v-divider></v-divider>
@@ -108,13 +146,16 @@ export default {
   data: () => ({
     error: false,
     name: null,
+    name_designation: null,
     department: null,
     building_number: null,
     school_year: null,
     mr_number: null,
     date: null,
     issued_by: null,
+    issued_by_designation: null,
     approved_by: null,
+    approved_by_designation: null,
 
     data: [],
     body: [],
@@ -139,7 +180,7 @@ export default {
       this.body.push(
         [
           {
-            content: this.issued_by + "\nComputer Laboratory-In-Charge",
+            content: this.issued_by + "\n" + this.issued_by_designation,
             colSpan: 2,
             styles: { halign: "center", valign: "center", minCellHeight: 30 },
           },
@@ -148,7 +189,7 @@ export default {
               "I hereby certify that I receive the above item/s complete and in good condition and that I am liable / accountable for the equipment/s and its peripherals issued to me in case of loss or damage due to negligence.\n\n\n\n" +
               this.name +
               "\n" +
-              this.department,
+              this.name_designation,
             colSpan: 4,
             rowSpan: 3,
             styles: { halign: "center", minCellHeight: 30, cellPadding: 5 },
@@ -156,7 +197,7 @@ export default {
         ],
         [
           {
-            content: this.approved_by + "\nComputer Laboratory-In-Charge",
+            content: this.approved_by + "\n" + this.approved_by_designation,
             colSpan: 2,
             styles: { halign: "center", valign: "center", minCellHeight: 30 },
           },
