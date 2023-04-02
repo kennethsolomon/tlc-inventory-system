@@ -22,6 +22,24 @@
           Property selected needs to be transfer/lend first.
         </div>
         <div v-if="!error" class="d-flex flex-column pl-5 pr-5 pb-5">
+          <div class="mt-5 primary">
+            <v-card-title class="text-center justify-center py-2">
+              <h4 style="color: white">Borrower</h4>
+            </v-card-title>
+          </div>
+          <!-- <v-text-field
+            class="mt-3 mr-3"
+            label="Name"
+            hide-details
+            v-model="name"
+          ></v-text-field> -->
+
+          <v-text-field
+            class="mt-3 mr-3"
+            label="Designation"
+            hide-details
+            v-model="name_designation"
+          ></v-text-field>
           <v-text-field
             class="mt-3 mr-3"
             label="Department"
@@ -99,25 +117,6 @@
             hide-details
             v-model="approved_by_designation"
           ></v-text-field>
-
-          <div class="mt-5 primary">
-            <v-card-title class="text-center justify-center py-2">
-              <h4 style="color: white">Registrar</h4>
-            </v-card-title>
-          </div>
-          <v-text-field
-            class="mt-3 mr-3"
-            label="Name"
-            hide-details
-            v-model="name"
-          ></v-text-field>
-
-          <v-text-field
-            class="mt-3 mr-3"
-            label="Designation"
-            hide-details
-            v-model="name_designation"
-          ></v-text-field>
         </div>
         <v-divider></v-divider>
         <v-card-actions>
@@ -145,17 +144,17 @@ export default {
   },
   data: () => ({
     error: false,
-    name: null,
-    name_designation: null,
-    department: null,
-    building_number: null,
-    school_year: null,
-    mr_number: null,
-    date: null,
-    issued_by: null,
-    issued_by_designation: null,
-    approved_by: null,
-    approved_by_designation: null,
+    name: "",
+    name_designation: "",
+    department: "",
+    building_number: "",
+    school_year: "",
+    mr_number: "",
+    date: "",
+    issued_by: "",
+    issued_by_designation: "",
+    approved_by: "",
+    approved_by_designation: "",
 
     data: [],
     body: [],
@@ -321,6 +320,7 @@ export default {
           ]);
         });
 
+        this.name = element.borrower_name;
         this.body = this.computeProperty(body_data);
         this.generate();
         body_data = [];

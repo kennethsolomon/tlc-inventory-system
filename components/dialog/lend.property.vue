@@ -324,6 +324,9 @@ export default {
   mounted() {
     this.getLocations();
     this.getUsers();
+
+    this.$store.state.user.user.role === "Borrower" &&
+      (this.lend_property.borrower = this.$store.state.user.user);
   },
 };
 </script>

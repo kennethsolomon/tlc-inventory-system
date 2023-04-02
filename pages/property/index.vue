@@ -43,12 +43,7 @@
                 sort-by="property_code"
                 class="elevation-1"
               >
-                <template
-                  v-if="
-                    $store.getters.getUser?.role == 'Borrower' ? false : true
-                  "
-                  v-slot:top
-                >
+                <template v-slot:top>
                   <v-toolbar flat>
                     <v-switch
                       v-model="singleSelect"
@@ -63,6 +58,11 @@
 
                     <v-spacer></v-spacer>
                     <v-btn
+                      v-if="
+                        $store.getters.getUser?.role == 'Borrower'
+                          ? false
+                          : true
+                      "
                       @click="showAddDialog({}, 'add')"
                       class="primary mr-2"
                       medium
@@ -72,6 +72,11 @@
                     >
 
                     <v-btn
+                      v-if="
+                        $store.getters.getUser?.role == 'Borrower'
+                          ? false
+                          : true
+                      "
                       @click="dialogs.transfer_dialog = true"
                       class="primary mr-2"
                       medium
@@ -92,6 +97,11 @@
                     >
 
                     <v-btn
+                      v-if="
+                        $store.getters.getUser?.role == 'Borrower'
+                          ? false
+                          : true
+                      "
                       @click="setDamageProperty()"
                       class="primary mr-2"
                       medium
@@ -101,7 +111,7 @@
                       >Damage</v-btn
                     >
 
-                    <v-btn
+                    <!-- <v-btn
                       @click="printMR()"
                       class="primary mr-2"
                       medium
@@ -109,7 +119,7 @@
                     >
                       <v-icon class="mr-2" dark> mdi-printer-pos </v-icon
                       >M.R.</v-btn
-                    >
+                    > -->
                   </v-toolbar>
                 </template>
                 <template v-slot:item.unit_cost="{ item }">

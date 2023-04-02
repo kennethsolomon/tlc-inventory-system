@@ -387,11 +387,11 @@ export default {
           title: "Borrow",
           to: "/lend-borrower",
         },
-        {
-          icon: "mdi-calendar",
-          title: "Maintenance",
-          to: "/maintenance-borrower",
-        },
+        // {
+        //   icon: "mdi-calendar",
+        //   title: "Maintenance",
+        //   to: "/maintenance-borrower",
+        // },
       ];
     },
   },

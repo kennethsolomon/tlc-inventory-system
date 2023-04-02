@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <v-row>
-      <v-col
+      <!-- <v-col
         v-if="userMaintenances.length > 0 && showNotif"
         cols="12"
         xl="12"
@@ -41,8 +41,8 @@
             {{ maintenance?.flagged_date }}
           </div>
         </v-alert>
-      </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+      </v-col> -->
+      <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
         <v-alert
           color="primary"
           dark
@@ -52,7 +52,7 @@
         >
           Assigned to Action Needed: {{ needTransfer.length }}
         </v-alert>
-      </v-col>
+      </v-col> -->
       <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
         <v-alert
           color="primary"
@@ -75,12 +75,12 @@
           Unavailable Property: {{ unAvailable.length }}
         </v-alert>
       </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+      <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
         <v-alert color="primary" dark icon="mdi-tools" border="left" prominent>
           In Repair Property: {{ inRepair.length }}
         </v-alert>
-      </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+      </v-col> -->
+      <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
         <v-alert
           color="primary"
           dark
@@ -90,7 +90,7 @@
         >
           Disposed Property: {{ disposed.length }}
         </v-alert>
-      </v-col>
+      </v-col> -->
     </v-row>
   </div>
 </template>

@@ -257,6 +257,7 @@ export default {
   mounted() {
     this.getLocations();
     this.getUsers();
+    console.log(this.selectedRow);
   },
 };
 </script>
