@@ -82,68 +82,68 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "http://localhost:8000/api/v3", // change ip address if using mobile phone
+    baseURL: "https://api.kennethsolomon.cyou/api/v3", // change ip address if using mobile phone
 
     credentials: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-      manifest: {
-      "lang": "en",
-      "name": "dict_inventory_system",
-      "short_name": "dict_inventory_system",
-      "icons": [
+    manifest: {
+      lang: "en",
+      name: "dict_inventory_system",
+      short_name: "dict_inventory_system",
+      icons: [
         {
-          "src": "/_nuxt/icons/icon_64x64.e3e9fb.png",
-          "sizes": "64x64",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_64x64.e3e9fb.png",
+          sizes: "64x64",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_120x120.e3e9fb.png",
-          "sizes": "120x120",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_120x120.e3e9fb.png",
+          sizes: "120x120",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_144x144.e3e9fb.png",
-          "sizes": "144x144",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_144x144.e3e9fb.png",
+          sizes: "144x144",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_152x152.e3e9fb.png",
-          "sizes": "152x152",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_152x152.e3e9fb.png",
+          sizes: "152x152",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_192x192.e3e9fb.png",
-          "sizes": "192x192",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_192x192.e3e9fb.png",
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_384x384.e3e9fb.png",
-          "sizes": "384x384",
-          "type": "image/png",
-          "purpose": "any maskable"
+          src: "/_nuxt/icons/icon_384x384.e3e9fb.png",
+          sizes: "384x384",
+          type: "image/png",
+          purpose: "any maskable",
         },
         {
-          "src": "/_nuxt/icons/icon_512x512.e3e9fb.png",
-          "sizes": "512x512",
-          "type": "image/png",
-          "purpose": "any maskable"
-        }
+          src: "/_nuxt/icons/icon_512x512.e3e9fb.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
       ],
-      "start_url": "/?standalone=true",
-      "display": "standalone",
-      "background_color": "#ffffff",
-      "lang": "en",
-      "theme_color": "#000000",
-      "description": "testing",
-      "dir": "auto"
+      start_url: "/?standalone=true",
+      display: "standalone",
+      background_color: "#ffffff",
+      lang: "en",
+      theme_color: "#000000",
+      description: "testing",
+      dir: "auto",
     },
   },
 
@@ -188,7 +188,7 @@ export default {
     strategies: {
       laravelJWT: {
         provider: "laravel/jwt",
-        url: "http://localhost:8000",
+        url: "https://api.kennethsolomon.cyou",
         endpoints: {
           login: {
             url: "/api/v3/auth/login",
