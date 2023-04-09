@@ -163,7 +163,7 @@
     </v-tabs-items>
 
     <!-- NOTE: Add Dialog -->
-    <v-dialog v-model="add_property.dialog" persistent max-width="500px">
+    <v-dialog v-model="add_property.dialog" persistent max-width="600px">
       <v-card>
         <v-card-title
           class="d-flex justify-space-between text-h5 primary white--text"
@@ -334,29 +334,100 @@
               ></v-text-field>
             </v-col>
           </v-row>
-
           <div class="mt-5 primary">
             <v-card-title class="text-center justify-center py-3">
               <h2 style="color: white">Maintenance</h2>
             </v-card-title>
           </div>
-          <v-row class="mt-1">
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="add_property.maintenance"
-                :items="['Quarterly', 'Yearly', 'Biennial']"
-                label="Maintenance"
-                name="Maintenance"
-              >
-              </v-autocomplete>
-            </v-col>
-            <v-col cols="6">
+          <v-btn class="mt-3" @click="addMaintenanceRow()" color="primary">
+            <v-icon start small class="mr-1"> mdi-plus</v-icon>
+            Add Maintenance
+          </v-btn>
+          <v-row
+            class="mt-1"
+            v-for="(item, index) in add_property.maintenances"
+            :key="index"
+          >
+            <v-col cols="3">
               <v-text-field
-                v-model="add_property.maintenance_description"
+                v-model="add_property.maintenances[index].part"
+                label="Parts"
+                hide-details
+                class="py-3"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field
+                v-model="
+                  add_property.maintenances[index].maintenance_description
+                "
                 label="Description"
                 hide-details
                 class="py-3"
               ></v-text-field>
+            </v-col>
+
+            <v-col cols="3">
+              <v-dialog
+                ref="schedule_date"
+                :return-value.sync="
+                  add_property.maintenances[index].schedule_date
+                "
+                persistent
+                width="290px"
+                v-model="add_property.maintenances[index].schedule_modal"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    label="Schedule"
+                    hide-details
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    v-model="
+                      add_property.maintenances[index].schedule_date_date
+                    "
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  scrollable
+                  v-model="add_property.maintenances[index].schedule_date_date"
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="
+                      add_property.maintenances[index].schedule_modal = false
+                    "
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="saveMaintenanceDate(index)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-col>
+            <v-col cols="3">
+              <v-autocomplete
+                v-model="add_property.maintenances[index].frequency"
+                :items="[
+                  'No Repeat',
+                  'Weekly',
+                  'Monthly',
+                  'Quarterly',
+                  'Yearly',
+                  'Biennial',
+                ]"
+                label="Frequency"
+                name="Frequency"
+              >
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-text>
@@ -603,8 +674,16 @@ export default {
         // warranty_period_date: null,
 
         // Form
-        maintenance: null,
-        maintenance_description: null,
+        maintenances: [
+          {
+            part: null,
+            maintenance_description: null,
+            frequency: null,
+            schedule_modal: false,
+            schedule_date: null,
+            schedule_date_date: null,
+          },
+        ],
         brand: null,
         model: null,
         category: null,
@@ -699,6 +778,21 @@ export default {
   },
 
   methods: {
+    saveMaintenanceDate(index) {
+      this.$refs[`schedule_date`][index].save(
+        this.add_property.maintenances[index].schedule_date_date
+      );
+    },
+    addMaintenanceRow() {
+      this.add_property.maintenances.push({
+        part: null,
+        maintenance_description: null,
+        frequency: null,
+        schedule_modal: false,
+        schedule_date: null,
+        schedule_date_date: null,
+      });
+    },
     async setDamageProperty() {
       await this.$axios
         .$post(`set-damage-property`, {
@@ -723,8 +817,16 @@ export default {
 
         // Form
         id: null,
-        maintenance: null,
-        maintenance_description: null,
+        maintenances: [
+          {
+            part: null,
+            maintenance_description: null,
+            frequency: null,
+            schedule_modal: false,
+            schedule_date: null,
+            schedule_date_date: null,
+          },
+        ],
         brand: null,
         model: null,
         category: null,
@@ -738,11 +840,13 @@ export default {
     showAddDialog(item, mode) {
       if (mode == "edit") {
         console.log("edit");
+        this.add_property.maintenances = [];
         this.add_property.mode = "edit";
         this.add_property.id = item.id;
         this.add_property.dialog = true;
         this.add_property.brand = item.brand;
         this.add_property.model = item.model;
+        this.add_property.unit_cost = item.unit_cost;
         this.add_property.category = item.category;
         this.add_property.description = item.description;
         this.add_property.property_code = item.property_code;
@@ -750,9 +854,17 @@ export default {
         this.add_property.purchase_date = item.purchase_date;
         this.add_property.purchase_date_date = item.purchase_date;
 
-        this.add_property.maintenance = item.maintenance;
-        this.add_property.maintenance_description =
-          item.maintenance_description;
+        item.maintenances.forEach((maintenance) => {
+          this.add_property.maintenances.push({
+            id: maintenance.id,
+            part: maintenance.part,
+            maintenance_description: maintenance.notes,
+            frequency: maintenance.frequency,
+            schedule_modal: false,
+            schedule_date: maintenance.schedule_date,
+            schedule_date_date: maintenance.schedule_date,
+          });
+        });
         // this.add_property.warranty_period = item.warranty_period;
         // this.add_property.warranty_period_date = item.warranty_period;
       } else if (mode == "add") {
@@ -784,8 +896,16 @@ export default {
             property_code: null,
             serial_number: null,
             purchase_date: null,
-            maintenance: null,
-            maintenance_description: null,
+            maintenances: [
+              {
+                part: null,
+                maintenance_description: null,
+                frequency: null,
+                schedule_modal: false,
+                schedule_date: null,
+                schedule_date_date: null,
+              },
+            ],
             // warranty_period: null,
           };
 

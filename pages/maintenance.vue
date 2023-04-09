@@ -78,6 +78,9 @@
                 <strong>Name: </strong><span v-html="selectedEvent.name"></span>
               </div>
               <div class="my-1">
+                <strong>Part: </strong><span v-html="selectedEvent.part"></span>
+              </div>
+              <div class="my-1">
                 <strong>Description: </strong
                 ><span v-html="selectedEvent.details"></span>
               </div>
