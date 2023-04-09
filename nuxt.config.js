@@ -82,113 +82,17 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "https://tlc.kennethsolomon.cyou/api/v3", // change ip address if using mobile phone
+    baseURL: "https://tlc-api.kennethsolomon.cyou/api/v3", // change ip address if using mobile phone
 
     credentials: true,
   },
 
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: "en",
-      name: "dict_inventory_system",
-      short_name: "dict_inventory_system",
-      icons: [
-        {
-          src: "/_nuxt/icons/icon_64x64.e3e9fb.png",
-          sizes: "64x64",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_120x120.e3e9fb.png",
-          sizes: "120x120",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_144x144.e3e9fb.png",
-          sizes: "144x144",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_152x152.e3e9fb.png",
-          sizes: "152x152",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_192x192.e3e9fb.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_384x384.e3e9fb.png",
-          sizes: "384x384",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/_nuxt/icons/icon_512x512.e3e9fb.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-      ],
-      start_url: "/?standalone=true",
-      display: "standalone",
-      background_color: "#ffffff",
-      lang: "en",
-      theme_color: "#000000",
-      description: "testing",
-      dir: "auto",
-    },
-  },
-
-  // auth: {
-  //   strategies: {
-  //     cookie: {
-  //       cookie: {
-  //         name: "XSRF-TOKEN",
-  //       },
-  //     },
-  //     laravelSanctum: {
-  //       provider: "laravel/sanctum",
-  //       url: "https://3a9a-49-146-116-170.ngrok.io", // change to ip address if using mobile phone
-  //       endpoints: {
-  //         csrf: {
-  //           url: "/sanctum/csrf-cookie",
-  //         },
-  //         login: {
-  //           url: "/api/login",
-  //         },
-  //         logout: {
-  //           url: "/api/logout",
-  //         },
-  //         user: {
-  //           url: "/api/user",
-  //         },
-  //       },
-  //       user: {
-  //         property: "id",
-  //       },
-  //     },
-  //   },
-
-  //   redirect: {
-  //     login: "/login",
-  //     logout: "/login",
-  //     home: "/",
-  //   },
-  // },
-
+  // PWA module conf
   auth: {
     strategies: {
       laravelJWT: {
         provider: "laravel/jwt",
-        url: "https://tlc.kennethsolomon.cyou",
+        url: "https://tlc-api.kennethsolomon.cyou",
         endpoints: {
           login: {
             url: "/api/v3/auth/login",
