@@ -348,87 +348,91 @@
             v-for="(item, index) in add_property.maintenances"
             :key="index"
           >
-            <v-col cols="3">
-              <v-text-field
-                v-model="add_property.maintenances[index].part"
-                label="Parts"
-                hide-details
-                class="py-3"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="3">
-              <v-text-field
-                v-model="
-                  add_property.maintenances[index].maintenance_description
-                "
-                label="Description"
-                hide-details
-                class="py-3"
-              ></v-text-field>
-            </v-col>
+            <div v-if="item">
+              <v-col cols="3">
+                <v-text-field
+                  v-model="add_property.maintenances[index].part"
+                  label="Parts"
+                  hide-details
+                  class="py-3"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-text-field
+                  v-model="
+                    add_property.maintenances[index].maintenance_description
+                  "
+                  label="Description"
+                  hide-details
+                  class="py-3"
+                ></v-text-field>
+              </v-col>
 
-            <v-col cols="3">
-              <v-dialog
-                ref="schedule_date"
-                :return-value.sync="
-                  add_property.maintenances[index].schedule_date
-                "
-                persistent
-                width="290px"
-                v-model="add_property.maintenances[index].schedule_modal"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    label="Schedule"
-                    hide-details
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
+              <v-col cols="3">
+                <v-dialog
+                  ref="schedule_date"
+                  :return-value.sync="
+                    add_property.maintenances[index].schedule_date
+                  "
+                  persistent
+                  width="290px"
+                  v-model="add_property.maintenances[index].schedule_modal"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      label="Schedule"
+                      hide-details
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="
+                        add_property.maintenances[index].schedule_date_date
+                      "
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    scrollable
                     v-model="
                       add_property.maintenances[index].schedule_date_date
                     "
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  scrollable
-                  v-model="add_property.maintenances[index].schedule_date_date"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="
+                        add_property.maintenances[index].schedule_modal = false
+                      "
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="saveMaintenanceDate(index)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </v-col>
+              <v-col cols="3">
+                <v-autocomplete
+                  v-model="add_property.maintenances[index].frequency"
+                  :items="[
+                    'No Repeat',
+                    'Weekly',
+                    'Monthly',
+                    'Quarterly',
+                    'Yearly',
+                    'Biennial',
+                  ]"
+                  label="Frequency"
+                  name="Frequency"
                 >
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="
-                      add_property.maintenances[index].schedule_modal = false
-                    "
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="saveMaintenanceDate(index)"
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
-            </v-col>
-            <v-col cols="3">
-              <v-autocomplete
-                v-model="add_property.maintenances[index].frequency"
-                :items="[
-                  'No Repeat',
-                  'Weekly',
-                  'Monthly',
-                  'Quarterly',
-                  'Yearly',
-                  'Biennial',
-                ]"
-                label="Frequency"
-                name="Frequency"
-              >
-              </v-autocomplete>
-            </v-col>
+                </v-autocomplete>
+              </v-col>
+            </div>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
