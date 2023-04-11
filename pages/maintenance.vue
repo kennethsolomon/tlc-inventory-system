@@ -171,6 +171,7 @@ export default {
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
+        console.log(event, "event");
         this.selectedElement = nativeEvent.target;
         requestAnimationFrame(() =>
           requestAnimationFrame(() => (this.selectedOpen = true))
@@ -198,6 +199,7 @@ export default {
             end: new Date(maintenance.end_date),
             details: maintenance.description,
             notes: maintenance.notes,
+            part: maintenance.part,
             color: maintenance.has_been_fixed == 1 ? "green" : "red",
             timed: false,
           });
